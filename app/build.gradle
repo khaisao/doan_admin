@@ -1,0 +1,83 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+
+    defaultConfig {
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode versions.versionCode
+        versionName versions.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+
+    implementation project(':libraries:core')
+    implementation project(':features:Demo')
+
+    //appcompat
+    implementation libraries.appcompat
+    implementation libraries.fragment
+
+    implementation libraries.hilt
+    kapt libraries.hiltSupport
+    //implementation libraries.hiltViewModel
+    //kapt libraries.hiltCompiler
+
+    //kotlin
+    implementation libraries.kotlin
+
+    //view
+    implementation libraries.material
+    implementation libraries.constraintlayout
+
+    //navigation
+    implementation libraries.navigation
+    implementation libraries.navigationUi
+
+    //network
+    implementation libraries.retrofit
+    implementation libraries.gson
+    implementation libraries.interceptor
+
+    //logger
+    implementation libraries.timber
+
+//    //ViewModel
+    implementation libraries.viewmodel
+    implementation libraries.lifecycleExt
+    kapt libraries.liveData
+
+    // Loading Image
+    implementation libraries.glide
+    kapt libraries.glideCompiler
+}
