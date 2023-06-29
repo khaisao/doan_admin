@@ -1,20 +1,18 @@
 package com.example.core.pref
 
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Singleton
 
 @Singleton
-interface RxPreferences {
-    fun put(key: String, value: String)
+interface RxPreferences : BasePreferences {
 
-    fun get(key: String): String?
+    fun getToken(): Flow<String?>
 
-    fun clear()
+    suspend fun setUserToken(userToken: String)
 
-    fun remove(key: String)
+    fun getLanguage(): Flow<String?>
 
-    fun getToken(): String?
-
-    fun setUserToken(userToken: String)
+    suspend fun setLanguage(language: String)
 
     fun logout()
 

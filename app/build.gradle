@@ -1,17 +1,17 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
-    compileSdkVersion versions.compileSdk
-    buildToolsVersion versions.buildTools
+    compileSdk versions.compileSdk
 
     defaultConfig {
-        minSdkVersion versions.minSdk
-        targetSdkVersion versions.targetSdk
+        applicationId "com.project.demo"
+        minSdk versions.minSdk
+        targetSdk versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
 
@@ -72,12 +72,16 @@ dependencies {
     //logger
     implementation libraries.timber
 
+    implementation libraries.dataStore
+
 //    //ViewModel
     implementation libraries.viewmodel
-    implementation libraries.lifecycleExt
+//    implementation libraries.lifecycleExt
     kapt libraries.liveData
 
     // Loading Image
     implementation libraries.glide
     kapt libraries.glideCompiler
+
+    debugImplementation libraries.leak
 }

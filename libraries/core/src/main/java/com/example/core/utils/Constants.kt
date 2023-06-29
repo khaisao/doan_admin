@@ -3,7 +3,7 @@ package com.example.core.utils
 object Constants {
     const val PREF_FILE_NAME = "Preferences"
     const val DEFAULT_TIMEOUT = 30
-    const val DURATION_TIME_CLICKABLE = 500
+    const val DURATION_TIME_CLICKABLE = 500L
 
     object NetworkRequestCode {
         const val REQUEST_CODE_200 = 200    //normal

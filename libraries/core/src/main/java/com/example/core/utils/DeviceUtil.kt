@@ -28,20 +28,6 @@ class DeviceUtil {
 
     companion object {
 
-        fun convertToMap(obj: Any): Map<String, Any> {
-            val map: MutableMap<String, Any> = mutableMapOf()
-            for (field in obj.javaClass.declaredFields) {
-                field.isAccessible = true
-                try {
-                    if (field[obj] != null) {
-                        map[field.name] = field[obj]
-                    }
-                } catch (e: Exception) {
-                }
-            }
-            return map
-        }
-
 //        fun getFcmDeviceToken(): Observable<String?> {
 //
 //            return Observable.create {

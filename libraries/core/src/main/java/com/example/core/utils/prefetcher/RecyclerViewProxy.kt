@@ -2,24 +2,16 @@
 
 package androidx.recyclerview.widget
 
-import com.example.core.utils.prefetcher.PrefetchRecycledViewPool
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.example.core.utils.prefetcher.PrefetchViewPool
 
-internal fun RecyclerView.RecycledViewPool.attachToPreventViewPoolFromClearing() {
-    this.attach()
+internal fun RecyclerView.RecycledViewPool.attachToPreventFromClearing() {
+    attach()
 }
 
-@ExperimentalCoroutinesApi
-internal fun PrefetchRecycledViewPool.factorInCreateTime(viewType: Int, createTimeNs: Long) =
-    (this as RecyclerView.RecycledViewPool).factorInCreateTime(viewType, createTimeNs)
+internal fun RecyclerView.ViewHolder.setItemViewType(viewType: Int) {
+    mItemViewType = viewType
+}
 
-internal val ALLOW_THREAD_GAP_WORK = RecyclerView.ALLOW_THREAD_GAP_WORK
-
-internal var RecyclerView.ViewHolder.viewType: Int
-    get() = itemViewType
-    set(value) {
-        mItemViewType = value
-    }
-
-
-
+internal fun PrefetchViewPool.factorInCreateTime(viewType: Int, creationTimeNanos: Long) {
+    (this as RecyclerView.RecycledViewPool).factorInCreateTime(viewType, creationTimeNanos)
+}

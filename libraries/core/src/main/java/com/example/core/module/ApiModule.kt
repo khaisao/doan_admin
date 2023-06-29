@@ -14,6 +14,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -73,12 +75,15 @@ class ApiModule {
         return OkHttpClient.Builder()
             .cache(cache)
             .addInterceptor(Interceptor { chain: Interceptor.Chain ->
-                val request = if (!TextUtils.isEmpty(rxPreferences.getToken())) {
+                val token = runBlocking {
+                    rxPreferences.getToken().first()
+                }
+                val request = if (!TextUtils.isEmpty(token)) {
                     chain.request()
                         .newBuilder()
                         .header("Content-Type", "application/json")
                         .addHeader(
-                            "Authorization", rxPreferences.getToken()!!
+                            "Authorization", token!!
                         )
                         .build()
                 } else {

@@ -4,13 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
+import com.example.core.base.fragment.BaseFragment
 
 /**
  * Use for tab screen, webView, google map...
  */
-abstract class SaveViewBaseFragment<BD : ViewDataBinding, VM : BaseViewModel> :
-    BaseFragment<BD, VM>() {
+abstract class SaveViewBaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes id: Int) :
+    BaseFragment<BD, VM>(id) {
 
     private var mContainerView: View? = null
 

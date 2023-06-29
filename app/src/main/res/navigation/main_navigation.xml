@@ -27,19 +27,13 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+            android:id="@+id/action_homeFragment_to_demoViewPager"
+            app:destination="@id/demoViewPager" />
     </fragment>
 
     <fragment
-        android:id="@+id/loginFragment"
-        android:name="com.example.setting.ui.login.LoginFragment"
-        android:label="LoginFragment"
-        tools:layout="@layout/fragment_login" />
-
+        android:id="@+id/demoViewPager"
+        android:name="com.example.setting.ui.viewPager.DemoViewPager"
+        android:label="DemoViewPager" />
 
 </navigation>

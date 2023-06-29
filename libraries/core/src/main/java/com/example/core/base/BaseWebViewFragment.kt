@@ -3,13 +3,14 @@ package com.example.core.base
 import android.graphics.Bitmap
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseWebViewFragment<BD : ViewDataBinding, VM : BaseViewModel> :
-    BaseFragment<BD, VM>() {
+abstract class BaseWebViewFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes id: Int) :
+    SaveViewBaseFragment<BD, VM>(id) {
 
-    fun loadData(webView: WebView, url: String) {
-        webView.webViewClient = object : WebViewClient() {
+    fun WebView.loadData(url: String) {
+        webViewClient = object : WebViewClient() {
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 showHideLoading(true)
             }
@@ -19,7 +20,7 @@ abstract class BaseWebViewFragment<BD : ViewDataBinding, VM : BaseViewModel> :
             }
         }
 
-        webView.apply {
+        apply {
             settings.javaScriptEnabled = true
             settings.javaScriptCanOpenWindowsAutomatically = true
             settings.domStorageEnabled = true

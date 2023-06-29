@@ -1,19 +1,21 @@
 package com.example.core.utils.dialog
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import com.example.core.R
 import java.lang.ref.WeakReference
 
-class LoadingDialog private constructor(private val context: Context?) {
+class LoadingDialog private constructor(private var mActivity: Activity?) {
+
     private var isShow = false
     private lateinit var dialog: AlertDialog
+
     fun show() {
-        if (context != null && !(context as Activity?)!!.isFinishing) {
+        if (mActivity != null && mActivity?.isFinishing == false) {
             if (!isShow) {
                 isShow = true
                 dialog.show()
@@ -29,6 +31,7 @@ class LoadingDialog private constructor(private val context: Context?) {
     }
 
     fun destroyLoadingDialog() {
+        mActivity = null
         if (instance != null) {
             instance!!.dialog.dismiss()
         }
@@ -36,24 +39,22 @@ class LoadingDialog private constructor(private val context: Context?) {
     }
 
     companion object {
-        //todo: consider change LoadingDialog to activity scoped
+        @SuppressLint("StaticFieldLeak")
         private var instance: LoadingDialog? = null
 
-        fun getInstance(context: Context): LoadingDialog? {
-            return if (instance != null) {
-                instance
-            } else {
-                instance = LoadingDialog(WeakReference(context).get())
-                instance
+        fun getInstance(mActivity: Activity): LoadingDialog? {
+            if (instance == null) {
+                instance = LoadingDialog(WeakReference(mActivity).get())
             }
+            return instance
         }
     }
 
     init {
-        if (context != null && !isShow) {
+        if (mActivity != null && !isShow) {
             val dialogBuilder =
-                AlertDialog.Builder(context)
-            val li = LayoutInflater.from(context)
+                AlertDialog.Builder(mActivity)
+            val li = LayoutInflater.from(mActivity)
             val dialogView = li.inflate(R.layout.layout_loading, null)
             dialogBuilder.setView(dialogView)
             dialogBuilder.setCancelable(false)

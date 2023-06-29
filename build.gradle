@@ -6,9 +6,9 @@ buildscript {
     }
     apply from: rootProject.file('dependencies.gradle')
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.2'
+        classpath libraries.androidGradle
         classpath libraries.kotlinGradle
-        classpath 'com.google.dagger:hilt-android-gradle-plugin:2.35.1'
+        classpath libraries.hiltGradle
     }
 }
 

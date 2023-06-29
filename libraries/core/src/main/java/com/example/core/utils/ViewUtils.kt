@@ -2,6 +2,7 @@ package com.example.core.utils
 
 import android.app.Activity
 import android.content.Context
+import android.os.SystemClock
 import android.text.Editable
 import android.view.ActionMode
 import android.view.Menu
@@ -15,13 +16,17 @@ import android.widget.Toast
 import androidx.annotation.AnimRes
 import androidx.annotation.ColorRes
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.example.core.R
+import com.example.core.utils.Constants.DURATION_TIME_CLICKABLE
+import com.example.core.utils.ViewUtils.lastClick
 
 object ViewUtils {
     //check double click
-    @kotlin.jvm.JvmStatic
+    @JvmStatic
     fun runLayoutAnimation(recyclerView: RecyclerView, @AnimRes resId: Int) {
         val context = recyclerView.context
         val controller =
@@ -29,6 +34,8 @@ object ViewUtils {
         recyclerView.layoutAnimation = controller
         recyclerView.scheduleLayoutAnimation()
     }
+
+    var lastClick = 0L
 }
 
 fun String.toast(context: Context) {
@@ -123,4 +130,30 @@ fun Activity.toastMessage(message: String) {
 
 fun Fragment.toastMessage(message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+}
+
+fun View.setOnSafeClickListener(duration: Long = DURATION_TIME_CLICKABLE, onClick: () -> Unit) {
+    setOnClickListener {
+        if (SystemClock.elapsedRealtime() - lastClick >= duration) {
+            onClick()
+            lastClick = SystemClock.elapsedRealtime()
+        }
+    }
+}
+
+fun ViewPager.getCurrentFragment(fragmentManager: FragmentManager): Any? {
+    return getFragmentAt(fragmentManager, currentItem)
+}
+
+fun ViewPager.getFragmentAt(fragmentManager: FragmentManager, index: Int): Any? {
+    return fragmentManager.findFragmentByTag("android:switcher:$id:$index")
+        ?: return adapter?.instantiateItem(this, index)
+}
+
+fun ViewPager2.getCurrentFragment(fragmentManager: FragmentManager): Fragment? {
+    return getFragmentAt(fragmentManager, currentItem)
+}
+
+fun ViewPager2.getFragmentAt(fragmentManager: FragmentManager, index: Int): Fragment? {
+    return fragmentManager.findFragmentByTag("f$index")
 }

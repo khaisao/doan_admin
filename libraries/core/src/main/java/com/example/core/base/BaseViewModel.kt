@@ -7,7 +7,6 @@ import com.example.core.model.network.BaseResponse
 import com.example.core.model.network.ErrorResponse
 import com.example.core.utils.SingleLiveEvent
 import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -15,7 +14,7 @@ import java.net.ConnectException
 abstract class BaseViewModel : ViewModel() {
 
     var messageError = SingleLiveEvent<Any>()
-    var isLoading = MutableLiveData(false)
+    var isLoading = MutableLiveData<Boolean>()
 
     fun handleError(
         throwable: Throwable,
@@ -66,8 +65,8 @@ abstract class BaseViewModel : ViewModel() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        val typeResponse =
-            object : TypeToken<T>() {}.type
+//        val typeResponse =
+//            object : TypeToken<T>() {}.type
         var response: T? = null
         try {
             response =

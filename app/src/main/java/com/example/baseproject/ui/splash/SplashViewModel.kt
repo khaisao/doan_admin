@@ -1,10 +1,13 @@
 package com.example.baseproject.ui.splash
 
-import android.os.Handler
-import android.os.Looper
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.baseproject.R
 import com.example.core.base.BaseViewModel
 import com.example.core.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -12,18 +15,15 @@ class SplashViewModel @Inject constructor() : BaseViewModel() {
 
     val actionSPlash = SingleLiveEvent<SplashActionState>()
 
-    private val handler = Handler(Looper.getMainLooper())
+    val splashTitle = MutableLiveData(R.string.splash)
 
     init {
-        handler.postDelayed({
+        viewModelScope.launch {
+            delay(1000)
             actionSPlash.value = SplashActionState.Finish
-        }, 1000)
+        }
     }
 
-    override fun onCleared() {
-        handler.removeCallbacksAndMessages(null)
-        super.onCleared()
-    }
 }
 
 sealed class SplashActionState {

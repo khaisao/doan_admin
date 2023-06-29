@@ -5,4 +5,5 @@
     <dimen name="height_edt_login">55dp</dimen>
 
     <dimen name="icon_login_size">55dp</dimen>
+    <dimen name="defaultMargin_3_5x">30dp</dimen>
 </resources>
