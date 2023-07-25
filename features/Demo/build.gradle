@@ -60,6 +60,10 @@ dependencies {
 //    implementation libraries.lifecycleExt
     kapt libraries.liveData
 
+    //navigation
+    implementation libraries.navigation
+    implementation libraries.navigationUi
+
     //view
     implementation libraries.material
     implementation libraries.constraintlayout
