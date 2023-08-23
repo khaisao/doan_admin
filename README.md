@@ -8,6 +8,7 @@ MVVM with Kotlin
 4. Glide
 5. Retrofit
 6. Timber
+6. Coroutines, Flow
 
 ## Author
 **VietBH**
