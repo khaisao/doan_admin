@@ -19,5 +19,8 @@
     <fragment
         android:id="@+id/tabAdminProfile"
         android:name="com.example.baseproject.ui.admin.adminProfile.AdminProfileFragment"
-        android:label="AdminProfileFragment" />
+        android:label="AdminProfileFragment" >
+
+    </fragment>
+
 </navigation>

@@ -8,4 +8,8 @@ interface AppNavigation : BaseNavigator {
     fun openSplashToLoginScreen(bundle: Bundle? = null)
 
     fun openLoginToAdminHome(bundle: Bundle? = null)
+
+    fun openSplashToAdminHome(bundle: Bundle? = null)
+
+    fun openLoginScreenAndClearBackStack(bundle: Bundle? = null)
 }

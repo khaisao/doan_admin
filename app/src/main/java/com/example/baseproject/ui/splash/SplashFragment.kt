@@ -6,6 +6,7 @@ import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setTextCompute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -26,14 +27,20 @@ class SplashFragment :
     override fun bindingAction() {
         super.bindingAction()
 
-        lifecycleScope.launch {
-            delay(100)
-            appNavigation.openSplashToLoginScreen()
-        }
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
+        lifecycleScope.launch {
+            viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner){
+                if(it is LoginSplashEvent.LoginSuccess){
+                    appNavigation.openSplashToAdminHome()
+                }
+                if(it is LoginSplashEvent.LoginError){
+                    appNavigation.openSplashToLoginScreen()
+                }
+            }
+        }
     }
 
 }

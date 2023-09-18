@@ -18,5 +18,12 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_loginFragment_to_adminHomeFragment, bundle)
     }
 
+    override fun openSplashToAdminHome(bundle: Bundle?) {
+        openScreen(R.id.action_splashFragment_to_adminHomeFragment, bundle)
+    }
+
+    override fun openLoginScreenAndClearBackStack(bundle: Bundle?) {
+        openScreen(R.id.action_tabAdminProfile_to_loginFragment, bundle)
+    }
 
 }
