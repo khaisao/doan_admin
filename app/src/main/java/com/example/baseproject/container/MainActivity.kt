@@ -7,11 +7,9 @@ import com.example.baseproject.R
 import com.example.baseproject.databinding.ActivityMainBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.activity.BaseActivityNotRequireViewModel
-import com.example.core.base.dialog.ConfirmDialogListener
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.NetworkConnectionManager
 import com.example.core.utils.setLanguage
-import com.example.core.utils.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -21,7 +19,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>(), ConfirmDialogListener {
+class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
 
     @Inject
     lateinit var appNavigation: AppNavigation
@@ -65,14 +63,6 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>(), Con
     override fun onStop() {
         super.onStop()
         networkConnectionManager.stopListenNetworkState()
-    }
-
-    override fun onClickOk(type: Int?) {
-        "Ok Activity".toast(this)
-    }
-
-    override fun onClickCancel(type: Int?) {
-        "Cancel Activity".toast(this)
     }
 
 }

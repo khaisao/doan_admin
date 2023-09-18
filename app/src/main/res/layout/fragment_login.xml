@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="22dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_welcome"
+            style="@style/text_bold_30"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="81dp"
+            android:text="Welcome back! Glad to see you, Again!"
+            android:textColor="#1E232C"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edt_user"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/bg_input_account"
+            android:hint="Enter your email"
+            android:paddingHorizontal="18dp"
+            android:textColor="@color/black"
+            android:textColorHint="#8391A1"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
+
+        <EditText
+            android:id="@+id/edt_password"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_input_account"
+            android:hint="Enter your password"
+            android:paddingStart="18dp"
+            android:paddingEnd="30dp"
+            android:textColor="@color/black"
+            android:textColorHint="#8391A1"
+            android:textSize="15sp"
+            app:layout_constraintTop_toBottomOf="@id/edt_user" />
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_visible_password"
+            app:layout_constraintBottom_toBottomOf="@id/edt_password"
+            app:layout_constraintEnd_toEndOf="@id/edt_password"
+            app:layout_constraintTop_toTopOf="@id/edt_password" />
+
+
+        <TextView
+            android:id="@+id/tv_forgot_password"
+            style="@style/text_bold_14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Forgot Password?"
+            android:textColor="#6A707C"
+            app:layout_constraintEnd_toEndOf="@id/edt_password"
+            app:layout_constraintTop_toBottomOf="@id/edt_password" />
+
+        <TextView
+            style="@style/text_bold_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_btn_login"
+            android:gravity="center"
+            android:padding="20dp"
+            android:text="Login"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

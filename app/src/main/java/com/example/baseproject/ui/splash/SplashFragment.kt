@@ -1,12 +1,15 @@
 package com.example.baseproject.ui.splash
 
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.setTextCompute
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -23,16 +26,14 @@ class SplashFragment :
     override fun bindingAction() {
         super.bindingAction()
 
-        viewModel.actionSPlash.observe(viewLifecycleOwner) {
-            appNavigation.openSplashToHomeScreen()
+        lifecycleScope.launch {
+            delay(100)
+            appNavigation.openSplashToLoginScreen()
         }
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
-        viewModel.splashTitle.observe(viewLifecycleOwner) {
-            binding.text.setTextCompute(getString(it))
-        }
     }
 
 }

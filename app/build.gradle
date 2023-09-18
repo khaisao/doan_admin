@@ -43,7 +43,6 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(':libraries:core')
-    implementation project(':features:Demo')
 
     //appcompat
     implementation libraries.appcompat

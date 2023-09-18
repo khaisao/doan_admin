@@ -14,8 +14,4 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- Splash Screen theme. -->
-    <style name="SplashTheme" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/launcher_screen</item>
-    </style>
 </resources>

@@ -23,6 +23,10 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
+    <style name="text_bold_15" parent="text_bold">
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
     <style name="text_bold_10" parent="text_bold">
         <item name="android:textSize">@dimen/text_size_10</item>
     </style>
@@ -33,6 +37,10 @@
 
     <style name="text_bold_18" parent="text_bold">
         <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="text_bold_30" parent="text_bold">
+        <item name="android:textSize">@dimen/text_size_30</item>
     </style>
 
     <style name="text_18" parent="text_normal">

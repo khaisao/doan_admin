@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.home
+package com.example.baseproject.ui.login
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -7,11 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    val savedStateHandle: SavedStateHandle
+class LoginViewModel @Inject constructor(
 ) : BaseViewModel() {
 
-    init {
-        Log.d("TAG", ": ")
-    }
 }
