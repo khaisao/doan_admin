@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/common"
-        android:icon="@drawable/ic_birthday"
-        android:contentDescription="@string/home"
-        android:title="@string/home" />
+        android:id="@+id/tabSchedule"
+        android:contentDescription="Schedule"
+        android:icon="@drawable/ic_schedule"
+        android:title="Schedule" />
 
     <item
-        android:id="@+id/favorite"
-        android:icon="@drawable/ic_birthday"
-        android:contentDescription="@string/favorite"
-        android:title="@string/favorite" />
+        android:id="@+id/tabAccTeacher"
+        android:contentDescription="Acc Teacher"
+        android:icon="@drawable/ic_acc_teacher"
+        android:title="Acc teacher" />
+    <item
+        android:id="@+id/tabAccStudent"
+        android:contentDescription="Acc student"
+        android:icon="@drawable/ic_acc_student"
+        android:title="Acc Student" />
+    <item
+        android:id="@+id/tabAdminProfile"
+        android:contentDescription="Profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
 </menu>

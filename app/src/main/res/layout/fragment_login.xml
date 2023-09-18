@@ -34,6 +34,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
 
+        <TextView
+            android:id="@+id/tv_error_email"
+            style="@style/text_bold_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Error email"
+            android:textColor="#D12828"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/edt_user"
+            app:layout_constraintTop_toBottomOf="@id/edt_user" />
+
         <EditText
             android:id="@+id/edt_password"
             android:layout_width="match_parent"
@@ -41,14 +53,28 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_input_account"
             android:hint="Enter your password"
+            android:inputType="textPassword"
             android:paddingStart="18dp"
             android:paddingEnd="30dp"
             android:textColor="@color/black"
             android:textColorHint="#8391A1"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@id/edt_user" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_email" />
+
+        <TextView
+            android:id="@+id/tv_error_password"
+            style="@style/text_bold_15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Error email"
+            android:textColor="#D12828"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="@id/edt_password"
+            app:layout_constraintTop_toBottomOf="@id/edt_password" />
 
         <ImageView
+            android:id="@+id/iv_show_icon"
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_marginEnd="16dp"
@@ -70,6 +96,7 @@
             app:layout_constraintTop_toBottomOf="@id/edt_password" />
 
         <TextView
+            android:id="@+id/tv_login"
             style="@style/text_bold_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

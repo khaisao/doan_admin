@@ -87,16 +87,6 @@ object StringUtils {
             }
         }
 
-    fun CharSequence?.isValidEmail() =
-        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
-
-    fun String.isEmailValid(): Boolean {
-        val expression = "^[\\w.-]+@([\\w\\-]+\\.)+[A-Z]{2,8}$"
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(this)
-        return matcher.matches()
-    }
-
     fun createRoomIdFromIds(myId: String, partnerId: String): String {
         return if (myId < partnerId) {
             myId + partnerId
