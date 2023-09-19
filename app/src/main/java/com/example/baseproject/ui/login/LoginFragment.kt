@@ -12,6 +12,7 @@ import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.isValidEmailInput
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,10 +41,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     override fun setOnClick() {
         super.setOnClick()
         binding.ivShowIcon.setOnSafeClickListener {
-            if (binding.edtPassword.inputType == 129) {
+            if (binding.edtPassword.inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
                 binding.edtPassword.inputType = InputType.TYPE_CLASS_TEXT
+                binding.ivShowIcon.loadImage(R.drawable.ic_visible_password)
             } else {
-                binding.edtPassword.inputType = 129
+                binding.ivShowIcon.loadImage(R.drawable.ic_invisible_password)
+                binding.edtPassword.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
         }
 
@@ -86,13 +89,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             binding.tvErrorPassword.isVisible = true
             isValid = false
         } else if (password.isNotEmpty()) {
-            if (password.length < 5) {
+            if (password.length < 6) {
                 binding.tvErrorPassword.text = getString(R.string.password_is_invalid)
                 binding.tvErrorPassword.isVisible = true
                 isValid = false
             }
         }
-
         return isValid
     }
 

@@ -9,5 +9,15 @@
     <string name="email_is_invalid">Email is invalid</string>
     <string name="password_is_empty">Password is empty</string>
     <string name="password_is_invalid">Password is invalid</string>
+    <string name="current_password_is_empty">Current password is empty</string>
+    <string name="password_length_required_5"><![CDATA[Password length required > 5]]></string>
+    <string name="current_password_incorrect">Current password incorrect</string>
+    <string name="new_password_is_empty">New password is empty</string>
+    <string name="new_password_length_required_5"><![CDATA[New password length required > 5]]></string>
+    <string name="password_not_match">Password not match</string>
+    <string name="teacher">Teacher</string>
+    <string name="student">Student</string>
+    <string name="submit">Submit</string>
+    <string name="name_is_empty">Name is empty</string>
 
 </resources>

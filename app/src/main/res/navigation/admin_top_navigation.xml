@@ -9,10 +9,6 @@
         android:name="com.example.baseproject.ui.admin.schedule.ScheduleAdminFragment"
         android:label="ScheduleAdminFragment" />
     <fragment
-        android:id="@+id/tabAccStudent"
-        android:name="com.example.baseproject.ui.admin.accStudent.AccStudentFragment"
-        android:label="AccStudentFragment" />
-    <fragment
         android:id="@+id/tabAccTeacher"
         android:name="com.example.baseproject.ui.admin.accTeacher.AccTeacherFragment"
         android:label="AccTeacherFragment" />

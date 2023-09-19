@@ -11,11 +11,7 @@
         android:contentDescription="Acc Teacher"
         android:icon="@drawable/ic_acc_teacher"
         android:title="Acc teacher" />
-    <item
-        android:id="@+id/tabAccStudent"
-        android:contentDescription="Acc student"
-        android:icon="@drawable/ic_acc_student"
-        android:title="Acc Student" />
+
     <item
         android:id="@+id/tabAdminProfile"
         android:contentDescription="Profile"

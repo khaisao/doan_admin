@@ -26,4 +26,24 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_tabAdminProfile_to_loginFragment, bundle)
     }
 
+    override fun openProfileToChangePassword(bundle: Bundle?) {
+        openScreen(R.id.action_adminHomeFragment_to_changePasswordFragment, bundle)
+    }
+
+    override fun openChangePasswordToChangePasswordSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_changePasswordFragment_to_changePasswordSuccessFragment, bundle)
+    }
+
+    override fun openHomeToAddAccount(bundle: Bundle?) {
+        openScreen(R.id.action_adminHomeFragment_to_addAccountFragment, bundle)
+    }
+
+    override fun openAddAccountToAddAccountSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_addAccountFragment_to_changePasswordSuccessFragment, bundle)
+    }
+
+    override fun openHomeToUserProfile(bundle: Bundle?) {
+        openScreen(R.id.action_adminHomeFragment_to_userProfileFragment, bundle)
+    }
+
 }

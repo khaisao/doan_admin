@@ -84,5 +84,7 @@ dependencies {
     implementation libraries.glide
     kapt libraries.glideCompiler
 
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
     debugImplementation libraries.leak
 }
