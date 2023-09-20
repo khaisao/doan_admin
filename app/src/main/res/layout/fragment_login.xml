@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="22dp"
+        android:paddingHorizontal="22dp"
         android:background="@color/white"
         android:orientation="vertical">
 

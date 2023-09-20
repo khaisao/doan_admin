@@ -20,9 +20,13 @@ android {
     }
 
     buildTypes {
+        debug{
+            buildConfigField "String", "BASE_URL", "\"http://localhost:3000/\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"http://localhost:3000/\""
         }
     }
     compileOptions {

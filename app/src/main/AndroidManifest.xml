@@ -15,6 +15,7 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
@@ -22,19 +23,19 @@
             android:name=".container.MainActivity"
             android:exported="true"
             android:launchMode="singleTask">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".testFaceReco.FaceRecoActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
 
 

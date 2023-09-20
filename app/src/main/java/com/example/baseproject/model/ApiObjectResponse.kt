@@ -1,0 +1,13 @@
+package com.example.baseproject.model
+
+import com.google.gson.annotations.SerializedName
+
+data class ApiObjectResponse<T>(
+    @SerializedName("errors") var errors: List<String>,
+    @SerializedName("data") var dataResponse: T,
+)
+
+data class ApiException(
+    @SerializedName("errors") var errors: List<String>,
+    @SerializedName("data") var dataResponse: Any,
+)
