@@ -9,7 +9,7 @@
         android:orientation="vertical">
 
         <fragment
-            android:id="@+id/top_nav_host_fragment"
+            android:id="@+id/top_admin_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -28,6 +28,6 @@
             app:itemIconTint="@drawable/ic_bottom_nav_color_selector"
             app:itemTextColor="@drawable/ic_bottom_nav_color_selector"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:menu="@menu/bottom_nav" />
+            app:menu="@menu/bottom_nav_admin" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

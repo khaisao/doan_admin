@@ -5,6 +5,7 @@ import android.text.TextUtils
 import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import com.example.core.base.BaseViewModel
+import com.example.core.utils.toastMessage
 
 abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes id: Int) :
     BaseFragmentNotRequireViewModel<BD>(id) {
@@ -21,20 +22,7 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes
     override fun initView(savedInstanceState: Bundle?) {
 
         viewModel.messageError.observe(viewLifecycleOwner) {
-            var message = ""
-            if (it is String) {
-                message = it
-            } else {
-                if (it is Int) {
-                    try {
-                        message = getString(it)
-                    } catch (e: Exception) {
-                        //do nothing
-                    }
-                }
-            }
-            if (TextUtils.isEmpty(message)) return@observe
-            //                showMessageError(message)
+            toastMessage(it.toString())
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

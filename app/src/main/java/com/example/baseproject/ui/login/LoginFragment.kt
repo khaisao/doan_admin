@@ -11,6 +11,7 @@ import com.example.baseproject.databinding.FragmentLoginBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.isValidEmailInput
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
@@ -23,6 +24,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
 
     @Inject
     lateinit var appNavigation: AppNavigation
+
+    @Inject
+    lateinit var rxPreferences: RxPreferences
 
     private val viewModel: LoginViewModel by viewModels()
 
@@ -57,6 +61,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                 viewModel.login(user, password)
             }
         }
+
     }
 
     override fun bindingStateView() {
@@ -64,7 +69,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         lifecycleScope.launch {
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
                 if (it is LoginEvent.LoginSuccess) {
-                    appNavigation.openLoginToAdminHome()
+                    if (rxPreferences.getRole() == 3) {
+                        appNavigation.openLoginToAdminTop()
+                    }
+                    if (rxPreferences.getRole() == 2) {
+                        appNavigation.openLoginToTeacherTop()
+                    }
                 }
             }
         }

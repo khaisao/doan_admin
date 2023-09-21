@@ -1,6 +1,7 @@
 package com.example.baseproject.network
 
 import com.example.baseproject.model.ApiObjectResponse
+import com.example.baseproject.model.LoginResponse
 import com.google.gson.JsonObject
 
 import okhttp3.RequestBody

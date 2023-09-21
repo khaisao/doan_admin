@@ -8,7 +8,9 @@ import com.example.baseproject.databinding.FragmentScheduleAdminBinding
 import com.example.baseproject.model.Course
 import com.example.baseproject.ui.admin.schedule.adapter.CourseAdapter
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.pref.RxPreferences
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ScheduleAdminFragment :
@@ -19,12 +21,18 @@ class ScheduleAdminFragment :
 
     private lateinit var adapter: CourseAdapter
 
+    @Inject
+    lateinit var rxPreferences: RxPreferences
+
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = CourseAdapter()
         binding.rvCouse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCouse.adapter = adapter
+
+        binding.tvTitle.text = "Hello, " + rxPreferences.getEmail()
+
         val listCourse = listOf(
             Course(
                 id = 6274,

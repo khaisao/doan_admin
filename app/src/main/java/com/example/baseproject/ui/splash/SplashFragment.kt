@@ -6,10 +6,9 @@ import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.setTextCompute
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,6 +20,9 @@ class SplashFragment :
     lateinit var appNavigation: AppNavigation
 
     private val viewModel: SplashViewModel by viewModels()
+
+    @Inject
+    lateinit var rxPreferences:RxPreferences
 
     override fun getVM() = viewModel
 
@@ -34,7 +36,12 @@ class SplashFragment :
         lifecycleScope.launch {
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner){
                 if(it is LoginSplashEvent.LoginSuccess){
-                    appNavigation.openSplashToAdminHome()
+                    if (rxPreferences.getRole() == 3) {
+                        appNavigation.openLoginToAdminTop()
+                    }
+                    if (rxPreferences.getRole() == 2) {
+                        appNavigation.openLoginToTeacherTop()
+                    }
                 }
                 if(it is LoginSplashEvent.LoginError){
                     appNavigation.openSplashToLoginScreen()

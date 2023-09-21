@@ -7,6 +7,7 @@ import com.example.core.model.network.BaseResponse
 import com.example.core.model.network.ErrorResponse
 import com.example.core.utils.SingleLiveEvent
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.ResponseBody
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -14,7 +15,11 @@ import java.net.ConnectException
 abstract class BaseViewModel : ViewModel() {
 
     var messageError = SingleLiveEvent<Any>()
-    var isLoading = MutableLiveData<Boolean>()
+    var isLoading = SingleLiveEvent<Boolean>()
+
+    val handler = CoroutineExceptionHandler { _, exception ->
+        messageError.postValue(exception.message)
+    }
 
     fun handleError(
         throwable: Throwable,

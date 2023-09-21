@@ -15,10 +15,12 @@ class AppPreferences @Inject constructor(
 ) : BasePreferencesImpl(context), RxPreferences {
 
     companion object{
-        val PREF_PARAM_ACCESS_TOKEN = stringPreferencesKey("PREF_PARAM_ACCESS_TOKEN")
+        const val PREF_PARAM_TOKEN = "PREF_PARAM_EMAIL_USER"
         val PREF_PARAM_LANGUAGE = stringPreferencesKey("PREF_PARAM_LANGUAGE")
         const val PREF_PARAM_PASSWORD = "PREF_PARAM_PASSWORD"
-        const val PREF_PARAM_EMAIL_USER = "PREF_PARAM_EMAIL_USER"
+        const val PREF_PARAM_EMAIL_LOGIN = "PREF_PARAM_EMAIL_LOGIN"
+        const val PREF_PARAM_ROLE = "PREF_PARAM_ROLE"
+        const val PREF_PARAM_USER_NAME = "PREF_PARAM_USER_NAME"
 
     }
 
@@ -43,12 +45,6 @@ class AppPreferences @Inject constructor(
         editor.apply()
     }
 
-    override fun getToken(): Flow<String?> = getValue(PREF_PARAM_ACCESS_TOKEN)
-
-    override suspend fun setUserToken(userToken: String) {
-        putValue(PREF_PARAM_ACCESS_TOKEN, userToken)
-    }
-
     override fun getLanguage(): Flow<String?> = getValue(PREF_PARAM_LANGUAGE)
 
     override suspend fun setLanguage(language: String) {
@@ -60,15 +56,39 @@ class AppPreferences @Inject constructor(
     }
 
     override fun saveEmail(email: String) {
-        put(PREF_PARAM_EMAIL_USER, email)
+        put(PREF_PARAM_EMAIL_LOGIN, email)
     }
 
-    override fun getEmail(): String? = get(PREF_PARAM_EMAIL_USER)
+    override fun getEmail(): String? = get(PREF_PARAM_EMAIL_LOGIN)
 
     override fun savePassword(password: String) {
         put(PREF_PARAM_PASSWORD, password)
     }
 
     override fun getPassword(): String? = get(PREF_PARAM_PASSWORD)
+    override fun saveToken(token: String) {
+        put(PREF_PARAM_TOKEN, token)
+    }
+
+    override fun getToken(): String? = get(PREF_PARAM_TOKEN)
+    override fun saveRole(role: Int) {
+        mPrefs.edit().apply {
+            putInt(PREF_PARAM_ROLE, role)
+        }.also { it.apply() }
+    }
+
+    override fun getRole(): Int {
+        return mPrefs.getInt(PREF_PARAM_ROLE, 0)
+
+    }
+
+    override fun saveUserName(name: String) {
+        mPrefs.edit().apply {
+            putString(PREF_PARAM_USER_NAME, name)
+        }.also { it.apply() }    }
+
+    override fun getUserName(): String? {
+        return mPrefs.getString(PREF_PARAM_USER_NAME, "")
+    }
 
 }

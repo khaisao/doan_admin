@@ -12,10 +12,6 @@ interface RxPreferences : BasePreferences {
 
     fun remove(key: String)
 
-    fun getToken(): Flow<String?>
-
-    suspend fun setUserToken(userToken: String)
-
     fun getLanguage(): Flow<String?>
 
     suspend fun setLanguage(language: String)
@@ -29,5 +25,17 @@ interface RxPreferences : BasePreferences {
     fun savePassword(password: String)
 
     fun getPassword(): String?
+
+    fun saveToken(token: String)
+
+    fun getToken(): String?
+
+    fun saveRole(role: Int)
+
+    fun getRole(): Int
+
+    fun saveUserName(name: String)
+
+    fun getUserName(): String?
 
 }

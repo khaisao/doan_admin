@@ -12,6 +12,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.log
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -20,13 +21,27 @@ class LoginViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val loginActionStateChannel = Channel<LoginEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
-    val handler = CoroutineExceptionHandler { _, exception ->
-        println("Caught $exception")
-    }
+
     fun login(user: String, password: String) {
         viewModelScope.launch(Dispatchers.IO + handler) {
-           val response = apiInterface.login(user,password)
-            Log.d("asgawgawgawg", "login: $response")
+            try {
+                isLoading.postValue(true)
+                val response = apiInterface.login(user, password)
+                if (response.errors.isEmpty()) {
+                    rxPreferences.saveEmail(response.dataResponse.email)
+                    rxPreferences.savePassword(response.dataResponse.password)
+                    rxPreferences.saveToken(response.dataResponse.token)
+                    rxPreferences.saveRole(response.dataResponse.role)
+                    rxPreferences.saveUserName(response.dataResponse.name)
+                    loginActionStateChannel.send(LoginEvent.LoginSuccess)
+                }
+            } catch (e: Exception) {
+                messageError.postValue("Something went wrong")
+                loginActionStateChannel.send(LoginEvent.LoginError)
+            } finally {
+                isLoading.postValue(false)
+            }
+
         }
     }
 

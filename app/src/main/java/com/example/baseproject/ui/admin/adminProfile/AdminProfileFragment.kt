@@ -10,6 +10,7 @@ import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentAdminProfileBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +26,9 @@ class AdminProfileFragment :
 
     private val viewModel: AdminProfileViewModel by viewModels()
 
+    @Inject
+    lateinit var rxPreferences: RxPreferences
+
     override fun getVM(): AdminProfileViewModel = viewModel
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -33,6 +37,9 @@ class AdminProfileFragment :
             .load(R.drawable.no_avatar)
             .transform(CenterInside(), RoundedCorners(100))
             .into(binding.ivAvatar)
+
+        binding.tvName.text = rxPreferences.getUserName()
+        binding.tvEmail.text = rxPreferences.getEmail()
     }
 
     override fun bindingStateView() {

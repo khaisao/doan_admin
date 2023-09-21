@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BaseProject</string>
+    <string name="app_name">AttendanceTLU</string>
     <string name="home">Home</string>
     <string name="favorite">Favorite</string>
     <string name="splash">Splash</string>

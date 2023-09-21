@@ -1,11 +1,11 @@
-package com.example.baseproject.ui.admin
+package com.example.baseproject.ui.teacher
 
 import com.example.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class AdminHomeViewModel @Inject constructor(
+class TeacherTopViewModel @Inject constructor(
 ) : BaseViewModel() {
 
 
