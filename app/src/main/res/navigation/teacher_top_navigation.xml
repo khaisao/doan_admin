@@ -4,15 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/app_navigation"
     app:startDestination="@id/tabSchedule">
+
     <fragment
         android:id="@+id/tabSchedule"
-        android:name="com.example.baseproject.ui.admin.schedule.ScheduleAdminFragment"
-        android:label="ScheduleAdminFragment" />
+        android:name="com.example.baseproject.ui.teacher.schedule.ScheduleTeacherFragment"
+        android:label="ScheduleTeacherFragment" />
+
     <fragment
-        android:id="@+id/tabAdminProfile"
+        android:id="@+id/tabTeacherProfile"
         android:name="com.example.baseproject.ui.admin.adminProfile.AdminProfileFragment"
         android:label="AdminProfileFragment" >
 
     </fragment>
+
 
 </navigation>

@@ -54,4 +54,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_adminHomeFragment_to_userProfileFragment, bundle)
     }
 
+    override fun openToFaceReco(bundle: Bundle?) {
+        openScreen(R.id.action_teacherTopFragment_to_faceRecoFragment, bundle)
+    }
+
 }

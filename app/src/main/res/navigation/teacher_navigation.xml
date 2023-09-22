@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/teacherTopFragment"
         android:name="com.example.baseproject.ui.teacher.TeacherTopFragment"
-        android:label="TeacherTopFragment" />
+        android:label="TeacherTopFragment" >
+        <action
+            android:id="@+id/action_teacherTopFragment_to_faceRecoFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:destination="@id/faceRecoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/faceRecoFragment"
+        android:name="com.example.baseproject.testFaceReco.FaceRecoFragment"
+        android:label="FaceRecoFragment" />
 </navigation>

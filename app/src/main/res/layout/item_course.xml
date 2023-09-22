@@ -41,6 +41,7 @@
             app:layout_constraintTop_toTopOf="@id/iv_ic">
 
             <TextView
+                android:id="@+id/tv_couse_name"
                 style="@style/text_bold_16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

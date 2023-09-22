@@ -36,12 +36,11 @@ class LoginViewModel @Inject constructor(
                     loginActionStateChannel.send(LoginEvent.LoginSuccess)
                 }
             } catch (e: Exception) {
-                messageError.postValue("Something went wrong")
+                messageError.postValue(e)
                 loginActionStateChannel.send(LoginEvent.LoginError)
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
 

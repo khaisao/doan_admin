@@ -1,7 +1,11 @@
 package com.example.baseproject.ui.splash
 
+import android.os.Bundle
+import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
 import com.example.baseproject.navigation.AppNavigation
@@ -40,7 +44,7 @@ class SplashFragment :
                         appNavigation.openLoginToAdminTop()
                     }
                     if (rxPreferences.getRole() == 2) {
-                        appNavigation.openLoginToTeacherTop()
+                        appNavigation.openSplashToTeacherTop()
                     }
                 }
                 if(it is LoginSplashEvent.LoginError){

@@ -7,7 +7,7 @@
         android:title="Schedule" />
 
     <item
-        android:id="@+id/tabAdminProfile"
+        android:id="@+id/tabTeacherProfile"
         android:contentDescription="Profile"
         android:icon="@drawable/ic_profile"
         android:title="Profile" />

@@ -26,4 +26,5 @@ interface AppNavigation : BaseNavigator {
     fun openAddAccountToAddAccountSuccess(bundle: Bundle? = null)
 
     fun openHomeToUserProfile(bundle: Bundle? = null)
+    fun openToFaceReco(bundle: Bundle? = null)
 }
