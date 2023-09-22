@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".testFaceReco.FaceRecoFragment"
+        <activity android:name=".testFaceReco.FaceRecoActivity"
             android:exported="true">
 <!--            <intent-filter>-->
 <!--                <action android:name="android.intent.action.MAIN" />-->

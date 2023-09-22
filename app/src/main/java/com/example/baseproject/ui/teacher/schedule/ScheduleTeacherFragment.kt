@@ -34,7 +34,7 @@ class ScheduleTeacherFragment :
         super.initView(savedInstanceState)
         adapter = CourseTeacher(onCourseClick = {
 //            viewModel.getAllImageFromCoursePerCycle(1)
-            appNavigation.openToFaceReco()
+//            appNavigation.openToFaceReco()
             val intent = Intent(requireActivity(),FaceRecoActivity::class.java)
             startActivity(intent)
         })

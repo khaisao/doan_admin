@@ -15,20 +15,14 @@
 package com.example.baseproject.testFaceReco
 
 import android.Manifest
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.media.ExifInterface
-import android.net.Uri
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.util.Size
-import android.view.View
-import android.view.WindowInsets
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
@@ -41,16 +35,18 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.LifecycleOwner
-import com.example.baseproject.R
+import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.databinding.ActivityFaceRecoBinding
 import com.example.baseproject.model.faceReco.FaceNetModel
 import com.example.baseproject.model.faceReco.Models
 import com.google.common.util.concurrent.ListenableFuture
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.*
+import java.net.URL
 import java.util.concurrent.Executors
-
 
 class FaceRecoActivity : AppCompatActivity() {
 
@@ -68,7 +64,8 @@ class FaceRecoActivity : AppCompatActivity() {
     private lateinit var faceNetModel : FaceNetModel
     private lateinit var fileReader : FileReader
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
-    private lateinit var sharedPreferences: SharedPreferences
+
+
 
     // <----------------------- User controls --------------------------->
 
@@ -101,19 +98,21 @@ class FaceRecoActivity : AppCompatActivity() {
 
     }
 
+
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // Remove the status bar to have a full screen experience
         // See this answer on SO -> https://stackoverflow.com/a/68152688/10878733
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            window.decorView.windowInsetsController!!
-                .hide( WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-        }
-        else {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+//            window.decorView.windowInsetsController!!
+//                .hide( WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+//        }
+//        else {
+//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
+//        }
         activityMainBinding = ActivityFaceRecoBinding.inflate( layoutInflater )
         setContentView( activityMainBinding.root )
 
@@ -141,30 +140,7 @@ class FaceRecoActivity : AppCompatActivity() {
             startCameraPreview()
         }
 
-        sharedPreferences = getSharedPreferences( getString( R.string.app_name ) , Context.MODE_PRIVATE )
-        isSerializedDataStored = sharedPreferences.getBoolean( SHARED_PREF_IS_DATA_STORED_KEY , false )
-        if ( !isSerializedDataStored ) {
-            Logger.log( "No serialized data was found. Select the images directory.")
-            showSelectDirectoryDialog()
-        }
-        else {
-            val alertDialog = AlertDialog.Builder( this ).apply {
-                setTitle( "Serialized Data")
-                setMessage( "Existing image data was found on this device. Would you like to load it?" )
-                setCancelable( false )
-                setNegativeButton( "LOAD") { dialog, which ->
-                    dialog.dismiss()
-                    frameAnalyser.faceList = loadSerializedImageData()
-                    Logger.log( "Serialized data loaded.")
-                }
-                setPositiveButton( "RESCAN") { dialog, which ->
-                    dialog.dismiss()
-                    launchChooseDirectoryIntent()
-                }
-                create()
-            }
-            alertDialog.show()
-        }
+        launchChooseDirectoryIntent()
 
     }
 
@@ -217,7 +193,7 @@ class FaceRecoActivity : AppCompatActivity() {
                 }
                 setNegativeButton( "CLOSE" ) { dialog, which ->
                     dialog.dismiss()
-                    finish()
+//                    appNavigation.navigateUp()
                 }
                 create()
             }
@@ -225,120 +201,59 @@ class FaceRecoActivity : AppCompatActivity() {
         }
 
     }
-
-
-    // ---------------------------------------------- //
-
-
-    // Open File chooser to choose the images directory.
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun showSelectDirectoryDialog() {
-        val alertDialog = AlertDialog.Builder( this ).apply {
-            setTitle( "Select Images Directory")
-            setMessage( "As mentioned in the project\'s README file, please select a directory which contains the images." )
-            setCancelable( false )
-            setPositiveButton( "SELECT") { dialog, which ->
-                dialog.dismiss()
-                launchChooseDirectoryIntent()
-            }
-            create()
-        }
-        alertDialog.show()
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun launchChooseDirectoryIntent() {
-        val intent = Intent( Intent.ACTION_OPEN_DOCUMENT_TREE )
-        // startForActivityResult is deprecated.
-        // See this SO thread -> https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
-        directoryAccessLauncher.launch( intent )
+//        val intent = Intent( Intent.ACTION_OPEN_DOCUMENT_TREE )
+//        // startForActivityResult is deprecated.
+//        // See this SO thread -> https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
+//        directoryAccessLauncher.launch( intent )
+        lifecycleScope.launch {
+            val images = ArrayList<Pair<String, Bitmap>>()
+            val bitmap1 =
+                getBitmapFromUrl("https://vtv1.mediacdn.vn/zoom/640_400/2022/12/23/untitled-1-1671764003830832199181-crop-1671764010508138109731.jpg")
+            if (bitmap1 != null) {
+                images.add(Pair("JustinBieBer", bitmap1))
+            } else {
+                Log.d("asgasgasg", "null r: ")
+            }
+            val bitmap2 =
+                getBitmapFromUrl("https://cdn.tuoitre.vn/thumb_w/640/2020/6/22/justin-bieber-1-1592797878809968908887.jpeg")
+            if (bitmap2 != null) {
+                images.add(Pair("JustinBieBer", bitmap2))
+            } else {
+                Log.d("asgasgasg", "null r2: ")
+            }
+            val bitmap3 =
+                getBitmapFromUrl("https://cdn.tgdd.vn/Files/2022/02/21/1416573/bill-gates_1280x720-800-resize.jpg")
+            if (bitmap3 != null) {
+                images.add(Pair("BillGate", bitmap3))
+            } else {
+                Log.d("asgasgasg", "null r2: ")
+            }
+            val bitmap4 =
+                getBitmapFromUrl("https://cdn.britannica.com/47/188747-050-1D34E743/Bill-Gates-2011.jpg")
+            if (bitmap4 != null) {
+                images.add(Pair("BillGate", bitmap4))
+            } else {
+                Log.d("asgasgasg", "null r2: ")
+            }
+            withContext(Dispatchers.Main) {
+                fileReader.run(images, fileReaderCallback)
+            }
+        }
+
     }
 
-
-    // Read the contents of the select directory here.
-    // The system handles the request code here as well.
-    // See this SO question -> https://stackoverflow.com/questions/47941357/how-to-access-files-in-a-directory-given-a-content-uri
-    @RequiresApi(Build.VERSION_CODES.N)
-    private val directoryAccessLauncher = registerForActivityResult( ActivityResultContracts.StartActivityForResult() ) {
-        val dirUri = it.data?.data ?: return@registerForActivityResult
-        val childrenUri =
-            DocumentsContract.buildChildDocumentsUriUsingTree(
-                dirUri,
-                DocumentsContract.getTreeDocumentId( dirUri )
-            )
-        val tree = DocumentFile.fromTreeUri(this, childrenUri)
-        val images = ArrayList<Pair<String,Bitmap>>()
-        var errorFound = false
-        if ( tree!!.listFiles().isNotEmpty()) {
-            for ( doc in tree.listFiles() ) {
-                if ( doc.isDirectory && !errorFound ) {
-                    val name = doc.name!!
-                    for ( imageDocFile in doc.listFiles() ) {
-                        try {
-                            images.add( Pair( name , getFixedBitmap( imageDocFile.uri ) ) )
-                        }
-                        catch ( e : Exception ) {
-                            errorFound = true
-                            Logger.log( "Could not parse an image in $name directory. Make sure that the file structure is " +
-                                    "as described in the README of the project and then restart the app." )
-                            break
-                        }
-                    }
-                    Logger.log( "Found ${doc.listFiles().size} images in $name directory" )
-                }
-                else {
-                    errorFound = true
-                    Logger.log( "The selected folder should contain only directories. Make sure that the file structure is " +
-                            "as described in the README of the project and then restart the app." )
-                }
+    private suspend fun getBitmapFromUrl(url: String): Bitmap? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val url = URL(url)
+                BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            } catch (e: IOException) {
+                null
             }
         }
-        else {
-            errorFound = true
-            Logger.log( "The selected folder doesn't contain any directories. Make sure that the file structure is " +
-                    "as described in the README of the project and then restart the app." )
-        }
-        if ( !errorFound ) {
-            fileReader.run( images , fileReaderCallback )
-            Logger.log( "Detecting faces in ${images.size} images ..." )
-        }
-        else {
-            val alertDialog = AlertDialog.Builder( this ).apply {
-                setTitle( "Error while parsing directory")
-                setMessage( "There were some errors while parsing the directory. Please see the log below. Make sure that the file structure is " +
-                        "as described in the README of the project and then tap RESELECT" )
-                setCancelable( false )
-                setPositiveButton( "RESELECT") { dialog, which ->
-                    dialog.dismiss()
-                    launchChooseDirectoryIntent()
-                }
-                setNegativeButton( "CANCEL" ){ dialog , which ->
-                    dialog.dismiss()
-                    finish()
-                }
-                create()
-            }
-            alertDialog.show()
-        }
-    }
-
-
-    // Get the image as a Bitmap from given Uri and fix the rotation using the Exif interface
-    // Source -> https://stackoverflow.com/questions/14066038/why-does-an-image-captured-using-camera-intent-gets-rotated-on-some-devices-on-a
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun getFixedBitmap(imageFileUri : Uri ) : Bitmap {
-        var imageBitmap = BitmapUtils.getBitmapFromUri( contentResolver , imageFileUri )
-        val exifInterface = ExifInterface( contentResolver.openInputStream( imageFileUri )!! )
-        imageBitmap =
-            when (exifInterface.getAttributeInt( ExifInterface.TAG_ORIENTATION ,
-                ExifInterface.ORIENTATION_UNDEFINED )) {
-                ExifInterface.ORIENTATION_ROTATE_90 -> BitmapUtils.rotateBitmap( imageBitmap , 90f )
-                ExifInterface.ORIENTATION_ROTATE_180 -> BitmapUtils.rotateBitmap( imageBitmap , 180f )
-                ExifInterface.ORIENTATION_ROTATE_270 -> BitmapUtils.rotateBitmap( imageBitmap , 270f )
-                else -> imageBitmap
-            }
-        return imageBitmap
     }
 
 
@@ -348,29 +263,8 @@ class FaceRecoActivity : AppCompatActivity() {
     private val fileReaderCallback = object : FileReader.ProcessCallback {
         override fun onProcessCompleted(data: ArrayList<Pair<String, FloatArray>>, numImagesWithNoFaces: Int) {
             frameAnalyser.faceList = data
-            saveSerializedImageData( data )
-            Logger.log( "Images parsed. Found $numImagesWithNoFaces images with no faces." )
+//            Logger.log( "Images parsed. Found $numImagesWithNoFaces images with no faces." )
         }
-    }
-
-
-    private fun saveSerializedImageData(data : ArrayList<Pair<String,FloatArray>> ) {
-        val serializedDataFile = File( filesDir , SERIALIZED_DATA_FILENAME )
-        ObjectOutputStream( FileOutputStream( serializedDataFile )  ).apply {
-            writeObject( data )
-            flush()
-            close()
-        }
-        sharedPreferences.edit().putBoolean( SHARED_PREF_IS_DATA_STORED_KEY , true ).apply()
-    }
-
-
-    private fun loadSerializedImageData() : ArrayList<Pair<String,FloatArray>> {
-        val serializedDataFile = File( filesDir , SERIALIZED_DATA_FILENAME )
-        val objectInputStream = ObjectInputStream( FileInputStream( serializedDataFile ) )
-        val data = objectInputStream.readObject() as ArrayList<Pair<String,FloatArray>>
-        objectInputStream.close()
-        return data
     }
 
 
