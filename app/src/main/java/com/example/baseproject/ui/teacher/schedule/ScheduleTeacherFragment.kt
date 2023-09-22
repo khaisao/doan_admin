@@ -1,6 +1,5 @@
 package com.example.baseproject.ui.teacher.schedule
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,8 +7,8 @@ import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
 import com.example.baseproject.model.Course
 import com.example.baseproject.navigation.AppNavigation
-import com.example.baseproject.testFaceReco.FaceRecoActivity
 import com.example.baseproject.ui.teacher.schedule.adapter.CourseTeacher
+import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,10 +32,9 @@ class ScheduleTeacherFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = CourseTeacher(onCourseClick = {
-//            viewModel.getAllImageFromCoursePerCycle(1)
-//            appNavigation.openToFaceReco()
-            val intent = Intent(requireActivity(),FaceRecoActivity::class.java)
-            startActivity(intent)
+            val bundle = Bundle()
+            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, 1)
+            appNavigation.openScheduleToDetailCourse(bundle)
         })
         binding.rvCouse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

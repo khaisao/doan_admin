@@ -14,17 +14,19 @@
  */
 package com.example.baseproject.testFaceReco
 
+import com.example.baseproject.ui.teacher.faceReco.FaceRecoFragment
+
 // Logs message using log_textview present in activity_main.xml
 class Logger {
 
     companion object {
 
         fun log( message : String ) {
-            FaceRecoActivity.setMessage(FaceRecoActivity.logTextView.text.toString() + "\n" + ">> $message")
+            FaceRecoFragment.setMessage(FaceRecoFragment.logTextView.text.toString() + "\n" + ">> $message")
             // To scroll to the last message
             // See this SO answer -> https://stackoverflow.com/a/37806544/10878733
-            while ( FaceRecoActivity.logTextView.canScrollVertically(1) ) {
-                FaceRecoActivity.logTextView.scrollBy(0, 10)
+            while ( FaceRecoFragment.logTextView.canScrollVertically(1) ) {
+                FaceRecoFragment.logTextView.scrollBy(0, 10)
             }
         }
 

@@ -1,18 +1,5 @@
-/*
- * Copyright 2023 Shubham Panchal
- * Licensed under the Apache License, Version 2.0 (the "License");
- * You may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.example.baseproject.testFaceReco
+
+package com.example.baseproject.ui.teacher.faceReco
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -35,12 +22,19 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.example.baseproject.R
 import com.example.baseproject.databinding.ActivityFaceRecoBinding
 import com.example.baseproject.model.faceReco.FaceNetModel
 import com.example.baseproject.model.faceReco.Models
+import com.example.baseproject.testFaceReco.FileReader
+import com.example.baseproject.testFaceReco.FrameAnalyser
+import com.example.baseproject.testFaceReco.Logger
+import com.example.core.base.fragment.BaseFragment
 import com.google.common.util.concurrent.ListenableFuture
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -48,45 +42,23 @@ import java.io.*
 import java.net.URL
 import java.util.concurrent.Executors
 
-class FaceRecoActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class FaceRecoFragment :
+    BaseFragment<ActivityFaceRecoBinding, FaceRecoViewModel>(R.layout.activity_face_reco) {
 
-    private var isSerializedDataStored = false
-
-    // Serialized data will be stored ( in app's private storage ) with this filename.
-    private val SERIALIZED_DATA_FILENAME = "image_data"
-
-    // Shared Pref key to check if the data was stored.
-    private val SHARED_PREF_IS_DATA_STORED_KEY = "is_data_stored"
-
-    private lateinit var activityMainBinding : ActivityFaceRecoBinding
     private lateinit var previewView : PreviewView
     private lateinit var frameAnalyser  : FrameAnalyser
     private lateinit var faceNetModel : FaceNetModel
     private lateinit var fileReader : FileReader
     private lateinit var cameraProviderFuture : ListenableFuture<ProcessCameraProvider>
 
-
-
-    // <----------------------- User controls --------------------------->
-
-    // Use the device's GPU to perform faster computations.
-    // Refer https://www.tensorflow.org/lite/performance/gpu
     private val useGpu = true
 
-    // Use XNNPack to accelerate inference.
-    // Refer https://blog.tensorflow.org/2020/07/accelerating-tensorflow-lite-xnnpack-integration.html
     private val useXNNPack = true
 
-    // You may the change the models here.
-    // Use the model configs in Models.kt
-    // Default is Models.FACENET ; Quantized models are faster
     private val modelInfo = Models.FACENET
 
-    // Camera Facing
     private val cameraFacing = CameraSelector.LENS_FACING_BACK
-
-    // <---------------------------------------------------------------->
-
 
     companion object {
 
@@ -97,62 +69,44 @@ class FaceRecoActivity : AppCompatActivity() {
         }
 
     }
+    private val viewModel: FaceRecoViewModel by viewModels()
 
+    override fun getVM(): FaceRecoViewModel = viewModel
 
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // Remove the status bar to have a full screen experience
-        // See this answer on SO -> https://stackoverflow.com/a/68152688/10878733
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-//            window.decorView.windowInsetsController!!
-//                .hide( WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-//        }
-//        else {
-//            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-//        }
-        activityMainBinding = ActivityFaceRecoBinding.inflate( layoutInflater )
-        setContentView( activityMainBinding.root )
-
-        previewView = activityMainBinding.previewView
-        logTextView = activityMainBinding.logTextview
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
+        previewView = binding.previewView
+        logTextView = binding.logTextview
         logTextView.movementMethod = ScrollingMovementMethod()
-        // Necessary to keep the Overlay above the PreviewView so that the boxes are visible.
-        val boundingBoxOverlay = activityMainBinding.bboxOverlay
+        val boundingBoxOverlay = binding.bboxOverlay
         boundingBoxOverlay.cameraFacing = cameraFacing
         boundingBoxOverlay.setWillNotDraw( false )
         boundingBoxOverlay.setZOrderOnTop( true )
 
-        faceNetModel = FaceNetModel( this , modelInfo , useGpu , useXNNPack )
-        frameAnalyser = FrameAnalyser( this , boundingBoxOverlay , faceNetModel )
-        fileReader = FileReader( faceNetModel )
+        lifecycleScope.launch(Dispatchers.IO) {
+            faceNetModel = FaceNetModel( requireContext() , modelInfo , useGpu , useXNNPack )
+            frameAnalyser = FrameAnalyser( requireContext() , boundingBoxOverlay , faceNetModel )
+            fileReader = FileReader( faceNetModel )
+            withContext(Dispatchers.Main){
+                if ( ActivityCompat.checkSelfPermission( requireContext() , Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED ) {
+                    requestCameraPermission()
+                }
+                else {
+                    startCameraPreview()
+                }
 
+                launchChooseDirectoryIntent()
+            }
 
-        // We'll only require the CAMERA permission from the user.
-        // For scoped storage, particularly for accessing documents, we won't require WRITE_EXTERNAL_STORAGE or
-        // READ_EXTERNAL_STORAGE permissions. See https://developer.android.com/training/data-storage
-        if ( ActivityCompat.checkSelfPermission( this , Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED ) {
-            requestCameraPermission()
         }
-        else {
-            startCameraPreview()
-        }
-
-        launchChooseDirectoryIntent()
-
     }
 
-    // ---------------------------------------------- //
-
-    // Attach the camera stream to the PreviewView.
     private fun startCameraPreview() {
-        cameraProviderFuture = ProcessCameraProvider.getInstance( this )
+        cameraProviderFuture = ProcessCameraProvider.getInstance( requireContext() )
         cameraProviderFuture.addListener({
             val cameraProvider = cameraProviderFuture.get()
             bindPreview(cameraProvider) },
-            ContextCompat.getMainExecutor(this) )
+            ContextCompat.getMainExecutor(requireContext()) )
     }
 
     private fun bindPreview(cameraProvider : ProcessCameraProvider) {
@@ -183,7 +137,7 @@ class FaceRecoActivity : AppCompatActivity() {
             startCameraPreview()
         }
         else {
-            val alertDialog = AlertDialog.Builder( this ).apply {
+            val alertDialog = AlertDialog.Builder( requireContext() ).apply {
                 setTitle( "Camera Permission")
                 setMessage( "The app couldn't function without the camera permission." )
                 setCancelable( false )
@@ -204,10 +158,6 @@ class FaceRecoActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.N)
     private fun launchChooseDirectoryIntent() {
-//        val intent = Intent( Intent.ACTION_OPEN_DOCUMENT_TREE )
-//        // startForActivityResult is deprecated.
-//        // See this SO thread -> https://stackoverflow.com/questions/62671106/onactivityresult-method-is-deprecated-what-is-the-alternative
-//        directoryAccessLauncher.launch( intent )
         lifecycleScope.launch {
             val images = ArrayList<Pair<String, Bitmap>>()
             val bitmap1 =
@@ -256,14 +206,10 @@ class FaceRecoActivity : AppCompatActivity() {
         }
     }
 
-
-    // ---------------------------------------------- //
-
-
     private val fileReaderCallback = object : FileReader.ProcessCallback {
         override fun onProcessCompleted(data: ArrayList<Pair<String, FloatArray>>, numImagesWithNoFaces: Int) {
             frameAnalyser.faceList = data
-//            Logger.log( "Images parsed. Found $numImagesWithNoFaces images with no faces." )
+            Logger.log("Images parsed. Found $numImagesWithNoFaces images with no faces.")
         }
     }
 
