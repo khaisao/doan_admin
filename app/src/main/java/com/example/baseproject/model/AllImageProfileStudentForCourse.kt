@@ -7,6 +7,6 @@ data class AllImageProfileStudentForCourse(
     val studentId: Int = 0,
     @SerializedName("name")
     val name: String = "",
-    @SerializedName("profileUrl")
-    val profileUrl: ProfileUrl? = null
+    @SerializedName("listImageProfile")
+    val listImageProfile: List<String> = emptyList()
 )

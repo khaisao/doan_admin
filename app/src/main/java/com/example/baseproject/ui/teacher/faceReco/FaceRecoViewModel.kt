@@ -1,23 +1,73 @@
 package com.example.baseproject.ui.teacher.faceReco
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.baseproject.network.ApiInterface
+import com.example.baseproject.ui.login.LoginEvent
 import com.example.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
+import java.net.URL
 import javax.inject.Inject
 
 @HiltViewModel
 class FaceRecoViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
+
+    val imageProfileData = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
+    val imagesData = MutableStateFlow(ArrayList<Pair<String, Bitmap>>())
+
     fun getAllImageFromCoursePerCycle(coursePerCycleId: Int) {
-        viewModelScope.launch(Dispatchers.IO + handler) {
-            val response = apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId)
-            Log.d("asgagwawgawgawg", "getAllImageFromCoursePerCycle: ${response.dataResponse}")
+        try {
+            isLoading.postValue(false)
+            viewModelScope.launch(Dispatchers.IO + handler) {
+                val response = apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId)
+                if (response.errors.isEmpty()) {
+                    val data = response.dataResponse
+                    val images = ArrayList<Pair<String, Bitmap>>()
+                    for (studentItem in data) {
+                        for (imageProfileItem in studentItem.listImageProfile) {
+                            val bitMap =
+                                getBitmapFromUrl(imageProfileItem)
+                            if (bitMap != null) {
+                                images.add(Pair(studentItem.name, bitMap))
+                            }
+                        }
+                    }
+                    imagesData.emit(images)
+                }
+            }
+        } catch (e: Exception) {
+
+        }
+
+    }
+
+    private suspend fun getBitmapFromUrl(url: String): Bitmap? {
+        return withContext(Dispatchers.IO) {
+            try {
+                val url = URL(url)
+                BitmapFactory.decodeStream(url.openConnection().getInputStream())
+            } catch (e: IOException) {
+                null
+            }
         }
     }
+
+}
+
+sealed class LoadAllImageProfileStudentEvent() {
+    object LoadAllImageProfileStudentSuccess : LoadAllImageProfileStudentEvent()
+    object LoadAllImageProfileStudentError : LoadAllImageProfileStudentEvent()
 }
 

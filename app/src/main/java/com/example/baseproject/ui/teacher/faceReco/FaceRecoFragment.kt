@@ -4,17 +4,12 @@ package com.example.baseproject.ui.teacher.faceReco
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.os.Build
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.util.Size
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -33,13 +28,12 @@ import com.example.baseproject.testFaceReco.FileReader
 import com.example.baseproject.testFaceReco.FrameAnalyser
 import com.example.baseproject.testFaceReco.Logger
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.utils.collectFlowOnView
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.*
-import java.net.URL
 import java.util.concurrent.Executors
 
 @AndroidEntryPoint
@@ -82,22 +76,32 @@ class FaceRecoFragment :
         boundingBoxOverlay.cameraFacing = cameraFacing
         boundingBoxOverlay.setWillNotDraw( false )
         boundingBoxOverlay.setZOrderOnTop( true )
-
         lifecycleScope.launch(Dispatchers.IO) {
             faceNetModel = FaceNetModel( requireContext() , modelInfo , useGpu , useXNNPack )
             frameAnalyser = FrameAnalyser( requireContext() , boundingBoxOverlay , faceNetModel )
             fileReader = FileReader( faceNetModel )
-            withContext(Dispatchers.Main){
-                if ( ActivityCompat.checkSelfPermission( requireContext() , Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED ) {
-                    requestCameraPermission()
-                }
-                else {
-                    startCameraPreview()
+            viewModel.getAllImageFromCoursePerCycle(1)
+        }
+    }
+
+    override fun bindingStateView() {
+        super.bindingStateView()
+        lifecycleScope.launch {
+            viewModel.imagesData.collectFlowOnView(viewLifecycleOwner){
+                if(it.size > 0){
+                    withContext(Dispatchers.Main){
+                        if ( ActivityCompat.checkSelfPermission( requireContext() , Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED ) {
+                            requestCameraPermission()
+                        }
+                        else {
+                            startCameraPreview()
+                        }
+
+                        launchChooseDirectoryIntent(it)
+                    }
                 }
 
-                launchChooseDirectoryIntent()
             }
-
         }
     }
 
@@ -156,54 +160,10 @@ class FaceRecoFragment :
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun launchChooseDirectoryIntent() {
-        lifecycleScope.launch {
-            val images = ArrayList<Pair<String, Bitmap>>()
-            val bitmap1 =
-                getBitmapFromUrl("https://vtv1.mediacdn.vn/zoom/640_400/2022/12/23/untitled-1-1671764003830832199181-crop-1671764010508138109731.jpg")
-            if (bitmap1 != null) {
-                images.add(Pair("JustinBieBer", bitmap1))
-            } else {
-                Log.d("asgasgasg", "null r: ")
+    private suspend fun launchChooseDirectoryIntent(pairs: ArrayList<Pair<String, Bitmap>>) {
+        withContext(Dispatchers.Main) {
+                fileReader.run(pairs, fileReaderCallback)
             }
-            val bitmap2 =
-                getBitmapFromUrl("https://cdn.tuoitre.vn/thumb_w/640/2020/6/22/justin-bieber-1-1592797878809968908887.jpeg")
-            if (bitmap2 != null) {
-                images.add(Pair("JustinBieBer", bitmap2))
-            } else {
-                Log.d("asgasgasg", "null r2: ")
-            }
-            val bitmap3 =
-                getBitmapFromUrl("https://cdn.tgdd.vn/Files/2022/02/21/1416573/bill-gates_1280x720-800-resize.jpg")
-            if (bitmap3 != null) {
-                images.add(Pair("BillGate", bitmap3))
-            } else {
-                Log.d("asgasgasg", "null r2: ")
-            }
-            val bitmap4 =
-                getBitmapFromUrl("https://cdn.britannica.com/47/188747-050-1D34E743/Bill-Gates-2011.jpg")
-            if (bitmap4 != null) {
-                images.add(Pair("BillGate", bitmap4))
-            } else {
-                Log.d("asgasgasg", "null r2: ")
-            }
-            withContext(Dispatchers.Main) {
-                fileReader.run(images, fileReaderCallback)
-            }
-        }
-
-    }
-
-    private suspend fun getBitmapFromUrl(url: String): Bitmap? {
-        return withContext(Dispatchers.IO) {
-            try {
-                val url = URL(url)
-                BitmapFactory.decodeStream(url.openConnection().getInputStream())
-            } catch (e: IOException) {
-                null
-            }
-        }
     }
 
     private val fileReaderCallback = object : FileReader.ProcessCallback {
