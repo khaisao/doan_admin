@@ -8,5 +8,6 @@ data class AllImageProfileStudentForCourse(
     @SerializedName("name")
     val name: String = "",
     @SerializedName("listImageProfile")
-    val listImageProfile: List<String> = emptyList()
+    val listImageProfile: List<String> = emptyList(),
+    var isReco:Boolean = false
 )

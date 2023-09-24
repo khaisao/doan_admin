@@ -1,6 +1,7 @@
 
 package com.example.baseproject.model.faceReco
 
+import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
@@ -16,16 +17,20 @@ import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
 import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat
 import java.nio.ByteBuffer
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.math.max
 import kotlin.math.pow
 import kotlin.math.sqrt
 
 // Utility class for FaceNet model
-class FaceNetModel(context : Context,
-                   var model : ModelInfo,
-                   useGpu : Boolean,
-                   useXNNPack : Boolean) {
-
+@Singleton
+class FaceNetModel @Inject constructor(
+    val application: Application,
+                   ) {
+    var model : ModelInfo = Models.FACENET
+   val  useGpu : Boolean = true
+   val useXNNPack : Boolean = true
     // Input image size for FaceNet model.
     private val imgSize = model.inputDims
 
@@ -55,7 +60,7 @@ class FaceNetModel(context : Context,
             setUseXNNPACK( useXNNPack )
             useNNAPI = true
         }
-        interpreter = Interpreter(FileUtil.loadMappedFile(context, model.assetsFilename ) , interpreterOptions )
+        interpreter = Interpreter(FileUtil.loadMappedFile(application, model.assetsFilename ) , interpreterOptions )
     }
 
 

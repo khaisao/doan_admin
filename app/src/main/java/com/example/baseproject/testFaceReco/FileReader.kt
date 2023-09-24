@@ -80,7 +80,11 @@ class FileReader( private var faceNetModel: FaceNetModel) {
                             // Embedding stored, now proceed to the next image.
                             if (imageCounter + 1 != numImages) {
                                 imageCounter += 1
-                                scanImage(data[imageCounter].first, data[imageCounter].second)
+                                try {
+                                    scanImage(data[imageCounter].first, data[imageCounter].second)
+                                } catch (e: Exception) {
+
+                                }
                             } else {
                                 // Processing done, reset the file reader.
                                 callback.onProcessCompleted(imageData, numImagesWithNoFaces)

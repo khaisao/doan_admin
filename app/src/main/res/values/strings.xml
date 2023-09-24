@@ -19,5 +19,7 @@
     <string name="student">Student</string>
     <string name="submit">Submit</string>
     <string name="name_is_empty">Name is empty</string>
+    <string name="continue_string">Continue</string>
+    <string name="attendance">Attendance</string>
 
 </resources>

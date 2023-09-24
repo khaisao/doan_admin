@@ -73,8 +73,8 @@ class BoundingBoxOverlay( context: Context , attributeSet: AttributeSet )
     override fun onDraw(canvas: Canvas?) {
         if (faceBoundingBoxes != null) {
             if (!areDimsInit) {
-                val viewWidth = canvas!!.width.toFloat()
-                val viewHeight = canvas.height.toFloat()
+                val viewWidth = width.toFloat()
+                val viewHeight = height.toFloat()
                 val xFactor: Float = viewWidth / frameWidth.toFloat()
                 val yFactor: Float = viewHeight / frameHeight.toFloat()
                 // Scale and mirror the coordinates ( required for front lens )

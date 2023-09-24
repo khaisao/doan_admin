@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/teacher_navigation"
     app:startDestination="@id/teacherTopFragment">
 
@@ -20,7 +21,7 @@
     <fragment
         android:id="@+id/detailCourseFragment"
         android:name="com.example.baseproject.ui.teacher.detailCourse.DetailCourseFragment"
-        android:label="DetailCourseFragment" >
+        android:label="DetailCourseFragment">
         <action
             android:id="@+id/action_detailCourseFragment_to_faceRecoFragment"
             app:destination="@id/faceRecoFragment"
@@ -32,6 +33,20 @@
     <fragment
         android:id="@+id/faceRecoFragment"
         android:name="com.example.baseproject.ui.teacher.faceReco.FaceRecoFragment"
-        android:label="FaceRecoFragment" />
+        android:label="FaceRecoFragment">
+        <action
+            android:id="@+id/action_faceRecoFragment_to_listFaceRecoFragment"
+            app:destination="@id/listFaceRecoFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+           />
+    </fragment>
+    <fragment
+        android:id="@+id/listFaceRecoFragment"
+        android:name="com.example.baseproject.ui.teacher.listFaceReco.ListFaceRecoFragment"
+        android:label="ListFaceRecoFragment"
+        tools:layout="@layout/fragment_list_face_reco" />
 
 </navigation>

@@ -32,14 +32,41 @@
             android:layout_width="0dp"
             android:layout_height="200dp"
             android:background="@drawable/textview_background"
-            android:maxHeight="36dp"
-            android:text="Welcome!"
-            android:padding="16dp"
             android:gravity="bottom"
+            android:maxHeight="36dp"
+            android:visibility="gone"
+            android:padding="16dp"
+            android:text="Welcome!"
             android:textColor="@android:color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_continue"
+            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:layout_height="50dp"
+            android:textAllCaps="true"
+            android:background="@drawable/bg_btn_log_out"
+            android:gravity="center"
+            android:text="@string/continue_string"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_flip_camera"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/ic_flip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

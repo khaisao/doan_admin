@@ -62,4 +62,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_detailCourseFragment_to_faceRecoFragment, bundle)
     }
 
+    override fun openFaceRecoToListFaceReco(bundle: Bundle?) {
+        openScreen(R.id.action_faceRecoFragment_to_listFaceRecoFragment, bundle)
+    }
+
 }

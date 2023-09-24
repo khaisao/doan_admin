@@ -30,4 +30,6 @@ interface AppNavigation : BaseNavigator {
     fun openScheduleToDetailCourse(bundle: Bundle? = null)
 
     fun openDetailCourseToFaceReco(bundle: Bundle? = null)
+
+    fun openFaceRecoToListFaceReco(bundle: Bundle? = null)
 }

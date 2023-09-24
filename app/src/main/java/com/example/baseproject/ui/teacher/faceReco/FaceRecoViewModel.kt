@@ -2,17 +2,13 @@ package com.example.baseproject.ui.teacher.faceReco
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.baseproject.network.ApiInterface
-import com.example.baseproject.ui.login.LoginEvent
 import com.example.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -24,23 +20,29 @@ class FaceRecoViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
 
-    val imageProfileData = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
     val imagesData = MutableStateFlow(ArrayList<Pair<String, Bitmap>>())
+    var listStudentRecognized = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
 
     fun getAllImageFromCoursePerCycle(coursePerCycleId: Int) {
         try {
-            isLoading.postValue(false)
+            isLoading.postValue(true)
             viewModelScope.launch(Dispatchers.IO + handler) {
                 val response = apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId)
                 if (response.errors.isEmpty()) {
                     val data = response.dataResponse
+                    listStudentRecognized.value = data
                     val images = ArrayList<Pair<String, Bitmap>>()
                     for (studentItem in data) {
                         for (imageProfileItem in studentItem.listImageProfile) {
                             val bitMap =
                                 getBitmapFromUrl(imageProfileItem)
                             if (bitMap != null) {
-                                images.add(Pair(studentItem.name, bitMap))
+                                images.add(
+                                    Pair(
+                                        studentItem.name + "_" + studentItem.studentId,
+                                        bitMap
+                                    )
+                                )
                             }
                         }
                     }
