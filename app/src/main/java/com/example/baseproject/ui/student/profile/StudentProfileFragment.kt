@@ -21,6 +21,10 @@ import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
 import com.example.core.utils.toastMessage
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetector
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.hbisoft.pickit.PickiT
 import com.hbisoft.pickit.PickiTCallbacks
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,17 +50,32 @@ class StudentProfileFragment :
 
     private lateinit var adapter: UserProfileImageViewAdapter
 
-    val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-        // Callback is invoked after the user selects a media item or closes the
-        // photo picker.
-        if (uri != null) {
-            Log.d("asgagwwagwgaawg", "$uri: ")
-            pickiT?.getPath(uri, Build.VERSION.SDK_INT)
+    private lateinit var detector: FaceDetector
 
-        } else {
-            Log.d("PhotoPicker", "No media selected")
+    private val pickMedia =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+
+            if (uri != null) {
+                val inputImage = InputImage.fromFilePath(requireContext(), uri)
+                detector.process(inputImage)
+                    .addOnSuccessListener { faces ->
+                        if (faces.isNotEmpty()) {
+                            if (faces.size > 1) {
+                                toastMessage("Please choose a photo with only 1 face")
+                            } else {
+                                pickiT?.getPath(uri, Build.VERSION.SDK_INT)
+                            }
+                        } else {
+                            toastMessage("Please select a photo that contains a face")
+                        }
+                    }
+                    .addOnFailureListener { e ->
+                        toastMessage("Error")
+                    }
+            } else {
+
+            }
         }
-    }
 
     var pickiT: PickiT? = null
 
@@ -65,6 +84,10 @@ class StudentProfileFragment :
         super.initView(savedInstanceState)
 
         pickiT = PickiT(requireContext(), this, requireActivity())
+        val options = FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .build()
+        detector = FaceDetection.getClient(options)
 
         viewModel.getImageProfile()
 
@@ -127,9 +150,7 @@ class StudentProfileFragment :
         Reason: String?
     ) {
         val file = File(path)
-        Log.d("asgagwwagwgaawg", "PickiTonCompleteListener: ${file.isFile}")
         viewModel.updateImageProfile(file)
-
     }
 
     override fun PickiTonMultipleCompleteListener(
