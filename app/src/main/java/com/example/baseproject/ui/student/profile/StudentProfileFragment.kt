@@ -52,9 +52,10 @@ class StudentProfileFragment :
 
     private lateinit var detector: FaceDetector
 
-    private val pickMedia =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+    private var isChoosingImageProfile = false
 
+    private val pickMediaForProfile =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 val inputImage = InputImage.fromFilePath(requireContext(), uri)
                 detector.process(inputImage)
@@ -63,6 +64,7 @@ class StudentProfileFragment :
                             if (faces.size > 1) {
                                 toastMessage("Please choose a photo with only 1 face")
                             } else {
+                                isChoosingImageProfile = true
                                 pickiT?.getPath(uri, Build.VERSION.SDK_INT)
                             }
                         } else {
@@ -73,11 +75,18 @@ class StudentProfileFragment :
                         toastMessage("Error")
                     }
             } else {
-
             }
         }
 
-    var pickiT: PickiT? = null
+    private val pickImageForAvatar =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) {
+
+            } else {
+            }
+        }
+
+    private var pickiT: PickiT? = null
 
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -127,7 +136,7 @@ class StudentProfileFragment :
         }
 
         binding.tvAddImageProfile.setOnSafeClickListener {
-            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+            pickMediaForProfile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
     }
 
@@ -150,7 +159,12 @@ class StudentProfileFragment :
         Reason: String?
     ) {
         val file = File(path)
-        viewModel.updateImageProfile(file)
+        if (isChoosingImageProfile) {
+            viewModel.updateImageProfile(file)
+            isChoosingImageProfile = false
+        } else {
+//            viewModel.updateAvatar()
+        }
     }
 
     override fun PickiTonMultipleCompleteListener(
