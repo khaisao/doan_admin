@@ -9,6 +9,7 @@ import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import okhttp3.MediaType
@@ -27,6 +28,8 @@ class StudentProfileViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val uploadImageActionStateChannel = Channel<UploadImageEvent>()
     val uploadImageActionStateFlow = uploadImageActionStateChannel.receiveAsFlow()
+
+    val listImageProfile = MutableStateFlow<List<String>>(emptyList())
 
     fun updateImageProfile(file: File) {
         try {
@@ -47,7 +50,23 @@ class StudentProfileViewModel @Inject constructor(
         } catch (e: Exception) {
 
         } finally {
+            isLoading.postValue(false)
+        }
+    }
 
+    fun getImageProfile(){
+        try {
+            viewModelScope.launch(Dispatchers.IO + handler) {
+                isLoading.postValue(false)
+                val response = apiInterface.getImageProfile(rxPreferences.getStudentId())
+                if(response.errors.isEmpty()){
+                    listImageProfile.value = response.dataResponse.listImageUrl
+                }
+            }
+        } catch (e: Exception) {
+
+        } finally {
+            isLoading.postValue(false)
         }
     }
 

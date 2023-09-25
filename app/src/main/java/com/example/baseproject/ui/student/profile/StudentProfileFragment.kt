@@ -66,6 +66,7 @@ class StudentProfileFragment :
 
         pickiT = PickiT(requireContext(), this, requireActivity())
 
+        viewModel.getImageProfile()
 
         Glide.with(requireContext())
             .load(R.drawable.no_avatar)
@@ -74,13 +75,6 @@ class StudentProfileFragment :
         adapter = UserProfileImageViewAdapter()
         binding.rvImageProfile.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvImageProfile.adapter = adapter
-        val listUrl = listOf(
-            "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=2000",
-            "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=2000",
-            "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=2000",
-            "https://img.freepik.com/free-photo/wide-angle-shot-single-tree-growing-clouded-sky-during-sunset-surrounded-by-grass_181624-22807.jpg?w=2000"
-        )
-        adapter.submitList(listUrl)
     }
 
     override fun bindingStateView() {
@@ -90,6 +84,13 @@ class StudentProfileFragment :
                 if (it is UploadImageEvent.UploadImageSuccess) {
                     toastMessage("Success")
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.listImageProfile.collectFlowOnView(viewLifecycleOwner) {
+                Log.d("asgagawgawg", "bindingStateView: $it")
+                adapter.submitList(it)
             }
         }
     }

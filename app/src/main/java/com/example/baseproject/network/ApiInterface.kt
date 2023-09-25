@@ -5,6 +5,7 @@ import com.example.baseproject.model.AccountTeacherResponse
 import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.baseproject.model.ApiObjectResponse
 import com.example.baseproject.model.CourseHaveShedule
+import com.example.baseproject.model.ImageProfileResponse
 import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.google.gson.JsonObject
@@ -49,5 +50,10 @@ interface ApiInterface {
     suspend fun updateImageProfile(
         @Part("studentId") studentId: RequestBody, @Part part: MultipartBody.Part
     ): ApiObjectResponse<Any>
+
+    @GET("api/student/getImageProfile/{id}")
+    suspend fun getImageProfile(
+        @Path("id") id: Int = 0
+    ): ApiObjectResponse<ImageProfileResponse>
 
 }
