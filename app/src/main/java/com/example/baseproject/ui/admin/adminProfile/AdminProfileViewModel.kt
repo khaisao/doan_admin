@@ -2,7 +2,7 @@ package com.example.baseproject.ui.admin.adminProfile
 
 import androidx.lifecycle.viewModelScope
 import com.example.core.base.BaseViewModel
-import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_EMAIL_LOGIN
+import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_USERNAME_LOGIN
 import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_PASSWORD
 import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +21,7 @@ class AdminProfileViewModel @Inject constructor(
     fun logOut() {
         viewModelScope.launch {
             rxPreferences.remove(PREF_PARAM_PASSWORD)
-            rxPreferences.remove(PREF_PARAM_EMAIL_LOGIN)
+            rxPreferences.remove(PREF_PARAM_USERNAME_LOGIN)
             loginActionStateChannel.send(LogoutEvent.LogoutSuccess)
         }
     }

@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentLoginBinding
 import com.example.baseproject.navigation.AppNavigation
-import com.example.baseproject.util.isValidEmailInput
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
@@ -35,7 +34,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         binding.edtUser.doOnTextChanged { text, start, before, count ->
-            binding.tvErrorEmail.isVisible = false
+            binding.tvErrorUsername.isVisible = false
         }
         binding.edtPassword.doOnTextChanged { text, start, before, count ->
             binding.tvErrorPassword.isVisible = false
@@ -75,6 +74,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                     if (rxPreferences.getRole() == 2) {
                         appNavigation.openLoginToTeacherTop()
                     }
+                    if (rxPreferences.getRole() == 1) {
+                        appNavigation.openLoginToStudentTop()
+                    }
                 }
             }
         }
@@ -83,13 +85,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     private fun isValidLogin(user: String, password: String): Boolean {
         var isValid = true
         if (user.isEmpty()) {
-            binding.tvErrorEmail.text = getString(R.string.email_is_empty)
-            binding.tvErrorEmail.isVisible = true
+            binding.tvErrorUsername.text = getString(R.string.username_is_empty)
+            binding.tvErrorUsername.isVisible = true
             isValid = false
         } else if (user.isNotEmpty()) {
-            if (!user.isValidEmailInput()) {
-                binding.tvErrorEmail.text = getString(R.string.email_is_invalid)
-                binding.tvErrorEmail.isVisible = true
+            if (user.length < 6) {
+                binding.tvErrorUsername.text = getString(R.string.username_is_invalid)
+                binding.tvErrorUsername.isVisible = true
                 isValid = false
             }
         }

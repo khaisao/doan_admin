@@ -1,18 +1,15 @@
 package com.example.baseproject.ui.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
@@ -28,11 +25,20 @@ class LoginViewModel @Inject constructor(
                 isLoading.postValue(true)
                 val response = apiInterface.login(user, password)
                 if (response.errors.isEmpty()) {
-                    rxPreferences.saveEmail(response.dataResponse.email)
+                    rxPreferences.saveUserName(response.dataResponse.userName)
                     rxPreferences.savePassword(response.dataResponse.password)
                     rxPreferences.saveToken(response.dataResponse.token)
                     rxPreferences.saveRole(response.dataResponse.role)
-                    rxPreferences.saveUserName(response.dataResponse.name)
+                    rxPreferences.saveName(response.dataResponse.name)
+                    if (response.dataResponse.role == 1) {
+                        rxPreferences.saveStudentId(response.dataResponse.studentId)
+                    }
+                    if (response.dataResponse.role == 2) {
+                        rxPreferences.saveStudentId(response.dataResponse.teacherId)
+                    }
+                    if (response.dataResponse.role == 3) {
+                        rxPreferences.saveStudentId(response.dataResponse.adminId)
+                    }
                     loginActionStateChannel.send(LoginEvent.LoginSuccess)
                 }
             } catch (e: Exception) {

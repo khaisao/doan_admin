@@ -61,7 +61,7 @@ class TokenAuthenticator @Inject constructor(
         }
 
         val urlParameters =
-            "email=${rxPreferences.getEmail()}&password=${rxPreferences.getPassword()}&device_name=${Build.MODEL}"
+            "username=${rxPreferences.getUserName()}&password=${rxPreferences.getPassword()}&device_name=${Build.MODEL}"
 
         DataOutputStream(urlConnection.outputStream).apply {
             writeBytes(urlParameters)

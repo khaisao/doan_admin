@@ -13,7 +13,11 @@ interface AppNavigation : BaseNavigator {
 
     fun openLoginToTeacherTop(bundle: Bundle? = null)
 
+    fun openLoginToStudentTop(bundle: Bundle? = null)
+
     fun openSplashToTeacherTop(bundle: Bundle? = null)
+
+    fun openSplashToStudentTop(bundle: Bundle? = null)
 
     fun openLoginScreenAndClearBackStack(bundle: Bundle? = null)
 

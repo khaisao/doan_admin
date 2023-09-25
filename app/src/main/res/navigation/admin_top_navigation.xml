@@ -6,11 +6,11 @@
     app:startDestination="@id/tabSchedule">
     <fragment
         android:id="@+id/tabSchedule"
-        android:name="com.example.baseproject.ui.teacher.schedule.ScheduleAdminFragment"
+        android:name="com.example.baseproject.ui.admin.schedule.ScheduleAdminFragment"
         android:label="ScheduleAdminFragment" />
     <fragment
         android:id="@+id/tabAccTeacher"
-        android:name="com.example.baseproject.ui.admin.accTeacher.AccTeacherFragment"
+        android:name="com.example.baseproject.ui.admin.allAcc.AllAccFragment"
         android:label="AccTeacherFragment" />
     <fragment
         android:id="@+id/tabAdminProfile"

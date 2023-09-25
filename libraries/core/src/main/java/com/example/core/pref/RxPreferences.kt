@@ -18,9 +18,9 @@ interface RxPreferences : BasePreferences {
 
     fun logout()
 
-    fun saveEmail(email: String)
+    fun saveUserName(userName: String)
 
-    fun getEmail(): String?
+    fun getUserName(): String?
 
     fun savePassword(password: String)
 
@@ -34,8 +34,12 @@ interface RxPreferences : BasePreferences {
 
     fun getRole(): Int
 
-    fun saveUserName(name: String)
+    fun saveName(name: String)
 
-    fun getUserName(): String?
+    fun getName(): String?
+
+    fun saveStudentId(studentId:Int)
+
+    fun getStudentId(): Int
 
 }

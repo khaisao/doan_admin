@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/student_top_navigation"
+    app:startDestination="@id/scheduleStudentFragment">
+
+    <fragment
+        android:id="@+id/scheduleStudentFragment"
+        android:name="com.example.baseproject.ui.student.schedule.ScheduleStudentFragment"
+        android:label="ScheduleStudentFragment" />
+    <fragment
+        android:id="@+id/studentProfileFragment"
+        android:name="com.example.baseproject.ui.student.profile.StudentProfileFragment"
+        android:label="StudentProfileFragment" />
+</navigation>

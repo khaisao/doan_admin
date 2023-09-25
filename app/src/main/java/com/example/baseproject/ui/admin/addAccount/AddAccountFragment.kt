@@ -4,14 +4,16 @@ import android.os.Bundle
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentAddAccountBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.BundleKey
-import com.example.baseproject.util.isValidEmailInput
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,31 +35,30 @@ class AddAccountFragment :
 
         binding.tvSubmit.setOnSafeClickListener {
             val name = binding.edtName.text.toString()
-            val email = binding.edtEmail.text.toString()
+            val userName = binding.edtUsername.text.toString()
             val password = binding.edtPassword.text.toString()
-            var role = 0
-            role = if (binding.radioStudent.isChecked) {
-                0
-            } else {
+            val role: Int = if (binding.radioStudent.isChecked) {
                 1
+            } else {
+                2
             }
-            if (isValidAddAccount(name, email, password)) {
-                val bundle = Bundle()
-                bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Add account success")
-                bundle.putString(
-                    BundleKey.DES_ACTION_SUCCESS,
-                    "Congratulation! Add account success. Please continue your work"
+            if (isValidAddAccount(name, userName, password)) {
+                viewModel.registerAccount(
+                    userName = userName,
+                    password = password,
+                    name = name,
+                    role = role
                 )
-                appNavigation.openAddAccountToAddAccountSuccess(bundle)
             }
+
         }
 
         binding.edtName.doOnTextChanged { text, start, before, count ->
             binding.tvErrorName.isVisible = false
         }
 
-        binding.edtEmail.doOnTextChanged { text, start, before, count ->
-            binding.tvErrorEmail.isVisible = false
+        binding.edtUsername.doOnTextChanged { text, start, before, count ->
+            binding.tvErrorUsername.isVisible = false
         }
 
         binding.edtPassword.doOnTextChanged { text, start, before, count ->
@@ -65,21 +66,38 @@ class AddAccountFragment :
         }
     }
 
-    private fun isValidAddAccount(name: String, email: String, password: String): Boolean {
+    override fun bindingStateView() {
+        super.bindingStateView()
+        lifecycleScope.launch {
+            viewModel.addAccountActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
+                if (it is AddAccountEvent.AddAccountSuccess) {
+                    val bundle = Bundle()
+                    bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Add account success")
+                    bundle.putString(
+                        BundleKey.DES_ACTION_SUCCESS,
+                        "Congratulation! Add account success. Please continue your work"
+                    )
+                    appNavigation.openAddAccountToAddAccountSuccess(bundle)
+                }
+            }
+        }
+    }
+
+    private fun isValidAddAccount(name: String, userName: String, password: String): Boolean {
         var isValid = true
         if (name.isEmpty()) {
             binding.tvErrorName.text = getString(R.string.name_is_empty)
             binding.tvErrorName.isVisible = true
             isValid = false
         }
-        if (email.isEmpty()) {
-            binding.tvErrorEmail.text = getString(R.string.email_is_empty)
-            binding.tvErrorEmail.isVisible = true
+        if (userName.isEmpty()) {
+            binding.tvErrorUsername.text = getString(R.string.username_is_empty)
+            binding.tvErrorUsername.isVisible = true
             isValid = false
         } else {
-            if (!email.isValidEmailInput()) {
-                binding.tvErrorEmail.text = getString(R.string.email_is_invalid)
-                binding.tvErrorEmail.isVisible = true
+            if (userName.length < 6) {
+                binding.tvErrorUsername.text = getString(R.string.username_is_invalid)
+                binding.tvErrorUsername.isVisible = true
                 isValid = false
             }
         }

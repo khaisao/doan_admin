@@ -3,12 +3,16 @@ package com.example.baseproject.model
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(
-    @SerializedName("id")
-    val id: Int = 0,
+    @SerializedName("studentId")
+    val studentId: Int = 0,
+    @SerializedName("teacherId")
+    val teacherId: Int = 0,
+    @SerializedName("adminId")
+    val adminId: Int = 0,
     @SerializedName("name")
     val name: String = "",
-    @SerializedName("email")
-    val email: String = "",
+    @SerializedName("userName")
+    val userName: String = "",
     @SerializedName("password")
     val password: String = "",
     @SerializedName("role")

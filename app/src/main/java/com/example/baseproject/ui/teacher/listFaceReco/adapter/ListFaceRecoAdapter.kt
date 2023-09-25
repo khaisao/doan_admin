@@ -6,11 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.R
-import com.example.baseproject.databinding.ItemAccountBinding
 import com.example.baseproject.databinding.ItemStudentRecoBinding
 import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.core.utils.loadImage
-import com.example.core.utils.setOnSafeClickListener
 
 class ListFaceRecoAdapter(
 ) :
@@ -38,7 +36,7 @@ class ListFaceRecoAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(student: AllImageProfileStudentForCourse) {
             binding.tvName.text = student.name
-            binding.tvEmail.text = student.name
+            binding.tvUsername.text = student.name
             if (student.isReco) {
                 binding.ivCheck.loadImage(R.drawable.ic_check)
             } else {

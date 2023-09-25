@@ -34,7 +34,7 @@ class CourseTeacher(
     inner class ConsultantHolder(val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(course: Course) {
-            binding.tvCouseName.text = course.name
+            binding.tvCourseName.text = course.name
             binding.root.setOnSafeClickListener {
                 onCourseClick.invoke(course)
             }

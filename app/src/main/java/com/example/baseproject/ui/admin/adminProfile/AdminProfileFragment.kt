@@ -38,8 +38,8 @@ class AdminProfileFragment :
             .transform(CenterInside(), RoundedCorners(100))
             .into(binding.ivAvatar)
 
-        binding.tvName.text = rxPreferences.getUserName()
-        binding.tvEmail.text = rxPreferences.getEmail()
+        binding.tvName.text = rxPreferences.getName()
+        binding.tvUsername.text = rxPreferences.getUserName()
     }
 
     override fun bindingStateView() {

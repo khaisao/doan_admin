@@ -40,7 +40,7 @@ class ScheduleTeacherFragment :
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCouse.adapter = adapter
 
-        binding.tvTitle.text = "Hello, " + rxPreferences.getEmail()
+        binding.tvTitle.text = "Hello, " + rxPreferences.getUserName()
 
         val listCourse = listOf(
             Course(

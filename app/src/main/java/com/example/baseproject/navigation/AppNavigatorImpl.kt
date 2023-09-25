@@ -26,8 +26,16 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_loginFragment_to_teacher_navigation, bundle)
     }
 
+    override fun openLoginToStudentTop(bundle: Bundle?) {
+        openScreen(R.id.action_loginFragment_to_student_navigation, bundle)
+    }
+
     override fun openSplashToTeacherTop(bundle: Bundle?) {
         openScreen(R.id.action_splashFragment_to_teacher_navigation, bundle)
+    }
+
+    override fun openSplashToStudentTop(bundle: Bundle?) {
+        openScreen(R.id.action_splashFragment_to_student_navigation, bundle)
     }
 
     override fun openLoginScreenAndClearBackStack(bundle: Bundle?) {

@@ -41,10 +41,13 @@ class SplashFragment :
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner){
                 if(it is LoginSplashEvent.LoginSuccess){
                     if (rxPreferences.getRole() == 3) {
-                        appNavigation.openLoginToAdminTop()
+                        appNavigation.openSplashToAdminTop()
                     }
                     if (rxPreferences.getRole() == 2) {
                         appNavigation.openSplashToTeacherTop()
+                    }
+                    if (rxPreferences.getRole() == 1) {
+                        appNavigation.openSplashToStudentTop()
                     }
                 }
                 if(it is LoginSplashEvent.LoginError){

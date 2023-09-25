@@ -1,18 +1,13 @@
 package com.example.baseproject.ui.splash
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.R
 import com.example.baseproject.network.ApiInterface
-import com.example.baseproject.ui.login.LoginEvent
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
-import com.example.core.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,19 +29,25 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val email = rxPreferences.getEmail()
+                val userName = rxPreferences.getUserName()
                 val password = rxPreferences.getPassword()
-                Log.d("asgawgawgawg", "login: $email")
-                Log.d("asgawgawgawg", "login: $password")
-                if (!email.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                    val response = apiInterface.login(email, password)
+                if (!userName.isNullOrEmpty() && !password.isNullOrEmpty()) {
+                    val response = apiInterface.login(userName, password)
                     if (response.errors.isEmpty()) {
-                        rxPreferences.saveEmail(response.dataResponse.email)
-                        rxPreferences.savePassword(response.dataResponse.password)
+                        rxPreferences.saveUserName(response.dataResponse.userName)
                         rxPreferences.savePassword(response.dataResponse.password)
                         rxPreferences.saveToken(response.dataResponse.token)
                         rxPreferences.saveRole(response.dataResponse.role)
-                        rxPreferences.saveUserName(response.dataResponse.name)
+                        rxPreferences.saveName(response.dataResponse.name)
+                        if (response.dataResponse.role == 1) {
+                            rxPreferences.saveStudentId(response.dataResponse.studentId)
+                        }
+                        if (response.dataResponse.role == 2) {
+                            rxPreferences.saveStudentId(response.dataResponse.teacherId)
+                        }
+                        if (response.dataResponse.role == 3) {
+                            rxPreferences.saveStudentId(response.dataResponse.adminId)
+                        }
                         loginActionStateChannel.send(LoginSplashEvent.LoginSuccess)
                     }
                 } else {
@@ -64,7 +65,7 @@ class SplashViewModel @Inject constructor(
 
 }
 
-sealed class LoginSplashEvent() {
+sealed class LoginSplashEvent {
     object LoginSuccess : LoginSplashEvent()
     object LoginError : LoginSplashEvent()
 }

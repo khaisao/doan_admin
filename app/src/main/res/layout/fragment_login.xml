@@ -26,7 +26,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/bg_input_account"
-            android:hint="Enter your email"
+            android:hint="Enter your username"
             android:paddingHorizontal="18dp"
             android:textColor="@color/black"
             android:textColorHint="#8391A1"
@@ -35,12 +35,12 @@
             app:layout_constraintTop_toBottomOf="@id/tv_welcome" />
 
         <TextView
-            android:id="@+id/tv_error_email"
+            android:id="@+id/tv_error_username"
             style="@style/text_bold_15"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="Error email"
+            android:text="Error username"
             android:textColor="#D12828"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/edt_user"
@@ -59,7 +59,7 @@
             android:textColor="@color/black"
             android:textColorHint="#8391A1"
             android:textSize="15sp"
-            app:layout_constraintTop_toBottomOf="@id/tv_error_email" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_username" />
 
         <TextView
             android:id="@+id/tv_error_password"
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="Error email"
+            android:text="Error username"
             android:textColor="#D12828"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="@id/edt_password"

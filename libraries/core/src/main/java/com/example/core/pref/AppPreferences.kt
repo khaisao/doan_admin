@@ -15,12 +15,13 @@ class AppPreferences @Inject constructor(
 ) : BasePreferencesImpl(context), RxPreferences {
 
     companion object{
-        const val PREF_PARAM_TOKEN = "PREF_PARAM_EMAIL_USER"
+        const val PREF_PARAM_TOKEN = "PREF_PARAM_TOKEN"
         val PREF_PARAM_LANGUAGE = stringPreferencesKey("PREF_PARAM_LANGUAGE")
         const val PREF_PARAM_PASSWORD = "PREF_PARAM_PASSWORD"
-        const val PREF_PARAM_EMAIL_LOGIN = "PREF_PARAM_EMAIL_LOGIN"
+        const val PREF_PARAM_USERNAME_LOGIN = "PREF_PARAM_USERNAME_LOGIN"
         const val PREF_PARAM_ROLE = "PREF_PARAM_ROLE"
-        const val PREF_PARAM_USER_NAME = "PREF_PARAM_USER_NAME"
+        const val PREF_PARAM_NAME = "PREF_PARAM_NAME"
+        const val PREF_STUDENT_ID = "PREF_STUDENT_ID"
 
     }
 
@@ -55,11 +56,11 @@ class AppPreferences @Inject constructor(
 
     }
 
-    override fun saveEmail(email: String) {
-        put(PREF_PARAM_EMAIL_LOGIN, email)
+    override fun saveUserName(userName: String) {
+        put(PREF_PARAM_USERNAME_LOGIN, userName)
     }
 
-    override fun getEmail(): String? = get(PREF_PARAM_EMAIL_LOGIN)
+    override fun getUserName(): String? = get(PREF_PARAM_USERNAME_LOGIN)
 
     override fun savePassword(password: String) {
         put(PREF_PARAM_PASSWORD, password)
@@ -82,13 +83,23 @@ class AppPreferences @Inject constructor(
 
     }
 
-    override fun saveUserName(name: String) {
+    override fun saveName(name: String) {
         mPrefs.edit().apply {
-            putString(PREF_PARAM_USER_NAME, name)
-        }.also { it.apply() }    }
+            putString(PREF_PARAM_NAME, name)
+        }.also { it.apply() }
+    }
 
-    override fun getUserName(): String? {
-        return mPrefs.getString(PREF_PARAM_USER_NAME, "")
+    override fun getName(): String? {
+        return mPrefs.getString(PREF_PARAM_NAME, "")
+    }
+
+    override fun saveStudentId(studentId: Int) {
+        mPrefs.edit().apply {
+            putInt(PREF_STUDENT_ID, studentId)
+        }.also { it.apply() }       }
+
+    override fun getStudentId(): Int {
+        return mPrefs.getInt(PREF_STUDENT_ID, 0)
     }
 
 }

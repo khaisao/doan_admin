@@ -76,15 +76,27 @@
                 app:layout_constraintStart_toEndOf="@id/tv_type_account"
                 app:layout_constraintTop_toTopOf="@id/tv_type_account" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_acc"
+            <com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_type_account"
-                tools:listitem="@layout/item_account" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_height="0dp">
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_acc_teacher"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="20dp"
+                    tools:listitem="@layout/item_account_teacher" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_acc_student"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    tools:listitem="@layout/item_account_student" />
+            </com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

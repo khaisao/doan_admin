@@ -8,13 +8,11 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterInside
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.baseproject.R
-import com.example.baseproject.databinding.FragmentAdminProfileBinding
 import com.example.baseproject.databinding.FragmentUserProfileBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.ui.admin.userProfile.adapter.UserProfileImageViewAdapter
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject

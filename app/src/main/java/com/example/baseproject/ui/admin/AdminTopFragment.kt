@@ -9,7 +9,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentAdminTopBinding
 import com.example.core.base.fragment.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AdminTopFragment :
     BaseFragment<FragmentAdminTopBinding, AdminTopViewModel>(R.layout.fragment_admin_top) {
 

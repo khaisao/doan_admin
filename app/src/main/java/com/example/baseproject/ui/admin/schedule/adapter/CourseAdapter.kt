@@ -6,32 +6,32 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemCourseBinding
-import com.example.baseproject.model.Course
+import com.example.baseproject.model.CourseHaveShedule
 
 class CourseAdapter(
 ) :
-    ListAdapter<Course, CourseAdapter.ConsultantHolder>(DiffCallback()) {
+    ListAdapter<CourseHaveShedule, CourseAdapter.ConsultantHolder>(DiffCallback()) {
 
-    class DiffCallback : DiffUtil.ItemCallback<Course>() {
+    class DiffCallback : DiffUtil.ItemCallback<CourseHaveShedule>() {
         override fun areItemsTheSame(
-            oldItem: Course,
-            newItem: Course
+            oldItem: CourseHaveShedule,
+            newItem: CourseHaveShedule
         ): Boolean {
-            return oldItem.id == newItem.id
+            return oldItem == newItem
         }
 
         override fun areContentsTheSame(
-            oldItem: Course,
-            newItem: Course
+            oldItem: CourseHaveShedule,
+            newItem: CourseHaveShedule
         ): Boolean {
-            return oldItem == newItem
+            return false
         }
     }
 
     inner class ConsultantHolder(val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(course: Course) {
-
+        fun bind(course: CourseHaveShedule) {
+            binding.tvCourseName.text = course.courseName
         }
     }
 

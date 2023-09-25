@@ -5,8 +5,8 @@
     <string name="splash">Splash</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="email_is_empty">Email is empty</string>
-    <string name="email_is_invalid">Email is invalid</string>
+    <string name="username_is_empty">Username is empty</string>
+    <string name="username_is_invalid">Username is invalid</string>
     <string name="password_is_empty">Password is empty</string>
     <string name="password_is_invalid">Password is invalid</string>
     <string name="current_password_is_empty">Current password is empty</string>

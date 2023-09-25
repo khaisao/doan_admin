@@ -8,7 +8,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <androidx.fragment.app.FragmentContainerView
+        <fragment
             android:id="@+id/top_teacher_nav_host_fragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"

@@ -6,8 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class LoginRequest(
-    @SerializedName("email")
-    var email: String = "",
+    @SerializedName("userName")
+    var userName: String = "",
     @SerializedName("password")
     var password: String = "",
 ) : Parcelable
