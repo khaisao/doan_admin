@@ -38,6 +38,10 @@ interface RxPreferences : BasePreferences {
 
     fun getName(): String?
 
+    fun saveAvatar(avatar: String)
+
+    fun getAvatar(): String?
+
     fun saveStudentId(studentId:Int)
 
     fun getStudentId(): Int

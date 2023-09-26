@@ -8,7 +8,7 @@ import com.example.baseproject.model.CourseHaveShedule
 import com.example.baseproject.model.ImageProfileResponse
 import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
-import com.google.gson.JsonObject
+import com.example.baseproject.model.AttendanceBody
 import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
@@ -55,5 +55,10 @@ interface ApiInterface {
     suspend fun getImageProfile(
         @Path("id") id: Int = 0
     ): ApiObjectResponse<ImageProfileResponse>
+
+    @POST("api/teacher/attendance")
+    suspend fun attendance(
+        @Body attendanceBody: AttendanceBody
+    ): ApiObjectResponse<Any>
 
 }

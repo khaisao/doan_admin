@@ -11,6 +11,7 @@ import com.example.baseproject.ui.teacher.schedule.adapter.CourseTeacher
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
+import com.example.core.utils.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -41,6 +42,8 @@ class ScheduleTeacherFragment :
         binding.rvCouse.adapter = adapter
 
         binding.tvTitle.text = "Hello, " + rxPreferences.getUserName()
+
+        binding.ivAvatar.loadImage(rxPreferences.getAvatar())
 
         val listCourse = listOf(
             Course(

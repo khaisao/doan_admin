@@ -35,8 +35,8 @@ class ListFaceRecoAdapter(
     inner class ListFaceRecoHolder(val binding: ItemStudentRecoBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(student: AllImageProfileStudentForCourse) {
-            binding.tvName.text = student.name
-            binding.tvUsername.text = student.name
+            binding.tvName.text = student.studentName
+            binding.tvUsername.text = student.studentName
             if (student.isReco) {
                 binding.ivCheck.loadImage(R.drawable.ic_check)
             } else {

@@ -10,6 +10,6 @@
         android:label="ScheduleStudentFragment" />
     <fragment
         android:id="@+id/studentProfileFragment"
-        android:name="com.example.baseproject.ui.student.profile.StudentProfileFragment"
+        android:name="com.example.baseproject.ui.student.studentProfile.StudentProfileFragment"
         android:label="StudentProfileFragment" />
 </navigation>

@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/tabTeacherProfile"
-        android:name="com.example.baseproject.ui.admin.adminProfile.AdminProfileFragment"
+        android:name="com.example.baseproject.ui.teacher.teacherProfile.TeacherProfileFragment"
         android:label="AdminProfileFragment" >
 
     </fragment>

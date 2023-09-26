@@ -20,6 +20,7 @@ class AppPreferences @Inject constructor(
         const val PREF_PARAM_PASSWORD = "PREF_PARAM_PASSWORD"
         const val PREF_PARAM_USERNAME_LOGIN = "PREF_PARAM_USERNAME_LOGIN"
         const val PREF_PARAM_ROLE = "PREF_PARAM_ROLE"
+        const val PREF_PARAM_AVATAR = "PREF_PARAM_AVATAR"
         const val PREF_PARAM_NAME = "PREF_PARAM_NAME"
         const val PREF_STUDENT_ID = "PREF_STUDENT_ID"
 
@@ -91,6 +92,15 @@ class AppPreferences @Inject constructor(
 
     override fun getName(): String? {
         return mPrefs.getString(PREF_PARAM_NAME, "")
+    }
+
+    override fun saveAvatar(avatar: String) {
+        mPrefs.edit().apply {
+            putString(PREF_PARAM_AVATAR, avatar)
+        }.also { it.apply() }    }
+
+    override fun getAvatar(): String? {
+        return mPrefs.getString(PREF_PARAM_AVATAR, "")
     }
 
     override fun saveStudentId(studentId: Int) {

@@ -38,15 +38,20 @@ class SplashViewModel @Inject constructor(
                         rxPreferences.savePassword(response.dataResponse.password)
                         rxPreferences.saveToken(response.dataResponse.token)
                         rxPreferences.saveRole(response.dataResponse.role)
-                        rxPreferences.saveName(response.dataResponse.name)
+                        rxPreferences.saveAvatar(response.dataResponse.avatar)
                         if (response.dataResponse.role == 1) {
                             rxPreferences.saveStudentId(response.dataResponse.studentId)
+                            rxPreferences.saveName(response.dataResponse.studentName)
+
                         }
                         if (response.dataResponse.role == 2) {
                             rxPreferences.saveStudentId(response.dataResponse.teacherId)
+                            rxPreferences.saveName(response.dataResponse.teacherName)
+
                         }
                         if (response.dataResponse.role == 3) {
                             rxPreferences.saveStudentId(response.dataResponse.adminId)
+                            rxPreferences.saveName(response.dataResponse.adminName)
                         }
                         loginActionStateChannel.send(LoginSplashEvent.LoginSuccess)
                     }

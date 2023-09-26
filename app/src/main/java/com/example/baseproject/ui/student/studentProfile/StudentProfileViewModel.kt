@@ -1,10 +1,8 @@
-package com.example.baseproject.ui.student.profile
+package com.example.baseproject.ui.student.studentProfile
 
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
-import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_USERNAME_LOGIN
-import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_PASSWORD
 import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -12,10 +10,8 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File

@@ -7,10 +7,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentListFaceRecoBinding
+import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.shareData.ShareViewModel
 import com.example.baseproject.ui.teacher.listFaceReco.adapter.ListFaceRecoAdapter
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,19 @@ class ListFaceRecoFragment :
         binding.rvData.adapter = adapter
     }
 
+    override fun setOnClick() {
+        super.setOnClick()
+        binding.tvAttendance.setOnClickListener {
+            val listAttendanceBody = mutableListOf<AttendanceBody>()
+            for (item in shareViewModel.listStudentRecognized.value) {
+                if (item.isReco) {
+                    listAttendanceBody.add(AttendanceBody(item.studentId, item.registrationId))
+                }
+            }
+            viewModel.attendance(listAttendanceBody)
+        }
+    }
+
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
@@ -38,7 +53,14 @@ class ListFaceRecoFragment :
                 adapter.submitList(it)
             }
         }
+        lifecycleScope.launch {
+            viewModel.attendanceActionStateFlow.collectFlowOnView(viewLifecycleOwner){
+                if(it is AttendanceEvent.AttendanceSuccess){
+                    toastMessage("Success")
+                } else {
+                    toastMessage("Error, please check again")
+                }
+            }
+        }
     }
-
-
 }

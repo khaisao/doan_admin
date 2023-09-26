@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
+import com.example.baseproject.model.faceReco.FaceNetModel
 import com.example.baseproject.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
@@ -22,6 +23,9 @@ class SplashFragment :
 
     @Inject
     lateinit var appNavigation: AppNavigation
+
+    @Inject
+    lateinit var faceNetModel: FaceNetModel
 
     private val viewModel: SplashViewModel by viewModels()
 

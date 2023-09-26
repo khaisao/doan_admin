@@ -9,8 +9,14 @@ data class LoginResponse(
     val teacherId: Int = 0,
     @SerializedName("adminId")
     val adminId: Int = 0,
-    @SerializedName("name")
-    val name: String = "",
+    @SerializedName("avatar")
+    val avatar: String = "",
+    @SerializedName("studentName")
+    val studentName: String = "",
+    @SerializedName("teacherName")
+    val teacherName: String = "",
+    @SerializedName("adminName")
+    val adminName: String = "",
     @SerializedName("userName")
     val userName: String = "",
     @SerializedName("password")

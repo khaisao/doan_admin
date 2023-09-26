@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.profile
+package com.example.baseproject.ui.student.studentProfile
 
 import android.os.Build
 import android.os.Bundle

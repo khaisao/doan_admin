@@ -39,7 +39,7 @@ class FaceRecoViewModel @Inject constructor(
                             if (bitMap != null) {
                                 images.add(
                                     Pair(
-                                        studentItem.name + "_" + studentItem.studentId,
+                                        studentItem.studentName + "_" + studentItem.studentId,
                                         bitMap
                                     )
                                 )
