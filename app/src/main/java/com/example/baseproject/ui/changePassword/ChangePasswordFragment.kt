@@ -1,12 +1,15 @@
 package com.example.baseproject.ui.changePassword
 
+import android.os.Bundle
 import android.text.InputType
+import android.util.Log
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentChangePasswordBinding
 import com.example.baseproject.navigation.AppNavigation
+import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
@@ -66,7 +69,7 @@ class ChangePasswordFragment :
             val currentPassword = binding.edtCurrentPassword.text.toString()
             val newPassword = binding.edtNewPassword.text.toString()
             val confirmPassword = binding.edtConfirmPassword.text.toString()
-            if(isValidChangePassword(currentPassword,newPassword,confirmPassword)){
+            if (isValidChangePassword(currentPassword, newPassword, confirmPassword)) {
                 viewModel.changePassword(newPassword)
             }
         }
@@ -75,10 +78,27 @@ class ChangePasswordFragment :
 
     override fun bindingStateView() {
         super.bindingStateView()
+        Log.d("asgawgawgawgawg", "bindingStateView: ${rxPreferences.getPassword()}")
+        Log.d("asgawgawgawgawg", "bindingStateView: ${rxPreferences.getAccountId()}")
         lifecycleScope.launch {
-            viewModel.changePasswordActionStateFlow.collectFlowOnView(viewLifecycleOwner){
-                if(it is ChangePasswordEvent.ChangePasswordSuccess){
-                    appNavigation.openAdminToChangePasswordSuccess()
+            viewModel.changePasswordActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
+                if (it is ChangePasswordEvent.ChangePasswordSuccess) {
+                    if (rxPreferences.getRole() == 1) {
+                        val bundle = Bundle()
+                        bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Change password success")
+                        bundle.putString(
+                            BundleKey.DES_ACTION_SUCCESS,
+                            "Congratulation! Change password success. Please continue your work"
+                        )
+                        appNavigation.openStudentToChangePasswordSuccess(bundle)
+
+                    }
+                    if (rxPreferences.getRole() == 2) {
+
+                    }
+                    if (rxPreferences.getRole() == 3) {
+                        appNavigation.openAdminToChangePasswordSuccess()
+                    }
                 }
             }
         }

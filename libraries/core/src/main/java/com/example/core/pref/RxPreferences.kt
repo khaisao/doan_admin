@@ -46,4 +46,8 @@ interface RxPreferences : BasePreferences {
 
     fun getStudentId(): Int
 
+    fun saveAccountId(accountId: Int)
+
+    fun getAccountId(): Int
+
 }

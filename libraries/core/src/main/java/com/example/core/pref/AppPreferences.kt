@@ -23,6 +23,7 @@ class AppPreferences @Inject constructor(
         const val PREF_PARAM_AVATAR = "PREF_PARAM_AVATAR"
         const val PREF_PARAM_NAME = "PREF_PARAM_NAME"
         const val PREF_STUDENT_ID = "PREF_STUDENT_ID"
+        const val PREF_ACCOUNT_ID = "PREF_ACCOUNT_ID"
 
     }
 
@@ -110,6 +111,15 @@ class AppPreferences @Inject constructor(
 
     override fun getStudentId(): Int {
         return mPrefs.getInt(PREF_STUDENT_ID, 0)
+    }
+
+    override fun saveAccountId(accountId: Int) {
+        mPrefs.edit().apply {
+            putInt(PREF_ACCOUNT_ID, accountId)
+        }.also { it.apply() }           }
+
+    override fun getAccountId(): Int {
+        return mPrefs.getInt(PREF_ACCOUNT_ID, 0)
     }
 
 }

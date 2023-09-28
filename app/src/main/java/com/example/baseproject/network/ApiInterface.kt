@@ -9,6 +9,7 @@ import com.example.baseproject.model.ImageProfileResponse
 import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
+import com.example.baseproject.model.CourseStudentRegister
 import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
@@ -56,9 +57,21 @@ interface ApiInterface {
         @Path("id") id: Int = 0
     ): ApiObjectResponse<ImageProfileResponse>
 
+    @GET("api/student/getAllCourseRegister/{studentId}")
+    suspend fun getAllCourseRegister(
+        @Path("studentId") id: Int
+    ): ApiObjectResponse<List<CourseStudentRegister>>
+
     @POST("api/teacher/attendance")
     suspend fun attendance(
         @Body attendanceBody: AttendanceBody
+    ): ApiObjectResponse<Any>
+
+    @FormUrlEncoded
+    @PATCH("api/changePassword")
+    suspend fun changePassword(
+        @Field("accountId") accountId: Int,
+        @Field("password") password: String,
     ): ApiObjectResponse<Any>
 
 }

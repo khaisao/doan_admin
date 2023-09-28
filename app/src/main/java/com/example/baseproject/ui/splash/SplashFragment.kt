@@ -1,11 +1,7 @@
 package com.example.baseproject.ui.splash
 
-import android.os.Bundle
-import androidx.annotation.IdRes
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentSplashBinding
 import com.example.baseproject.model.faceReco.FaceNetModel

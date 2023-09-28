@@ -30,16 +30,6 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".ui.teacher.faceReco.FaceRecoFragment"-->
-<!--            android:exported="true">-->
-<!--&lt;!&ndash;            <intent-filter>&ndash;&gt;-->
-<!--&lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
-
-<!--&lt;!&ndash;                <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
-<!--&lt;!&ndash;            </intent-filter>&ndash;&gt;-->
-<!--        </activity>-->
-
-
         <uses-native-library
             android:name="libOpenCL.so"
             android:required="false" />

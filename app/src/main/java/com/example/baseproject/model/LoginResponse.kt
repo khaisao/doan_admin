@@ -3,6 +3,8 @@ package com.example.baseproject.model
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(
+    @SerializedName("accountId")
+    val accountId: Int = 0,
     @SerializedName("studentId")
     val studentId: Int = 0,
     @SerializedName("teacherId")
