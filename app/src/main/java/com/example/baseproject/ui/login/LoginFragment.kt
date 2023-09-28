@@ -39,6 +39,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         binding.edtPassword.doOnTextChanged { text, start, before, count ->
             binding.tvErrorPassword.isVisible = false
         }
+        appNavigation.openLoginToStudentTop()
+
     }
 
     override fun setOnClick() {

@@ -78,7 +78,7 @@ class ChangePasswordFragment :
         lifecycleScope.launch {
             viewModel.changePasswordActionStateFlow.collectFlowOnView(viewLifecycleOwner){
                 if(it is ChangePasswordEvent.ChangePasswordSuccess){
-                    appNavigation.openChangePasswordToChangePasswordSuccess()
+                    appNavigation.openAdminToChangePasswordSuccess()
                 }
             }
         }

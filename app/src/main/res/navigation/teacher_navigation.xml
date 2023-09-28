@@ -17,6 +17,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_teacherTopFragment_to_changePasswordFragment3"
+            app:destination="@id/changePasswordFragment3"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/detailCourseFragment"
@@ -40,13 +47,30 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-           />
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/listFaceRecoFragment"
         android:name="com.example.baseproject.ui.teacher.listFaceReco.ListFaceRecoFragment"
         android:label="ListFaceRecoFragment"
         tools:layout="@layout/fragment_list_face_reco" />
+    <fragment
+        android:id="@+id/changePasswordFragment3"
+        android:name="com.example.baseproject.ui.changePassword.ChangePasswordFragment"
+        android:label="ChangePasswordFragment">
+        <action
+            android:id="@+id/action_changePasswordFragment3_to_changePasswordSuccessFragment3"
+            app:destination="@id/changePasswordSuccessFragment3"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/changePasswordFragment3"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePasswordSuccessFragment3"
+        android:name="com.example.baseproject.ui.changePassword.ChangePasswordSuccessFragment"
+        android:label="ChangePasswordSuccessFragment" />
 
 </navigation>

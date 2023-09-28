@@ -60,7 +60,7 @@ class AdminProfileFragment :
         }
 
         binding.clChangePassword.setOnSafeClickListener {
-            appNavigation.openProfileToChangePassword()
+            appNavigation.openAdminProfileToChangePassword()
         }
     }
 

@@ -121,7 +121,6 @@ class StudentProfileFragment :
 
         lifecycleScope.launch {
             viewModel.listImageProfile.collectFlowOnView(viewLifecycleOwner) {
-                Log.d("asgagawgawg", "bindingStateView: $it")
                 adapter.submitList(it)
             }
         }
@@ -135,8 +134,16 @@ class StudentProfileFragment :
             appNavigation.openLoginScreenAndClearBackStack()
         }
 
-        binding.tvAddImageProfile.setOnSafeClickListener {
+        binding.clAddImage.setOnSafeClickListener {
             pickMediaForProfile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        binding.ivAvatar.setOnSafeClickListener {
+            pickMediaForProfile.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+
+        binding.clChangePassword.setOnSafeClickListener {
+            appNavigation.openStudentProfileToChangePassword()
         }
     }
 

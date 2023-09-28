@@ -21,9 +21,13 @@ interface AppNavigation : BaseNavigator {
 
     fun openLoginScreenAndClearBackStack(bundle: Bundle? = null)
 
-    fun openProfileToChangePassword(bundle: Bundle? = null)
+    fun openAdminProfileToChangePassword(bundle: Bundle? = null)
 
-    fun openChangePasswordToChangePasswordSuccess(bundle: Bundle? = null)
+    fun openStudentProfileToChangePassword(bundle: Bundle? = null)
+
+    fun openAdminToChangePasswordSuccess(bundle: Bundle? = null)
+
+    fun openStudentToChangePasswordSuccess(bundle: Bundle? = null)
 
     fun openHomeToAddAccount(bundle: Bundle? = null)
 
