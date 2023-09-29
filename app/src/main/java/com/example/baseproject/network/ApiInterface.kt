@@ -10,6 +10,7 @@ import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.CourseTeacherAssign
 import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
@@ -61,6 +62,11 @@ interface ApiInterface {
     suspend fun getAllCourseRegister(
         @Path("studentId") id: Int
     ): ApiObjectResponse<List<CourseStudentRegister>>
+
+    @GET("api/teacher/getAllCourseAssign/{teacherId}")
+    suspend fun getAllCourseAssign(
+        @Path("teacherId") id: Int
+    ): ApiObjectResponse<List<CourseTeacherAssign>>
 
     @POST("api/teacher/attendance")
     suspend fun attendance(

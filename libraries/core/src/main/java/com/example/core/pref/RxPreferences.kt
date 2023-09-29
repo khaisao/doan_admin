@@ -46,6 +46,14 @@ interface RxPreferences : BasePreferences {
 
     fun getStudentId(): Int
 
+    fun saveTeacherId(teacherId:Int)
+
+    fun getTeacherId(): Int
+
+    fun saveAdminId(adminId:Int)
+
+    fun getAdminId(): Int
+
     fun saveAccountId(accountId: Int)
 
     fun getAccountId(): Int

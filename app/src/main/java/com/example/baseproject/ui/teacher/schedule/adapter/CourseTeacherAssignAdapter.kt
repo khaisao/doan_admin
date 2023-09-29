@@ -6,35 +6,35 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemCourseBinding
-import com.example.baseproject.model.Course
+import com.example.baseproject.model.CourseTeacherAssign
 import com.example.core.utils.setOnSafeClickListener
 
-class CourseTeacher(
-    private var onCourseClick: ((course: Course) -> Unit)
+class CourseTeacherAssignAdapter(
+    private var onCourseClick: ((course: CourseTeacherAssign) -> Unit)
 
 ) :
-    ListAdapter<Course, CourseTeacher.ConsultantHolder>(DiffCallback()) {
+    ListAdapter<CourseTeacherAssign, CourseTeacherAssignAdapter.ConsultantHolder>(DiffCallback()) {
 
-    class DiffCallback : DiffUtil.ItemCallback<Course>() {
+    class DiffCallback : DiffUtil.ItemCallback<CourseTeacherAssign>() {
         override fun areItemsTheSame(
-            oldItem: Course,
-            newItem: Course
+            oldItem: CourseTeacherAssign,
+            newItem: CourseTeacherAssign
         ): Boolean {
-            return oldItem.id == newItem.id
+            return false
         }
 
         override fun areContentsTheSame(
-            oldItem: Course,
-            newItem: Course
+            oldItem: CourseTeacherAssign,
+            newItem: CourseTeacherAssign
         ): Boolean {
-            return oldItem == newItem
+            return false
         }
     }
 
     inner class ConsultantHolder(val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(course: Course) {
-            binding.tvCourseName.text = course.name
+        fun bind(course: CourseTeacherAssign) {
+            binding.tvCourseName.text = course.courseName
             binding.root.setOnSafeClickListener {
                 onCourseClick.invoke(course)
             }
@@ -47,7 +47,7 @@ class CourseTeacher(
         return ConsultantHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CourseTeacher.ConsultantHolder, position: Int) {
+    override fun onBindViewHolder(holder: CourseTeacherAssignAdapter.ConsultantHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
