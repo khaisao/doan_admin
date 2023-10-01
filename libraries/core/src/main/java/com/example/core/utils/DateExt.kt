@@ -4,6 +4,29 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+class DateFormat {
+    companion object {
+        final const val FORMAT_1 = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        final const val FORMAT_2 = "dd/MM/yyyy"
+        final const val FORMAT_3 = "HH:mm"
+    }
+}
+
+fun String.toDateWithFormatInputAndOutPut(
+    formatInput: String,
+    formatOutput: String
+): String {
+    return try {
+        val apiDateFormat = SimpleDateFormat(formatInput, Locale.US)
+        val dateTypeInput = apiDateFormat.parse(this)
+
+        val desiredDateFormat = SimpleDateFormat(formatOutput, Locale.US)
+        desiredDateFormat.format(dateTypeInput)
+    } catch (e: Exception) {
+        ""
+    }
+}
+
 fun String.toDate(format: String): Date? {
     val dateFormatter = SimpleDateFormat(format, Locale.US)
     return try {

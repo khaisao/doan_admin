@@ -10,6 +10,7 @@ import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.DetailScheduleStudent
 import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
@@ -73,5 +74,11 @@ interface ApiInterface {
         @Field("accountId") accountId: Int,
         @Field("password") password: String,
     ): ApiObjectResponse<Any>
+
+    @GET("api/student/getDetailScheduleStudent/{studentId}/{coursePerCycleId}")
+    suspend fun getDetailScheduleStudent(
+        @Path("studentId") studentId: Int,
+        @Path("coursePerCycleId") coursePerCycleId: Int,
+    ): ApiObjectResponse<List<DetailScheduleStudent>>
 
 }

@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.schedule
+package com.example.baseproject.ui.student.detailSchedule
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
+import com.example.baseproject.databinding.FragmentDetailScheduleStudentBinding
 import com.example.baseproject.databinding.FragmentScheduleStudentBinding
 import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
 import com.example.baseproject.model.Course
@@ -23,13 +24,13 @@ import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ScheduleStudentFragment :
-    BaseFragment<FragmentScheduleStudentBinding, ScheduleStudentViewModel>(R.layout.fragment_schedule_student) {
-    private val viewModel: ScheduleStudentViewModel by viewModels()
+class DetailScheduleStudentFragment :
+    BaseFragment<FragmentDetailScheduleStudentBinding, DetailScheduleStudentViewModel>(R.layout.fragment_detail_schedule_student) {
+    private val viewModel: DetailScheduleStudentViewModel by viewModels()
 
-    override fun getVM(): ScheduleStudentViewModel = viewModel
+    override fun getVM(): DetailScheduleStudentViewModel = viewModel
 
-    private lateinit var adapter: CourseStudentRegisterAdapter
+    private lateinit var adapter: DetailScheduleStudentAdapter
 
     @Inject
     lateinit var rxPreferences: RxPreferences
@@ -39,31 +40,14 @@ class ScheduleStudentFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = CourseStudentRegisterAdapter(onCourseClick = {
-            val bundle = Bundle()
-            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, it.coursePerCycleId)
-            appNavigation.openStudentTopToDetailScheduleStudent(bundle)
-        })
+        adapter = DetailScheduleStudentAdapter()
         binding.rvCouse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCouse.adapter = adapter
 
-        binding.tvTitle.text = "Hello, " + rxPreferences.getUserName()
-
-        viewModel.getAllCourseRegister()
-
-        binding.edtSearch.doOnTextChanged { text, start, before, count ->
-            if (text.isNullOrBlank()) {
-                adapter.submitList(viewModel.allCourseStudentRegister.value)
-            } else {
-                val filterList =
-                    viewModel.allCourseStudentRegister.value.filter {
-                        it.courseName.lowercase(Locale.getDefault())
-                            .contains(text.toString().lowercase(Locale.ROOT))
-                    }
-                adapter.submitList(filterList)
-            }
-
+        val coursePerCyclesId = arguments?.getInt(BundleKey.COURSE_PER_CYCLE_ID)
+        if (coursePerCyclesId != null) {
+            viewModel.getDetailScheduleStudent(coursePerCyclesId)
         }
 
     }
@@ -71,7 +55,7 @@ class ScheduleStudentFragment :
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.allCourseStudentRegister.collectFlowOnView(viewLifecycleOwner) {
+            viewModel.allDetailScheduleStudent.collectFlowOnView(viewLifecycleOwner) {
                 adapter.submitList(it)
 
             }

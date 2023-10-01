@@ -8,9 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemCourseBinding
 import com.example.baseproject.model.Course
 import com.example.baseproject.model.CourseStudentRegister
+import com.example.core.utils.setOnSafeClickListener
 
 class CourseStudentRegisterAdapter(
-    private var onCourseClick: ((course: Course) -> Unit)
+    private var onCourseClick: ((courseStudentRegister: CourseStudentRegister) -> Unit)
 ) :
     ListAdapter<CourseStudentRegister, CourseStudentRegisterAdapter.ConsultantHolder>(DiffCallback()) {
 
@@ -34,9 +35,9 @@ class CourseStudentRegisterAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(course: CourseStudentRegister) {
             binding.tvCourseName.text = course.courseName
-//            binding.root.setOnSafeClickListener {
-//                onCourseClick.invoke(course)
-//            }
+            binding.root.setOnSafeClickListener {
+                onCourseClick.invoke(course)
+            }
         }
     }
 
