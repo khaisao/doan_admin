@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.R
-import com.example.baseproject.databinding.ItemCourseBinding
 import com.example.baseproject.databinding.ItemScheduleWithAttendanceContentBinding
 import com.example.baseproject.model.DetailScheduleStudent
 import com.example.core.utils.DateFormat.Companion.FORMAT_1
@@ -16,6 +15,7 @@ import com.example.core.utils.DateFormat.Companion.FORMAT_3
 import com.example.core.utils.loadImage
 import com.example.core.utils.toDateWithFormatInputAndOutPut
 import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 class DetailScheduleStudentAdapter :
@@ -47,11 +47,26 @@ class DetailScheduleStudentAdapter :
                 FORMAT_3
             ) + "\n" + course.endTime.toDateWithFormatInputAndOutPut(FORMAT_1, FORMAT_3)
             binding.tvClassroomName.text = course.classroomName
-            if (course.timeAttendance != null) {
-                binding.ivIsAttendace.loadImage(R.drawable.ic_check)
+            if (isScheduleIsPass(course.startTime)) {
+                if (course.timeAttendance != null) {
+                    binding.ivIsAttendace.loadImage(R.drawable.ic_check)
+                } else {
+                    binding.ivIsAttendace.loadImage(R.drawable.ic_uncheck)
+                }
             } else {
-                binding.ivIsAttendace.loadImage(R.drawable.ic_uncheck)
+                binding.ivIsAttendace.setImageDrawable(null)
             }
+        }
+    }
+
+    private fun isScheduleIsPass(timeSchedule: String): Boolean {
+        return try {
+            val dateFormat = SimpleDateFormat(FORMAT_1, Locale.US)
+            val date = dateFormat.parse(timeSchedule)
+            val currentTime = Date()
+            !date?.after(currentTime)!!
+        } catch (e: Exception) {
+            false
         }
     }
 

@@ -8,10 +8,10 @@
         android:id="@+id/tv_date"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.4"
         android:gravity="center"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:text="01/09/2023" />
 
     <TextView
@@ -19,7 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:gravity="center"
         android:layout_weight="1"
         android:text="07:46 \n17:35" />
@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:gravity="center"
         android:layout_weight="1"
         android:text="B501" />
