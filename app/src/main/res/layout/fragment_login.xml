@@ -85,17 +85,6 @@
 
 
         <TextView
-            android:id="@+id/tv_forgot_password"
-            style="@style/text_bold_14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="Forgot Password?"
-            android:textColor="#6A707C"
-            app:layout_constraintEnd_toEndOf="@id/edt_password"
-            app:layout_constraintTop_toBottomOf="@id/edt_password" />
-
-        <TextView
             android:id="@+id/tv_login"
             style="@style/text_bold_15"
             android:layout_width="match_parent"
@@ -108,6 +97,6 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_forgot_password" />
+            app:layout_constraintTop_toBottomOf="@id/tv_error_password" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

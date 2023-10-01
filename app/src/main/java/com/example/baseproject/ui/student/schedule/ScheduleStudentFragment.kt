@@ -7,17 +7,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleStudentBinding
-import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
-import com.example.baseproject.model.Course
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.ui.student.schedule.adapter.CourseStudentRegisterAdapter
-import com.example.baseproject.ui.teacher.schedule.adapter.CourseTeacher
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -63,7 +59,6 @@ class ScheduleStudentFragment :
                     }
                 adapter.submitList(filterList)
             }
-
         }
 
     }

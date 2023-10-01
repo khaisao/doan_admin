@@ -40,12 +40,12 @@ class LoginViewModel @Inject constructor(
 
                     }
                     if (response.dataResponse.role == 2) {
-                        rxPreferences.saveStudentId(response.dataResponse.teacherId)
+                        rxPreferences.saveTeacherId(response.dataResponse.teacherId)
                         rxPreferences.saveName(response.dataResponse.teacherName)
 
                     }
                     if (response.dataResponse.role == 3) {
-                        rxPreferences.saveStudentId(response.dataResponse.adminId)
+                        rxPreferences.saveAdminId(response.dataResponse.adminId)
                         rxPreferences.saveName(response.dataResponse.adminName)
                     }
                     loginActionStateChannel.send(LoginEvent.LoginSuccess)

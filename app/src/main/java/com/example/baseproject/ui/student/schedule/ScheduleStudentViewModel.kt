@@ -1,6 +1,5 @@
 package com.example.baseproject.ui.student.schedule
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.model.CourseStudentRegister
 import com.example.baseproject.network.ApiInterface
