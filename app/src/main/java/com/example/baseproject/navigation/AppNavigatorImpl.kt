@@ -86,4 +86,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_studentTopFragment_to_detailScheduleStudentFragment, bundle)
     }
 
+    override fun openDetailCourseToAllAttendance(bundle: Bundle?) {
+        openScreen(R.id.action_detailCourseFragment_to_allAttendanceFragment, bundle)
+    }
+
 }

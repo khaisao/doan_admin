@@ -14,6 +14,7 @@ import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
+import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -38,7 +39,8 @@ class ScheduleTeacherFragment :
         super.initView(savedInstanceState)
         adapter = CourseTeacherAssignAdapter(onCourseClick = {
             val bundle = Bundle()
-            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, 1)
+            toastMessage(it.coursePerCycleId.toString())
+            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, it.coursePerCycleId)
             appNavigation.openScheduleToDetailCourse(bundle)
         })
         binding.rvCouse.layoutManager =

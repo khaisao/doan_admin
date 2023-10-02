@@ -36,6 +36,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_detailCourseFragment_to_allAttendanceFragment"
+            app:destination="@id/allAttendanceFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/faceRecoFragment"
@@ -72,5 +79,9 @@
         android:id="@+id/changePasswordSuccessFragment3"
         android:name="com.example.baseproject.ui.changePassword.ChangePasswordSuccessFragment"
         android:label="ChangePasswordSuccessFragment" />
+    <fragment
+        android:id="@+id/allAttendanceFragment"
+        android:name="com.example.baseproject.ui.teacher.allAttendance.AllAttendanceFragment"
+        android:label="AllAttendanceFragment" />
 
 </navigation>
