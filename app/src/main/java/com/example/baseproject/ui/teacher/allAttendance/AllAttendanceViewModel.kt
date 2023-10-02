@@ -20,6 +20,7 @@ class AllAttendanceViewModel @Inject constructor(
     val allAttendance = MutableStateFlow<List<OverviewScheduleStudent>>(emptyList())
     val allSchedule = MutableStateFlow<List<String>>(emptyList())
     val allStudent = MutableStateFlow<List<String>>(emptyList())
+    val isDone = MutableStateFlow<Boolean>(false)
     fun getAllAttendanceSpecificCourse(courseId: Int) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
@@ -42,19 +43,16 @@ class AllAttendanceViewModel @Inject constructor(
                     }
                     allSchedule.value = cacheScheduleList
                     allStudent.value = cacheStudentList
-
-                    Log.d("asgawgawgawgawg", "getAllAttendanceSpecificCourse: $cacheScheduleList")
+                    isDone.value = true
                 } else {
                     messageError.postValue("Dont have attendance history")
                 }
-                Log.d("asgagwawgawgawg", "getAllImageFromCoursePerCycle: ${response.dataResponse}")
             } catch (e: Exception) {
                 messageError.postValue(e)
             } finally {
                 isLoading.postValue(false)
 
             }
-
         }
     }
 }

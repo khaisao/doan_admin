@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -9,10 +8,26 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
+        <com.example.baseproject.util.stickyheadertableview.StickyHeaderTableView
+            android:id="@+id/stickyHeaderTableView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shtv_cellPadding="10dp"
+            app:shtv_contentCellFillColor="@color/contentCellFillColor"
+            app:shtv_dividerColor="@color/lineDividerColor"
+            app:shtv_dividerThickness="1dp"
+            app:shtv_headerCellFillColor="@color/headerCellFillColor"
+            app:shtv_is2DScrollEnabled="true"
+            app:shtv_isDisplayLeftHeadersVertically="true"
+            app:shtv_isWrapHeightOfEachRow="true"
+            app:shtv_isWrapWidthOfEachColumn="true"
+            app:shtv_textHeaderColor="@color/textHeaderColor"
+            app:shtv_textHeaderSize="16sp"
+            app:shtv_textLabelColor="@color/textLabelColor"
+            app:shtv_textLabelSize="14sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
