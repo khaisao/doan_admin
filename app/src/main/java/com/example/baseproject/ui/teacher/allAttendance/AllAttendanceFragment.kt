@@ -7,11 +7,15 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentAllAttendanceBinding
+import com.example.baseproject.model.DetailScheduleStudent
+import com.example.baseproject.model.OverviewScheduleStudent
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.BundleKey
 import com.example.baseproject.util.stickyheadertableview.OnTableCellClickListener
 import com.example.core.base.fragment.BaseFragment
+import com.example.core.utils.DateFormat
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.toDateWithFormatInputAndOutPut
 import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -36,10 +40,8 @@ class AllAttendanceFragment :
         } else {
             toastMessage("Error, try again")
         }
-
         initComponents()
     }
-
 
     private fun initComponents() {
         val stickyHeaderTableView = binding.stickyHeaderTableView
@@ -56,46 +58,72 @@ class AllAttendanceFragment :
     }
 
     private fun getDummyData(
-        listSchedule: List<String>,
-        listStudent: List<String>
+        allAttendance: List<OverviewScheduleStudent>
     ): List<List<String>> {
-        val row = listStudent.size + 1
-        val column = listSchedule.size + 1
-
         val strings = ArrayList<ArrayList<String>>()
-        var innerStrings: ArrayList<String>
 
-        for (i in -1 until row - 1) {
-            innerStrings = ArrayList()
-            for (j in -1 until column - 1) {
-                if (i == -1 && j == -1) {
-                    innerStrings.add("Date Student")
-                } else if (i == -1) {
-                    innerStrings.add(listSchedule[j])
-                } else if (j == -1) {
-                    innerStrings.add(listStudent[i])
-                } else {
-                    innerStrings.add((i + 1).toString() + "," + (j + 1).toString())
+        try {
+            val row = allAttendance.size + 1
+            val column = allAttendance[0].schedules.size + 1
+
+            val map = mutableMapOf<Int, List<DetailScheduleStudent>>()
+
+            for (item in allAttendance) {
+                map[item.studentId] = item.schedules
+            }
+
+            var innerStrings: ArrayList<String>
+            if (row > 0 && column > 0) {
+                for (i in -1 until row - 1) {
+                    innerStrings = ArrayList()
+                    for (j in -1 until column - 1) {
+                        if (i == -1 && j == -1) {
+                            innerStrings.add("Date Student")
+                        } else if (i == -1) {
+                            innerStrings.add(
+                                allAttendance[0].schedules[j].startTime.toDateWithFormatInputAndOutPut(
+                                    DateFormat.FORMAT_1,
+                                    DateFormat.FORMAT_2
+                                )
+                            )
+                        } else if (j == -1) {
+                            innerStrings.add(allAttendance[i].studentName)
+                        } else {
+                            val studentId = allAttendance[i].studentId
+                            val scheduleId = allAttendance[i].schedules[j].scheduleId
+                            val listSchedule = map[studentId]
+                            val timeAttendance =
+                                listSchedule?.find { it.scheduleId == scheduleId }?.timeAttendance
+                            if (timeAttendance != null) {
+                                innerStrings.add("v")
+                            } else {
+                                innerStrings.add("x")
+                            }
+                        }
+                    }
+                    strings.add(innerStrings)
                 }
             }
-            strings.add(innerStrings)
+            return strings
+        } catch (e: Exception) {
+            return strings
         }
-        Log.d("asgawgwagwag", "getDummyData: $strings")
-        return strings
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.isDone.collectFlowOnView(viewLifecycleOwner) {
-                Log.d("asgawgawgwag", "bindingStateView: ${viewModel.allSchedule.value}")
-                Log.d("asgawgawgwag", "bindingStateView: ${viewModel.allStudent.value}")
-                binding.stickyHeaderTableView.data =
-                    getDummyData(viewModel.allSchedule.value, viewModel.allStudent.value)
-
+            viewModel.allAttendance.collectFlowOnView(viewLifecycleOwner) {
+                if (viewModel.allAttendance.value.isNotEmpty()) {
+                    if (viewModel.allAttendance.value[0].schedules.isNotEmpty()) {
+                        binding.stickyHeaderTableView.data =
+                            getDummyData(
+                                viewModel.allAttendance.value
+                            )
+                    }
+                }
             }
         }
     }
-
 
 }

@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.util.Size
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -21,15 +20,16 @@ import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.ActivityFaceRecoBinding
 import com.example.baseproject.model.faceReco.FaceNetModel
-import com.example.baseproject.model.faceReco.Models
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.shareData.ShareViewModel
 import com.example.baseproject.testFaceReco.FileReader
 import com.example.baseproject.testFaceReco.FrameAnalyser
 import com.example.baseproject.testFaceReco.Logger
+import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
+import com.example.core.utils.toastMessage
 import com.google.common.util.concurrent.ListenableFuture
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -37,7 +37,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executors
 import javax.inject.Inject
-import kotlin.system.measureTimeMillis
 
 //adb reverse tcp:3000 tcp:3000
 @AndroidEntryPoint
@@ -53,17 +52,10 @@ class FaceRecoFragment :
     private lateinit var fileReader: FileReader
     private lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
 
-    private val useGpu = true
-
-    private val useXNNPack = true
-
-    private val modelInfo = Models.FACENET
-
     @Inject
     lateinit var faceNetModel: FaceNetModel
 
-    private val cameraFacingBack = CameraSelector.LENS_FACING_BACK
-    private val cameraFacingFront = CameraSelector.LENS_FACING_FRONT
+    private var cameraFacing = CameraSelector.LENS_FACING_BACK
 
     companion object {
 
@@ -78,6 +70,9 @@ class FaceRecoFragment :
     private val viewModel: FaceRecoViewModel by viewModels()
     private val shareViewModel: ShareViewModel by activityViewModels()
 
+    private var courseId: Int? = null
+    private var scheduleId: Int? = null
+
     override fun getVM(): FaceRecoViewModel = viewModel
 
     override fun initView(savedInstanceState: Bundle?) {
@@ -85,22 +80,26 @@ class FaceRecoFragment :
         viewModel.isLoading.postValue(true)
         logTextView = binding.logTextview
         logTextView.movementMethod = ScrollingMovementMethod()
-        setUpBoundingBoxOverlay(true)
+        setUpBoundingBoxOverlay()
     }
 
-    private fun setUpBoundingBoxOverlay(isLensBack: Boolean = true) {
+    private fun setUpBoundingBoxOverlay() {
         val boundingBoxOverlay = binding.bboxOverlay
-        if (isLensBack) {
-            boundingBoxOverlay.cameraFacing = cameraFacingBack
-        } else {
-            boundingBoxOverlay.cameraFacing = cameraFacingFront
-        }
+        boundingBoxOverlay.cameraFacing = cameraFacing
+
         boundingBoxOverlay.setWillNotDraw(false)
         boundingBoxOverlay.setZOrderOnTop(true)
         lifecycleScope.launch(Dispatchers.IO) {
             frameAnalyser = FrameAnalyser(requireContext(), boundingBoxOverlay, faceNetModel)
             fileReader = FileReader(faceNetModel)
-            viewModel.getAllImageFromCoursePerCycle(1)
+            courseId = arguments?.getInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE)
+            scheduleId = arguments?.getInt(BundleKey.SCHEDULE_ID_ATTENDANCE)
+            if (courseId == null || scheduleId == null) {
+                toastMessage("Error, try again")
+                appNavigation.navigateUp()
+            } else {
+                viewModel.getAllImageFromCoursePerCycle(courseId!!)
+            }
         }
     }
 
@@ -114,7 +113,13 @@ class FaceRecoFragment :
                     item.isReco = true
                 }
             }
-            appNavigation.openFaceRecoToListFaceReco()
+            val bundle = Bundle()
+            bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, scheduleId!!)
+            appNavigation.openFaceRecoToListFaceReco(bundle)
+        }
+
+        binding.ivFlipCamera.setOnSafeClickListener {
+            switchToCameraFront()
         }
     }
 
@@ -150,11 +155,13 @@ class FaceRecoFragment :
         }
     }
 
+    private lateinit var cameraProvider: ProcessCameraProvider
+
     private fun startCameraPreview() {
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
         cameraProviderFuture.addListener(
             {
-                val cameraProvider = cameraProviderFuture.get()
+                cameraProvider = cameraProviderFuture.get()
                 bindPreview(cameraProvider)
             },
             ContextCompat.getMainExecutor(requireContext())
@@ -170,12 +177,12 @@ class FaceRecoFragment :
         }
     }
 
-    private fun bindPreview(cameraProvider: ProcessCameraProvider) {
+    private fun bindPreview(cameraProvider: ProcessCameraProvider, isBack: Boolean = true) {
         try {
             cameraProvider.unbindAll()
             val preview: Preview = Preview.Builder().build()
             val cameraSelector: CameraSelector = CameraSelector.Builder()
-                .requireLensFacing(cameraFacingBack)
+                .requireLensFacing(cameraFacing)
                 .build()
             preview.setSurfaceProvider(binding.previewView.surfaceProvider)
             val imageFrameAnalysis = ImageAnalysis.Builder()
@@ -195,6 +202,15 @@ class FaceRecoFragment :
 
         }
 
+    }
+
+    private fun switchToCameraFront() {
+        cameraFacing = if (cameraFacing == CameraSelector.LENS_FACING_BACK) {
+            CameraSelector.LENS_FACING_FRONT
+        } else {
+            CameraSelector.LENS_FACING_BACK
+        }
+        bindPreview(cameraProvider)
     }
 
     override fun onStop() {

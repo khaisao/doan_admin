@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/tabSchedule"
-        android:name="com.example.baseproject.ui.teacher.schedule.ScheduleTeacherFragment"
+        android:name="com.example.baseproject.ui.teacher.allCourse.AllCourseTeacherFragment"
         android:label="ScheduleTeacherFragment" />
 
     <fragment

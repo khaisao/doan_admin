@@ -1,9 +1,10 @@
-package com.example.baseproject.ui.teacher.allAttendance
+package com.example.baseproject.ui.teacher.allCourse
 
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.OverviewScheduleStudent
+import com.example.baseproject.model.CourseTeacherAssign
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
+import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,26 +12,27 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AllAttendanceViewModel @Inject constructor(
-    private val apiInterface: ApiInterface
+class AllCourseTeacherViewModel @Inject constructor(
+    private val apiInterface: ApiInterface,
+    private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
-    val allAttendance = MutableStateFlow<List<OverviewScheduleStudent>>(emptyList())
-    fun getAllAttendanceSpecificCourse(courseId: Int) {
+    val allCourseTeacherAssign = MutableStateFlow<List<CourseTeacherAssign>>(emptyList())
+
+    fun getAllCourseAssign() {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val response = apiInterface.getAllAttendanceSpecificCourse(courseId)
+                val teacherId = rxPreferences.getTeacherId()
+                val response = apiInterface.getAllCourseAssign(teacherId)
                 if (response.errors.isEmpty()) {
-                    allAttendance.value = response.dataResponse
-                } else {
-                    messageError.postValue("Dont have attendance history")
+                    allCourseTeacherAssign.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)
             } finally {
                 isLoading.postValue(false)
-
             }
+
         }
     }
 }

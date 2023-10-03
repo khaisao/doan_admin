@@ -1,11 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <TextView
-        android:text="Abc"
-        android:background="#A5947C"
-        android:layout_width="50dp"
-        android:layout_height="50dp"/>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/bg_item_profile"
+        android:paddingVertical="10dp">
+
+        <ImageView
+            android:id="@+id/iv_ic"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginStart="13dp"
+            app:layout_constraintBottom_toBottomOf="@id/ll_content"
+            android:src="@drawable/ic_detail_schedule"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ll_content" />
+
+        <ImageView
+            android:id="@+id/ic_arrow"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/ll_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toEndOf="@id/iv_ic"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tv_course_name"
+                style="@style/text_bold_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hệ thống quản lí thông tin"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_time"
+                style="@style/text_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="This is des"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_classroom_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/no_avatar"
+                android:text="Class abc" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btn_attendance"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:background="@drawable/bg_btn_log_out"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:text="@string/attendance"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_content" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.teacher.schedule.adapter
+package com.example.baseproject.ui.teacher.allCourse.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -11,6 +11,7 @@ import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.model.CourseStudentRegister
 import com.example.baseproject.model.CourseTeacherAssign
+import com.example.baseproject.model.DetailScheduleCourse
 import com.example.baseproject.model.DetailScheduleStudent
 import com.example.baseproject.model.OverviewScheduleStudent
 import okhttp3.MultipartBody
@@ -92,5 +93,10 @@ interface ApiInterface {
     suspend fun getAllAttendanceSpecificCourse(
         @Path("courseId") courseId: Int,
     ): ApiObjectResponse<List<OverviewScheduleStudent>>
+
+    @GET("api/teacher/getAllScheduleSpecificCourse/{courseId}")
+    suspend fun getAllScheduleSpecificCourse(
+        @Path("courseId") courseId: Int,
+    ): ApiObjectResponse<List<DetailScheduleCourse>>
 
 }

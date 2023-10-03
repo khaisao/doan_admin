@@ -7,4 +7,5 @@ data class DetailScheduleStudent(
     @SerializedName("endTime") var endTime: String = "",
     @SerializedName("timeAttendance") var timeAttendance: String? = null,
     @SerializedName("name") var classroomName: String = "",
+    @SerializedName("scheduleId") var scheduleId: Int = 0,
 )

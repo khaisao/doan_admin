@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.teacher.schedule
+package com.example.baseproject.ui.teacher.allCourse
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
@@ -8,24 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
 import com.example.baseproject.navigation.AppNavigation
-import com.example.baseproject.ui.teacher.schedule.adapter.CourseTeacherAssignAdapter
+import com.example.baseproject.ui.teacher.allCourse.adapter.CourseTeacherAssignAdapter
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
-import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ScheduleTeacherFragment :
-    BaseFragment<FragmentScheduleTeacherBinding, ScheduleTeacherViewModel>(R.layout.fragment_schedule_teacher) {
-    private val viewModel: ScheduleTeacherViewModel by viewModels()
+class AllCourseTeacherFragment :
+    BaseFragment<FragmentScheduleTeacherBinding, AllCourseTeacherViewModel>(R.layout.fragment_schedule_teacher) {
+    private val viewModel: AllCourseTeacherViewModel by viewModels()
 
-    override fun getVM(): ScheduleTeacherViewModel = viewModel
+    override fun getVM(): AllCourseTeacherViewModel = viewModel
 
     private lateinit var adapter: CourseTeacherAssignAdapter
 
@@ -39,8 +38,7 @@ class ScheduleTeacherFragment :
         super.initView(savedInstanceState)
         adapter = CourseTeacherAssignAdapter(onCourseClick = {
             val bundle = Bundle()
-            toastMessage(it.coursePerCycleId.toString())
-            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, it.coursePerCycleId)
+            bundle.putInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE, it.coursePerCycleId)
             appNavigation.openScheduleToDetailCourse(bundle)
         })
         binding.rvCouse.layoutManager =
@@ -65,7 +63,6 @@ class ScheduleTeacherFragment :
                 adapter.submitList(filterList)
             }
         }
-
     }
 
     override fun bindingStateView() {
