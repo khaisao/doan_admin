@@ -1,5 +1,6 @@
 package com.example.baseproject.ui.login
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.InputType
 import androidx.core.view.isVisible
@@ -14,9 +15,11 @@ import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
+import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layout.fragment_login) {

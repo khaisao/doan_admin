@@ -144,7 +144,6 @@ class FaceRecoFragment :
                         viewModel.isLoading.postValue(false)
                     }
                 }
-
             }
         }
 

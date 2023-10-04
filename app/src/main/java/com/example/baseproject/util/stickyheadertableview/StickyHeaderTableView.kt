@@ -12,6 +12,7 @@ import androidx.annotation.ColorInt
 import androidx.core.view.NestedScrollingChildHelper
 import com.example.baseproject.R
 
+
 class StickyHeaderTableView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : BiDirectionalScrollableView(context, attrs, defStyleAttr) {
@@ -52,7 +53,7 @@ class StickyHeaderTableView @JvmOverloads constructor(
     private val paintStrokeRect = Paint()
     private val paintHeaderCellFillRect = Paint()
     private val paintContentCellFillRect = Paint()
-    private val paintLabelText = Paint()
+    private var paintLabelText = Paint()
     private val paintHeaderText = Paint()
     private val textRectBounds = Rect()
 
@@ -430,9 +431,28 @@ class StickyHeaderTableView @JvmOverloads constructor(
                             cellsRectangles[i][j]!!.right - getWidthOfColumn(j) / 2f - textRectBounds.width() / 2f
                         drawTextY =
                             cellsRectangles[i][j]!!.bottom - getHeightOfRow(i) / 2f + textRectBounds.height() / 2f
-                        canvas.drawText(
-                            textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintLabelText
-                        )
+
+                        when (textToDraw) {
+                            "x" -> {
+                                paintLabelText.color = Color.RED
+                                canvas.drawText(
+                                    textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintLabelText
+                                )
+                            }
+                            "v" -> {
+                                paintLabelText.color = Color.GREEN
+                                canvas.drawText(
+                                    textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintLabelText
+                                )
+                            }
+                            else -> {
+                                paintLabelText.color = textLabelColor
+                                canvas.drawText(
+                                    textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintLabelText
+                                )
+                            }
+                        }
+
                     }
                 }
 
