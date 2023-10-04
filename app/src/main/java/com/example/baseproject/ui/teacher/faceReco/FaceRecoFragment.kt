@@ -246,7 +246,6 @@ class FaceRecoFragment :
 
         }
 
-
     private val fileReaderCallback = object : FileReader.ProcessCallback {
         override fun onProcessCompleted(
             data: ArrayList<Pair<String, FloatArray>>,

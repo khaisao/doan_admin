@@ -1,4 +1,3 @@
-
 package com.example.baseproject.model.faceReco
 
 import android.app.Application
@@ -27,20 +26,21 @@ import kotlin.math.sqrt
 @Singleton
 class FaceNetModel @Inject constructor(
     val application: Application,
-                   ) {
-    var model : ModelInfo = Models.FACENET
-   val  useGpu : Boolean = true
-   val useXNNPack : Boolean = true
+) {
+    var model: ModelInfo = Models.FACENET_512
+    val useGpu: Boolean = true
+    val useXNNPack: Boolean = true
+
     // Input image size for FaceNet model.
     private val imgSize = model.inputDims
 
     // Output embedding size
     val embeddingDim = model.outputDims
 
-    private var interpreter : Interpreter
+    private var interpreter: Interpreter
     private val imageTensorProcessor = ImageProcessor.Builder()
-        .add( ResizeOp( imgSize , imgSize , ResizeOp.ResizeMethod.BILINEAR ) )
-        .add( StandardizeOp() )
+        .add(ResizeOp(imgSize, imgSize, ResizeOp.ResizeMethod.BILINEAR))
+        .add(StandardizeOp())
         .build()
 
     init {
@@ -48,41 +48,46 @@ class FaceNetModel @Inject constructor(
         val interpreterOptions = Interpreter.Options().apply {
             // Add the GPU Delegate if supported.
             // See -> https://www.tensorflow.org/lite/performance/gpu#android
-            if ( useGpu ) {
-                if ( CompatibilityList().isDelegateSupportedOnThisDevice ) {
-                    addDelegate( GpuDelegate( CompatibilityList().bestOptionsForThisDevice ))
+            if (useGpu) {
+                if (CompatibilityList().isDelegateSupportedOnThisDevice) {
+                    addDelegate(GpuDelegate(CompatibilityList().bestOptionsForThisDevice))
                 }
-            }
-            else {
+            } else {
                 // Number of threads for computation
                 numThreads = 4
             }
-            setUseXNNPACK( useXNNPack )
+            setUseXNNPACK(useXNNPack)
             useNNAPI = true
         }
-        interpreter = Interpreter(FileUtil.loadMappedFile(application, model.assetsFilename ) , interpreterOptions )
+        interpreter = Interpreter(
+            FileUtil.loadMappedFile(application, model.assetsFilename),
+            interpreterOptions
+        )
     }
 
 
     // Gets an face embedding using FaceNet.
-    fun getFaceEmbedding( image : Bitmap ) : FloatArray {
-        return runFaceNet( convertBitmapToBuffer( image ))[0]
+    fun getFaceEmbedding(image: Bitmap): FloatArray {
+        return runFaceNet(convertBitmapToBuffer(image))[0]
     }
 
 
     // Run the FaceNet model.
     private fun runFaceNet(inputs: Any): Array<FloatArray> {
         val t1 = System.currentTimeMillis()
-        val faceNetModelOutputs = Array( 1 ){ FloatArray( embeddingDim ) }
-        interpreter.run( inputs, faceNetModelOutputs )
-        Log.i( "Performance" , "${model.name} Inference Speed in ms : ${System.currentTimeMillis() - t1}")
+        val faceNetModelOutputs = Array(1) { FloatArray(embeddingDim) }
+        interpreter.run(inputs, faceNetModelOutputs)
+        Log.i(
+            "Performance",
+            "${model.name} Inference Speed in ms : ${System.currentTimeMillis() - t1}"
+        )
         return faceNetModelOutputs
     }
 
 
     // Resize the given bitmap and convert it to a ByteBuffer
-    private fun convertBitmapToBuffer( image : Bitmap) : ByteBuffer {
-        return imageTensorProcessor.process( TensorImage.fromBitmap( image ) ).buffer
+    private fun convertBitmapToBuffer(image: Bitmap): ByteBuffer {
+        return imageTensorProcessor.process(TensorImage.fromBitmap(image)).buffer
     }
 
 
@@ -93,13 +98,13 @@ class FaceNetModel @Inject constructor(
         override fun apply(p0: TensorBuffer?): TensorBuffer {
             val pixels = p0!!.floatArray
             val mean = pixels.average().toFloat()
-            var std = sqrt( pixels.map{ pi -> ( pi - mean ).pow( 2 ) }.sum() / pixels.size.toFloat() )
-            std = max( std , 1f / sqrt( pixels.size.toFloat() ))
-            for ( i in pixels.indices ) {
-                pixels[ i ] = ( pixels[ i ] - mean ) / std
+            var std = sqrt(pixels.map { pi -> (pi - mean).pow(2) }.sum() / pixels.size.toFloat())
+            std = max(std, 1f / sqrt(pixels.size.toFloat()))
+            for (i in pixels.indices) {
+                pixels[i] = (pixels[i] - mean) / std
             }
-            val output = TensorBufferFloat.createFixedSize( p0.shape , DataType.FLOAT32 )
-            output.loadArray( pixels )
+            val output = TensorBufferFloat.createFixedSize(p0.shape, DataType.FLOAT32)
+            output.loadArray(pixels)
             return output
         }
 

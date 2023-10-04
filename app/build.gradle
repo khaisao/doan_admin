@@ -112,6 +112,4 @@ dependencies {
 
     implementation 'com.github.HBiSoft:PickiT:2.0.5'
 
-
-    debugImplementation libraries.leak
 }
