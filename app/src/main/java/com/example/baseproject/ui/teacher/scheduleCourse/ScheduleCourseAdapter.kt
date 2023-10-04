@@ -6,9 +6,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.baseproject.databinding.ItemCourseBinding
 import com.example.baseproject.databinding.ItemScheduleBinding
-import com.example.baseproject.model.CourseTeacherAssign
 import com.example.baseproject.model.DetailScheduleCourse
 import com.example.core.utils.DateFormat
 import com.example.core.utils.setOnSafeClickListener

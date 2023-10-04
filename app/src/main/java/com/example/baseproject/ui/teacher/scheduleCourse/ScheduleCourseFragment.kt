@@ -34,13 +34,10 @@ class ScheduleCourseFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = ScheduleCourseAdapter(onCourseClick = {
-            lifecycleScope.launch(Dispatchers.Main) {
-                viewModel.isLoading.postValue(true)
                 val bundle = Bundle()
-                bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
-                bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
-                appNavigation.openDetailCourseToFaceReco(bundle)
-            }
+            bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
+            bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
+            appNavigation.openDetailCourseToFaceReco(bundle)
         })
         binding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

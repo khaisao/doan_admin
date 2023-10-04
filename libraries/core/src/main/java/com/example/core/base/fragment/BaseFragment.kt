@@ -23,6 +23,7 @@ abstract class BaseFragment<BD : ViewDataBinding, VM : BaseViewModel>(@LayoutRes
 
         viewModel.messageError.observe(viewLifecycleOwner) {
             toastMessage(it.toString())
+            showHideLoading(false)
         }
 
         viewModel.isLoading.observe(viewLifecycleOwner) {

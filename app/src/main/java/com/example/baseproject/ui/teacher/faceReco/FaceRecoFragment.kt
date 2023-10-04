@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
+import android.util.Log
 import android.util.Size
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -92,7 +93,7 @@ class FaceRecoFragment :
         lifecycleScope.launch(Dispatchers.IO) {
             frameAnalyser = FrameAnalyser(requireContext(), boundingBoxOverlay, faceNetModel)
             fileReader = FileReader(faceNetModel)
-            courseId = arguments?.getInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE)
+            courseId = arguments?.getInt(BundleKey.COURSE_ID_ATTENDANCE)
             scheduleId = arguments?.getInt(BundleKey.SCHEDULE_ID_ATTENDANCE)
             if (courseId == null || scheduleId == null) {
                 toastMessage("Error, try again")
