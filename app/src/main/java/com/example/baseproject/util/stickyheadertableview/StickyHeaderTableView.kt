@@ -475,26 +475,13 @@ class StickyHeaderTableView @JvmOverloads constructor(
                 }
                 textToDraw = data!![i][0]
                 paintHeaderText.getTextBounds(textToDraw, 0, textToDraw.length, textRectBounds)
-                if (isDisplayLeftHeadersVertically) {
-                    drawTextX =
-                        cellsRectangles[i][0]!!.right - getWidthOfColumn(0) / 2f + textRectBounds.height() / 2f
-                    drawTextY =
-                        cellsRectangles[i][0]!!.bottom - getHeightOfRow(i) / 2f + textRectBounds.width() / 2f
-                    canvas.save()
-                    canvas.rotate(-90f, drawTextX, drawTextY)
-                    canvas.drawText(
-                        textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintHeaderText
-                    )
-                    canvas.restore()
-                } else {
-                    drawTextX =
-                        cellsRectangles[i][0]!!.right - getWidthOfColumn(0) / 2f - textRectBounds.width() / 2f
-                    drawTextY =
-                        cellsRectangles[i][0]!!.bottom - getHeightOfRow(i) / 2f + textRectBounds.height() / 2f
-                    canvas.drawText(
-                        textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintHeaderText
-                    )
-                }
+                drawTextX =
+                    cellsRectangles[i][0]!!.right - getWidthOfColumn(0) / 2f - textRectBounds.width() / 2f
+                drawTextY =
+                    cellsRectangles[i][0]!!.bottom - getHeightOfRow(i) / 2f + textRectBounds.height() / 2f
+                canvas.drawText(
+                    textToDraw, 0, textToDraw.length, drawTextX, drawTextY, paintHeaderText
+                )
             }
         }
 

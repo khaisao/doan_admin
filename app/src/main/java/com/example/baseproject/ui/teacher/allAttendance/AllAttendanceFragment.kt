@@ -1,5 +1,6 @@
 package com.example.baseproject.ui.teacher.allAttendance
 
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -41,17 +42,14 @@ class AllAttendanceFragment :
             toastMessage("Error, try again")
         }
         initComponents()
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
     private fun initComponents() {
         val stickyHeaderTableView = binding.stickyHeaderTableView
         stickyHeaderTableView.onTableCellClickListener = object : OnTableCellClickListener {
             override fun onTableCellClicked(rowPosition: Int, columnPosition: Int) {
-                Toast.makeText(
-                    requireContext(),
-                    "Row: $rowPosition, Column: $columnPosition",
-                    Toast.LENGTH_SHORT
-                ).show()
+
             }
         }
 
@@ -124,6 +122,11 @@ class AllAttendanceFragment :
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        requireActivity().requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        super.onDestroyView()
     }
 
 }
