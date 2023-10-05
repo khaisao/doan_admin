@@ -8,5 +8,57 @@
         android:background="@color/white"
         android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/fl_camera"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/line1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.camera.view.PreviewView
+                android:id="@+id/previewView_finder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:scaleType="fillCenter" />
+
+            <com.example.baseproject.ui.student.faceScan.camerax.GraphicOverlay
+                android:id="@+id/graphicOverlay_finder"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <View
+            android:id="@+id/line1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/btn_take_pictur"
+            app:layout_constraintTop_toBottomOf="@id/fl_camera"
+            android:background="#A33B3B"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <ImageView
+            android:id="@+id/iv_capture"
+            app:layout_constraintBottom_toTopOf="@id/btnSwitch"
+            app:layout_constraintTop_toBottomOf="@id/btn_take_pictur"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="switch_camera"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

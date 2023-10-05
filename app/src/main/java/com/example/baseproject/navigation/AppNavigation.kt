@@ -44,4 +44,6 @@ interface AppNavigation : BaseNavigator {
     fun openStudentTopToDetailScheduleStudent(bundle: Bundle? = null)
 
     fun openDetailCourseToAllAttendance(bundle: Bundle? = null)
+
+    fun openSplashToFaceScan(bundle: Bundle? = null)
 }
