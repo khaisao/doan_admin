@@ -49,9 +49,9 @@ class AllAttendanceFragment :
         val stickyHeaderTableView = binding.stickyHeaderTableView
         stickyHeaderTableView.onTableCellClickListener = object : OnTableCellClickListener {
             override fun onTableCellClicked(rowPosition: Int, columnPosition: Int) {
-
             }
         }
+
 
     }
 
