@@ -1,7 +1,7 @@
 package com.example.baseproject.ui.student.faceScan
 
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.AddImageProfileBody
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
@@ -17,16 +17,23 @@ class FaceScanViewModel @Inject constructor(
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
 
-    val allCourseStudentRegister = MutableStateFlow<List<CourseStudentRegister>>(emptyList())
+    val isScanSuccess = MutableStateFlow<Boolean?>(null)
 
-    fun getAllCourseRegister() {
+    fun addImageProfile(listImageData: List<String>) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
                 val studentId = rxPreferences.getStudentId()
-                val response = apiInterface.getAllCourseRegister(studentId)
+                val response = apiInterface.addImageProfile(
+                    AddImageProfileBody(
+                        studentId = studentId,
+                        listImageData = listImageData
+                    )
+                )
                 if (response.errors.isEmpty()) {
-                    allCourseStudentRegister.value = response.dataResponse
+                    isScanSuccess.value = true
+                } else {
+                    messageError.postValue("Error, try again")
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)

@@ -33,8 +33,14 @@ class ScheduleStudentFragment :
     @Inject
     lateinit var appNavigation: AppNavigation
 
+    private val dialog = DialogNoticeEmptyImageProfileFragment(onNavigateToScanFace = {
+        appNavigation.openToFaceScan()
+
+    })
+
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        viewModel.getDataImageProfile()
         adapter = CourseStudentRegisterAdapter(onCourseClick = {
             val bundle = Bundle()
             bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, it.coursePerCycleId)
@@ -69,6 +75,19 @@ class ScheduleStudentFragment :
             viewModel.allCourseStudentRegister.collectFlowOnView(viewLifecycleOwner) {
                 adapter.submitList(it)
 
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.listDataImageProfile.collectFlowOnView(viewLifecycleOwner) {
+                if (it.isEmpty()) {
+                    dialog.show(
+                        childFragmentManager,
+                        DialogNoticeEmptyImageProfileFragment::class.java.simpleName
+                    )
+                } else {
+                    dialog.dismiss()
+                }
             }
         }
     }

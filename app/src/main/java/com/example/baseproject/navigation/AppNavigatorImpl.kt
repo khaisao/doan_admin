@@ -90,8 +90,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_detailCourseFragment_to_allAttendanceFragment, bundle)
     }
 
-    override fun openSplashToFaceScan(bundle: Bundle?) {
-        openScreen(R.id.action_splashFragment_to_faceScanFragment, bundle)
+    override fun openToFaceScan(bundle: Bundle?) {
+        openScreen(R.id.action_studentTopFragment_to_faceScanFragment, bundle)
     }
 
 }

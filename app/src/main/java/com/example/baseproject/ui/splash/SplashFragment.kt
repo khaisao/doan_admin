@@ -37,7 +37,6 @@ class SplashFragment :
 
     override fun bindingStateView() {
         super.bindingStateView()
-        appNavigation.openSplashToFaceScan()
         lifecycleScope.launch {
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner){
                 if(it is LoginSplashEvent.LoginSuccess){

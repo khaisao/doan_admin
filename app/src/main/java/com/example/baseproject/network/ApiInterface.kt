@@ -2,10 +2,11 @@ package com.example.baseproject.network
 
 import com.example.baseproject.model.AccountStudentResponse
 import com.example.baseproject.model.AccountTeacherResponse
+import com.example.baseproject.model.AddImageProfileBody
 import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.baseproject.model.ApiObjectResponse
 import com.example.baseproject.model.CourseHaveShedule
-import com.example.baseproject.model.ImageProfileResponse
+import com.example.baseproject.model.DataImageProfileResponse
 import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
@@ -56,10 +57,10 @@ interface ApiInterface {
         @Part("studentId") studentId: RequestBody, @Part part: MultipartBody.Part
     ): ApiObjectResponse<Any>
 
-    @GET("api/student/getImageProfile/{id}")
-    suspend fun getImageProfile(
+    @GET("api/student/getDataImageProfile/{id}")
+    suspend fun getDataImageProfile(
         @Path("id") id: Int = 0
-    ): ApiObjectResponse<ImageProfileResponse>
+    ): ApiObjectResponse<DataImageProfileResponse>
 
     @GET("api/student/getAllCourseRegister/{studentId}")
     suspend fun getAllCourseRegister(
@@ -98,5 +99,10 @@ interface ApiInterface {
     suspend fun getAllScheduleSpecificCourse(
         @Path("courseId") courseId: Int,
     ): ApiObjectResponse<List<DetailScheduleCourse>>
+
+    @POST("api/student/addImageProfile")
+    suspend fun addImageProfile(
+        @Body addImageProfileBody: AddImageProfileBody
+    ): ApiObjectResponse<Any>
 
 }

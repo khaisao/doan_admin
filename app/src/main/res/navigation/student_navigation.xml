@@ -8,35 +8,42 @@
     <fragment
         android:id="@+id/studentTopFragment"
         android:name="com.example.baseproject.ui.student.StudentTopFragment"
-        android:label="StudentTopFragment" >
+        android:label="StudentTopFragment">
         <action
             android:id="@+id/action_studentTopFragment_to_changePasswordFragment2"
+            app:destination="@id/changePasswordFragment2"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"
-            app:destination="@id/changePasswordFragment2" />
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_studentTopFragment_to_detailScheduleStudentFragment"
             app:destination="@id/detailScheduleStudentFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_studentTopFragment_to_faceScanFragment"
+            app:destination="@id/faceScanFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment2"
         android:name="com.example.baseproject.ui.changePassword.ChangePasswordFragment"
-        android:label="ChangePasswordFragment" >
+        android:label="ChangePasswordFragment">
         <action
             android:id="@+id/action_changePasswordFragment2_to_changePasswordSuccessFragment2"
+            app:destination="@id/changePasswordSuccessFragment2"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:destination="@id/changePasswordSuccessFragment2"
             app:popUpTo="@id/changePasswordFragment2"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordSuccessFragment2"
@@ -46,4 +53,8 @@
         android:id="@+id/detailScheduleStudentFragment"
         android:name="com.example.baseproject.ui.student.detailSchedule.DetailScheduleStudentFragment"
         android:label="DetailScheduleStudentFragment" />
+    <fragment
+        android:id="@+id/faceScanFragment"
+        android:name="com.example.baseproject.ui.student.faceScan.FaceScanFragment"
+        android:label="FaceScanFragment" />
 </navigation>

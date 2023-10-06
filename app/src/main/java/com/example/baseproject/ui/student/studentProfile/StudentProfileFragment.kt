@@ -98,8 +98,6 @@ class StudentProfileFragment :
             .build()
         detector = FaceDetection.getClient(options)
 
-        viewModel.getImageProfile()
-
         Glide.with(requireContext())
             .load(R.drawable.no_avatar)
             .transform(CenterInside(), RoundedCorners(100))
@@ -116,12 +114,6 @@ class StudentProfileFragment :
                 if (it is UploadImageEvent.UploadImageSuccess) {
                     toastMessage("Success")
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.listImageProfile.collectFlowOnView(viewLifecycleOwner) {
-                adapter.submitList(it)
             }
         }
     }

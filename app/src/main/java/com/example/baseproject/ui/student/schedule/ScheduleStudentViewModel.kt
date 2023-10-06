@@ -18,6 +18,7 @@ class ScheduleStudentViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val allCourseStudentRegister = MutableStateFlow<List<CourseStudentRegister>>(emptyList())
+    val listDataImageProfile = MutableStateFlow<List<String>>(emptyList())
 
     fun getAllCourseRegister() {
         viewModelScope.launch(Dispatchers.IO + handler) {
@@ -34,6 +35,22 @@ class ScheduleStudentViewModel @Inject constructor(
                 isLoading.postValue(false)
             }
 
+        }
+    }
+
+    fun getDataImageProfile(){
+        try {
+            viewModelScope.launch(Dispatchers.IO + handler) {
+                isLoading.postValue(true)
+                val response = apiInterface.getDataImageProfile(rxPreferences.getStudentId())
+                if(response.errors.isEmpty()){
+                    listDataImageProfile.value = response.dataResponse.listDataImageProfile
+                }
+            }
+        } catch (e: Exception) {
+
+        } finally {
+            isLoading.postValue(false)
         }
     }
 }

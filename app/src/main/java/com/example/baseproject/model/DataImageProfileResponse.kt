@@ -2,7 +2,7 @@ package com.example.baseproject.model
 
 import com.google.gson.annotations.SerializedName
 
-data class ImageProfileResponse(
+data class DataImageProfileResponse(
     @SerializedName("studentId") var studentId: Int,
-    @SerializedName("listImageUrl") var listImageUrl: List<String> = emptyList()
+    @SerializedName("listDataImageProfile") var listDataImageProfile: List<String> = emptyList()
 )

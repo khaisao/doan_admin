@@ -1,21 +1,27 @@
 package com.example.baseproject.ui.student.faceScan
 
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
+import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentFaceScanBinding
+import com.example.baseproject.model.faceReco.FaceNetModel
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.ui.student.faceScan.camerax.CameraManager
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
+import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -25,6 +31,8 @@ class FaceScanFragment :
 
     override fun getVM(): FaceScanViewModel = viewModel
 
+    @Inject
+    lateinit var faceNetModel: FaceNetModel
 
     @Inject
     lateinit var rxPreferences: RxPreferences
@@ -41,6 +49,14 @@ class FaceScanFragment :
 
     override fun bindingStateView() {
         super.bindingStateView()
+        lifecycleScope.launch {
+            viewModel.isScanSuccess.collectFlowOnView(viewLifecycleOwner){
+                if (it != null && it == true){
+                    toastMessage("Success, Please continue your work")
+                    appNavigation.navigateUp()
+                }
+            }
+        }
 
     }
 
@@ -65,11 +81,14 @@ class FaceScanFragment :
 
     private lateinit var cameraManager: CameraManager
 
+    private val listBitmapImage: MutableList<String> = mutableListOf()
+
     private fun createCameraManager() {
         binding.ivArrowTop.isVisible = true
         binding.ivArrowRight.isVisible = false
         binding.ivArrowBottom.isVisible = false
         binding.ivArrowLeft.isVisible = false
+
         cameraManager = CameraManager(
             requireContext(),
             binding.previewViewFinder,
@@ -78,20 +97,62 @@ class FaceScanFragment :
             onSuccessImageRight = {
                 binding.ivArrowRight.isVisible = false
                 binding.ivArrowBottom.isVisible = true
-            },
-            onSuccessImageTop = {
-                binding.ivArrowTop.isVisible = false
-                binding.ivArrowRight.isVisible = true
-            },
-            onSuccessImageBottom = {
-                binding.ivArrowBottom.isVisible = false
-                binding.ivArrowLeft.isVisible = true
-            },
-            onSuccessImageLeft = {
-                binding.ivArrowLeft.isVisible = false
+                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                saveImageScan(it,"right")
 
             },
+            onSuccessImageTop = {
+                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                binding.ivArrowTop.isVisible = false
+                binding.ivArrowRight.isVisible = true
+                saveImageScan(it,"top")
+
+            },
+            onSuccessImageBottom = {
+                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                binding.ivArrowBottom.isVisible = false
+                binding.ivArrowLeft.isVisible = true
+                saveImageScan(it,"bottom")
+
+            },
+            onSuccessImageLeft = {
+                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                viewModel.addImageProfile(listBitmapImage)
+                binding.ivArrowLeft.isVisible = false
+                saveImageScan(it,"left")
+            },
         )
+    }
+
+    private fun saveImageScan(bitmap: Bitmap, fileName: String) {
+        val cacheDir = requireContext().cacheDir
+        val file =
+            File(cacheDir, "$fileName.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
+
+        try {
+            val stream = FileOutputStream(file)
+            bitmap.compress(
+                Bitmap.CompressFormat.JPEG,
+                100,
+                stream
+            )
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun getStringFromEmbed(data: FloatArray): String {
+        val stringBuilder = StringBuilder()
+        for (value in data) {
+            stringBuilder.append(value)
+                .append(",")
+        }
+        if (stringBuilder.isNotEmpty()) {
+            stringBuilder.setLength(stringBuilder.length - 2)
+        }
+        return stringBuilder.toString()
     }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {

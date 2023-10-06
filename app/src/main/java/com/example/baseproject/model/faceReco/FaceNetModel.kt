@@ -27,7 +27,7 @@ import kotlin.math.sqrt
 class FaceNetModel @Inject constructor(
     val application: Application,
 ) {
-    var model: ModelInfo = Models.FACENET_512
+    var model: ModelInfo = Models.FACENET
     val useGpu: Boolean = true
     val useXNNPack: Boolean = true
 

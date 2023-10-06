@@ -25,8 +25,6 @@ class StudentProfileViewModel @Inject constructor(
     private val uploadImageActionStateChannel = Channel<UploadImageEvent>()
     val uploadImageActionStateFlow = uploadImageActionStateChannel.receiveAsFlow()
 
-    val listImageProfile = MutableStateFlow<List<String>>(emptyList())
-
     fun updateImageProfile(file: File) {
         try {
             viewModelScope.launch(Dispatchers.IO + handler) {
@@ -42,22 +40,6 @@ class StudentProfileViewModel @Inject constructor(
                     uploadImageActionStateChannel.send(UploadImageEvent.UploadImageSuccess)
                 }
                 isLoading.postValue(false)
-            }
-        } catch (e: Exception) {
-
-        } finally {
-            isLoading.postValue(false)
-        }
-    }
-
-    fun getImageProfile(){
-        try {
-            viewModelScope.launch(Dispatchers.IO + handler) {
-                isLoading.postValue(false)
-                val response = apiInterface.getImageProfile(rxPreferences.getStudentId())
-                if(response.errors.isEmpty()){
-                    listImageProfile.value = response.dataResponse.listImageUrl
-                }
             }
         } catch (e: Exception) {
 

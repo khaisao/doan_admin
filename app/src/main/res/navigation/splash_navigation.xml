@@ -47,9 +47,6 @@
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/splashFragment"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_splashFragment_to_faceScanFragment"
-            app:destination="@id/faceScanFragment" />
 
     </fragment>
     <fragment
@@ -98,9 +95,5 @@
     <include app:graph="@navigation/admin_navigation" />
     <include app:graph="@navigation/teacher_navigation" />
     <include app:graph="@navigation/student_navigation" />
-    <fragment
-        android:id="@+id/faceScanFragment"
-        android:name="com.example.baseproject.ui.student.faceScan.FaceScanFragment"
-        android:label="FaceScanFragment" />
 
 </navigation>

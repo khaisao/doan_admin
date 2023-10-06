@@ -3,6 +3,7 @@ package com.example.baseproject.ui.student.faceScan.face_detection
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
+import android.graphics.Matrix
 import android.graphics.Rect
 import android.media.Image
 import android.util.Log
@@ -16,8 +17,6 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 
 class FaceContourDetectionProcessor(
@@ -123,25 +122,7 @@ class FaceContourDetectionProcessor(
             var bitmap: Bitmap? = null
             try {
                 bitmap = image.image?.let { it1 -> convertYuv420888ImageToBitmap(it1) }
-                val cacheDir = context.cacheDir // Lấy thư mục cache của ứng dụng
 
-                val file =
-                    File(cacheDir, "my_image.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
-
-                try {
-                    val stream = FileOutputStream(file)
-                    bitmap?.compress(
-                        Bitmap.CompressFormat.JPEG,
-                        100,
-                        stream
-                    ) // Nếu bạn muốn sử dụng định dạng JPEG
-                    // Hoặc bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream) nếu bạn muốn sử dụng định dạng PNG
-                    stream.flush()
-                    stream.close()
-                    // Tệp ảnh đã được lưu vào cache của ứng dụng
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
             } catch (e: java.lang.Exception) {
                 Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
             }
@@ -210,7 +191,12 @@ class FaceContourDetectionProcessor(
         }
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         bitmap.setPixels(argb8888, 0, width, 0, 0, width, height)
-        return bitmap
+        return bitmap.rotate(270f)
+    }
+
+    fun Bitmap.rotate(degrees: Float): Bitmap {
+        val matrix = Matrix().apply { postRotate(degrees) }
+        return Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
     }
 
     private val CHANNEL_RANGE = 0 until (1 shl 18)
