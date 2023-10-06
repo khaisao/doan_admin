@@ -12,7 +12,6 @@
             android:id="@+id/fl_camera"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/line1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -29,36 +28,81 @@
                 android:layout_height="match_parent" />
         </FrameLayout>
 
-        <View
-            android:id="@+id/line1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
-
-        <TextView
-            android:id="@+id/btn_take_pictur"
-            app:layout_constraintTop_toBottomOf="@id/fl_camera"
-            android:background="#A33B3B"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"/>
-
         <ImageView
-            android:id="@+id/iv_capture"
-            app:layout_constraintBottom_toTopOf="@id/btnSwitch"
-            app:layout_constraintTop_toBottomOf="@id/btn_take_pictur"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"/>
-
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="switch_camera"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/iv_flip_camera"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            android:src="@drawable/ic_flip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_face"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:adjustViewBounds="true"
+                android:src="@drawable/person"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_right"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:src="@drawable/ic_arrow_scan_face_right"
+                app:layout_constraintBottom_toBottomOf="@id/iv_face"
+                app:layout_constraintStart_toEndOf="@id/iv_face"
+                app:layout_constraintTop_toTopOf="@id/iv_face"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_left"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_arrow_scan_face_left"
+                app:layout_constraintBottom_toBottomOf="@id/iv_face"
+                app:layout_constraintEnd_toStartOf="@id/iv_face"
+                app:layout_constraintTop_toTopOf="@id/iv_face"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/iv_arrow_top"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_arrow_scan_face_top"
+                app:layout_constraintBottom_toTopOf="@id/iv_face"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:tint="@color/white" />
+
+
+            <ImageView
+                android:id="@+id/iv_arrow_bottom"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_arrow_scan_face_bottom"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_face"
+                app:tint="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -20,9 +20,13 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
-class FaceContourDetectionProcessor (
+class FaceContourDetectionProcessor(
     private val view: GraphicOverlay,
     private val context: Context,
+    private val onSuccessImageTop: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageRight: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageBottom: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageLeft: (bitmap: Bitmap) -> Unit
 ) :
     BaseImageAnalyzer<List<Face>>() {
 
@@ -49,6 +53,10 @@ class FaceContourDetectionProcessor (
     }
 
     val application = context
+    var isTopDone = false
+    var isRightDone = false
+    var isBottomDone = false
+    var isLeftDone = false
     override fun onSuccess(
         results: List<Face>,
         graphicOverlay: GraphicOverlay,
@@ -60,49 +68,42 @@ class FaceContourDetectionProcessor (
             val x = it.headEulerAngleX
             val y = it.headEulerAngleY
             val z = it.headEulerAngleZ
+            var xDirection: DirectionOfFace? = null
+            var yDirection: DirectionOfFace? = null
+            var zDirection: DirectionOfFace? = null
 
             if (-36 < x && x < -12) {
                 Log.d("xxxxxxxxxx", "x DOwn")
+                xDirection = DirectionOfFace.Bottom
 
             }
             if (-12 < x && x < 12) {
                 Log.d("xxxxxxxxxx", "x Front")
+                xDirection = DirectionOfFace.Front
+
 
             }
             if (12 < x && x < 36) {
                 Log.d("xxxxxxxxxx", "x Up")
-                var bitmap: Bitmap? = null
-                try {
-                    bitmap = image.image?.let { it1 -> convertYuv420888ImageToBitmap(it1) }
-                    val cacheDir = context.cacheDir // Lấy thư mục cache của ứng dụng
-
-                    val file = File(cacheDir, "my_image.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
-
-                    try {
-                        val stream = FileOutputStream(file)
-                        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream) // Nếu bạn muốn sử dụng định dạng JPEG
-                        // Hoặc bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream) nếu bạn muốn sử dụng định dạng PNG
-                        stream.flush()
-                        stream.close()
-                        // Tệp ảnh đã được lưu vào cache của ứng dụng
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
-                } catch (e: java.lang.Exception) {
-                    Toast.makeText(context,"Error",Toast.LENGTH_SHORT).show()
-                }
+                xDirection = DirectionOfFace.Top
             }
             //For Y
             if (-36 < y && y < -12) {
                 Log.d("yyyyyyyyyyyyyyyyy", "x Left")
+                yDirection = DirectionOfFace.Right
+
 
             }
             if (-12 < y && y < 12) {
                 Log.d("yyyyyyyyyyyyyyyyy", "x Frontal")
+                yDirection = DirectionOfFace.Front
+
 
             }
             if (12 < y && y < 36) {
                 Log.d("yyyyyyyyyyyyyyyyy", "x Right")
+                yDirection = DirectionOfFace.Left
+
 
             }
 
@@ -119,13 +120,58 @@ class FaceContourDetectionProcessor (
                 Log.d("zzzzzzzzzz", "x Left")
 
             }
+            var bitmap: Bitmap? = null
+            try {
+                bitmap = image.image?.let { it1 -> convertYuv420888ImageToBitmap(it1) }
+                val cacheDir = context.cacheDir // Lấy thư mục cache của ứng dụng
+
+                val file =
+                    File(cacheDir, "my_image.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
+
+                try {
+                    val stream = FileOutputStream(file)
+                    bitmap?.compress(
+                        Bitmap.CompressFormat.JPEG,
+                        100,
+                        stream
+                    ) // Nếu bạn muốn sử dụng định dạng JPEG
+                    // Hoặc bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream) nếu bạn muốn sử dụng định dạng PNG
+                    stream.flush()
+                    stream.close()
+                    // Tệp ảnh đã được lưu vào cache của ứng dụng
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            } catch (e: java.lang.Exception) {
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+            }
+
+            if (xDirection != null && yDirection != null && bitmap != null) {
+                if (xDirection == DirectionOfFace.Top && yDirection == DirectionOfFace.Front && !isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
+                    onSuccessImageTop.invoke(bitmap)
+                    isTopDone = true
+                }
+                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Right && isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
+                    onSuccessImageRight.invoke(bitmap)
+                    isRightDone = true
+                }
+                if (xDirection == DirectionOfFace.Bottom && yDirection == DirectionOfFace.Front && isTopDone && isRightDone && !isBottomDone && !isLeftDone) {
+                    onSuccessImageBottom.invoke(bitmap)
+                    isBottomDone = true
+                }
+                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Left && isTopDone && isRightDone && isBottomDone && !isLeftDone) {
+                    isLeftDone = true
+                    onSuccessImageLeft.invoke(bitmap)
+                }
+
+            }
             val faceGraphic = FaceContourGraphic(graphicOverlay, it, rect)
             graphicOverlay.add(faceGraphic)
         }
         graphicOverlay.postInvalidate()
     }
 
-    fun convertYuv420888ImageToBitmap(image: Image): Bitmap {
+    private fun convertYuv420888ImageToBitmap(image: Image): Bitmap {
         require(image.format == ImageFormat.YUV_420_888) {
             "Unsupported image format $(image.format)"
         }
@@ -193,9 +239,11 @@ class FaceContourDetectionProcessor (
         nB = nB.coerceIn(CHANNEL_RANGE) shr 10 and 0xff
         return -0x1000000 or (nR shl 16) or (nG shl 8) or nB
     }
+
     private fun Byte.toIntUnsigned(): Int {
         return toInt() and 0xFF
     }
+
     override fun onFailure(e: Exception) {
         Log.w(TAG, "Face Detector failed.$e")
     }
@@ -204,4 +252,8 @@ class FaceContourDetectionProcessor (
         private const val TAG = "FaceDetectorProcessor"
     }
 
+}
+
+enum class DirectionOfFace {
+    Front, Top, Bottom, Left, Right
 }

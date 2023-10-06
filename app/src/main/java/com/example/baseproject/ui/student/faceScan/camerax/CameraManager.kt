@@ -2,15 +2,11 @@ package com.example.baseproject.ui.student.faceScan.camerax
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
 import android.util.Log
 import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
@@ -24,7 +20,11 @@ class CameraManager(
     private val context: Context,
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
-    private val graphicOverlay: GraphicOverlay
+    private val graphicOverlay: GraphicOverlay,
+    private val onSuccessImageTop: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageRight: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageBottom: (bitmap: Bitmap) -> Unit,
+    private val onSuccessImageLeft: (bitmap: Bitmap) -> Unit
 ) {
 
     private var preview: Preview? = null
@@ -46,39 +46,6 @@ class CameraManager(
     }
 
     private lateinit var imageCapture: ImageCapture
-
-    fun takePhoto(onResultBitMapSuccess: (bitmap: Bitmap) -> Unit, onResultBitMapFail: () -> Unit) {
-        imageCapture.takePicture(
-            ContextCompat.getMainExecutor(context),
-            object : ImageCapture.OnImageCapturedCallback() {
-                override fun onCaptureSuccess(image: ImageProxy) {
-                    // Lấy ảnh từ imageProxy và lưu lại (hoặc xử lý ảnh ở đây)
-                    val bitmap = image.image?.let { imageToBitmap(it) }
-                    if (bitmap != null) {
-                        onResultBitMapSuccess.invoke(bitmap)
-                    } else {
-                        onResultBitMapFail.invoke()
-                    }
-                    // Đóng ImageProxy
-                    image.close()
-
-                    // Bạn có thể sử dụng bitmap cho mục đích của bạn ở đây
-                }
-
-                override fun onError(exception: ImageCaptureException) {
-                    // Xử lý lỗi khi chụp ảnh
-                    Log.e(TAG, "Error capturing image: ${exception.message}")
-                }
-            }
-        )
-    }
-
-    private fun imageToBitmap(image: Image): Bitmap {
-        val buffer = image.planes[0].buffer
-        val bytes = ByteArray(buffer.remaining())
-        buffer.get(bytes)
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-    }
 
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
@@ -106,7 +73,23 @@ class CameraManager(
     }
 
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
-        return FaceContourDetectionProcessor(graphicOverlay,context)
+        return FaceContourDetectionProcessor(
+            graphicOverlay, context,
+            onSuccessImageRight = {
+                onSuccessImageRight.invoke(it)
+            },
+            onSuccessImageTop = {
+                onSuccessImageTop.invoke(it)
+
+            },
+            onSuccessImageBottom = {
+                onSuccessImageBottom.invoke(it)
+
+            },
+            onSuccessImageLeft = {
+                onSuccessImageLeft.invoke(it)
+            },
+        )
     }
 
     private fun setCameraConfig(

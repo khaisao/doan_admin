@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentFaceScanBinding
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.ui.student.faceScan.camerax.CameraManager
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
+import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -42,19 +45,12 @@ class FaceScanFragment :
     }
 
     private fun onClicks() {
-        binding.btnSwitch.setOnClickListener {
+        binding.ivFlipCamera.setOnClickListener {
             cameraManager.changeCameraSelector()
         }
-        binding.btnTakePictur.setOnClickListener {
-            cameraManager.takePhoto(onResultBitMapSuccess = {
-                Log.d("asgagwawgawgwag", "onClicks: ")
-                binding.ivCapture.setImageBitmap(it)
-            }, onResultBitMapFail = {
-                Log.d("asgagwawgawgwag", "fail: ")
 
-            })
-        }
     }
+
     private fun checkForPermission() {
         if (allPermissionsGranted()) {
             cameraManager.startCamera()
@@ -66,14 +62,35 @@ class FaceScanFragment :
             )
         }
     }
+
     private lateinit var cameraManager: CameraManager
 
     private fun createCameraManager() {
+        binding.ivArrowTop.isVisible = true
+        binding.ivArrowRight.isVisible = false
+        binding.ivArrowBottom.isVisible = false
+        binding.ivArrowLeft.isVisible = false
         cameraManager = CameraManager(
             requireContext(),
             binding.previewViewFinder,
             viewLifecycleOwner,
-            binding.graphicOverlayFinder
+            binding.graphicOverlayFinder,
+            onSuccessImageRight = {
+                binding.ivArrowRight.isVisible = false
+                binding.ivArrowBottom.isVisible = true
+            },
+            onSuccessImageTop = {
+                binding.ivArrowTop.isVisible = false
+                binding.ivArrowRight.isVisible = true
+            },
+            onSuccessImageBottom = {
+                binding.ivArrowBottom.isVisible = false
+                binding.ivArrowLeft.isVisible = true
+            },
+            onSuccessImageLeft = {
+                binding.ivArrowLeft.isVisible = false
+
+            },
         )
     }
 
