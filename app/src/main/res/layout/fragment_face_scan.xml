@@ -48,7 +48,7 @@
                 android:id="@+id/iv_face"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="70dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/person"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -90,11 +90,11 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:tint="@color/white" />
 
-
             <ImageView
                 android:id="@+id/iv_arrow_bottom"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
+                android:layout_marginTop="10dp"
                 android:src="@drawable/ic_arrow_scan_face_bottom"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

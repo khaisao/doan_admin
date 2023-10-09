@@ -40,8 +40,13 @@ class FaceScanFragment :
     @Inject
     lateinit var appNavigation: AppNavigation
 
+    private lateinit var dialog: DialogLookTheCameraFragment
+
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        dialog = DialogLookTheCameraFragment()
+        dialog.isCancelable = false
+        dialog.show(childFragmentManager,DialogLookTheCameraFragment::class.java.simpleName)
         createCameraManager()
         checkForPermission()
         onClicks()
@@ -50,14 +55,13 @@ class FaceScanFragment :
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.isScanSuccess.collectFlowOnView(viewLifecycleOwner){
-                if (it != null && it == true){
+            viewModel.isScanSuccess.collectFlowOnView(viewLifecycleOwner) {
+                if (it != null && it == true) {
                     toastMessage("Success, Please continue your work")
                     appNavigation.navigateUp()
                 }
             }
         }
-
     }
 
     private fun onClicks() {
@@ -94,32 +98,36 @@ class FaceScanFragment :
             binding.previewViewFinder,
             viewLifecycleOwner,
             binding.graphicOverlayFinder,
+            onSuccessImageFront = {
+                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                saveImageScan(it, "front")
+                dialog.dismiss()
+            },
             onSuccessImageRight = {
                 binding.ivArrowRight.isVisible = false
                 binding.ivArrowBottom.isVisible = true
                 listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
-                saveImageScan(it,"right")
-
+                saveImageScan(it, "right")
             },
             onSuccessImageTop = {
                 listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 binding.ivArrowTop.isVisible = false
                 binding.ivArrowRight.isVisible = true
-                saveImageScan(it,"top")
+                saveImageScan(it, "top")
 
             },
             onSuccessImageBottom = {
                 listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 binding.ivArrowBottom.isVisible = false
                 binding.ivArrowLeft.isVisible = true
-                saveImageScan(it,"bottom")
+                saveImageScan(it, "bottom")
 
             },
             onSuccessImageLeft = {
                 listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 viewModel.addImageProfile(listBitmapImage)
                 binding.ivArrowLeft.isVisible = false
-                saveImageScan(it,"left")
+                saveImageScan(it, "left")
             },
         )
     }

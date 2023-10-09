@@ -21,6 +21,7 @@ class CameraManager(
     private val finderView: PreviewView,
     private val lifecycleOwner: LifecycleOwner,
     private val graphicOverlay: GraphicOverlay,
+    private val onSuccessImageFront: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageTop: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageRight: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageBottom: (bitmap: Bitmap) -> Unit,
@@ -75,6 +76,9 @@ class CameraManager(
     private fun selectAnalyzer(): ImageAnalysis.Analyzer {
         return FaceContourDetectionProcessor(
             graphicOverlay, context,
+            onSuccessImageFront = {
+                onSuccessImageFront.invoke(it)
+            },
             onSuccessImageRight = {
                 onSuccessImageRight.invoke(it)
             },

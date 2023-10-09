@@ -7,6 +7,10 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
 
@@ -16,23 +20,25 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
     override fun analyze(imageProxy: ImageProxy) {
         val mediaImage = imageProxy.image
         mediaImage?.let {
-            detectInImage(InputImage.fromMediaImage(
-                it, imageProxy.imageInfo.rotationDegrees))
-                .addOnSuccessListener { results ->
-                    Log.d("asgawgawgwagawg", "analyze: ${imageProxy.imageInfo.rotationDegrees}")
-                    Log.d("agawggwaawgwag", "analyze: $results")
-                    onSuccess(
-                        results,
-                        graphicOverlay,
-                        it.cropRect,
-                        imageProxy
-                    )
-                    imageProxy.close()
-                }
-                .addOnFailureListener {
-                    onFailure(it)
-                    imageProxy.close()
-                }
+            CoroutineScope(Dispatchers.IO).launch {
+                delay(500)
+                detectInImage(InputImage.fromMediaImage(
+                    it, imageProxy.imageInfo.rotationDegrees))
+                    .addOnSuccessListener { results ->
+                        onSuccess(
+                            results,
+                            graphicOverlay,
+                            it.cropRect,
+                            imageProxy
+                        )
+                        imageProxy.close()
+                    }
+                    .addOnFailureListener {
+                        onFailure(it)
+                        imageProxy.close()
+                    }
+            }
+
         }
     }
 

@@ -22,6 +22,7 @@ import java.io.IOException
 class FaceContourDetectionProcessor(
     private val view: GraphicOverlay,
     private val context: Context,
+    private val onSuccessImageFront: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageTop: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageRight: (bitmap: Bitmap) -> Unit,
     private val onSuccessImageBottom: (bitmap: Bitmap) -> Unit,
@@ -52,6 +53,7 @@ class FaceContourDetectionProcessor(
     }
 
     val application = context
+    var isFrontDone = false
     var isTopDone = false
     var isRightDone = false
     var isBottomDone = false
@@ -128,23 +130,26 @@ class FaceContourDetectionProcessor(
             }
 
             if (xDirection != null && yDirection != null && bitmap != null) {
-                if (xDirection == DirectionOfFace.Top && yDirection == DirectionOfFace.Front && !isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
+                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Front && !isFrontDone && !isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
+                    onSuccessImageFront.invoke(bitmap)
+                    isFrontDone = true
+                }
+                if (xDirection == DirectionOfFace.Top && yDirection == DirectionOfFace.Front && isFrontDone && !isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
                     onSuccessImageTop.invoke(bitmap)
                     isTopDone = true
                 }
-                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Right && isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
+                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Right && isFrontDone && isTopDone && !isRightDone && !isBottomDone && !isLeftDone) {
                     onSuccessImageRight.invoke(bitmap)
                     isRightDone = true
                 }
-                if (xDirection == DirectionOfFace.Bottom && yDirection == DirectionOfFace.Front && isTopDone && isRightDone && !isBottomDone && !isLeftDone) {
+                if (xDirection == DirectionOfFace.Bottom && yDirection == DirectionOfFace.Front && isFrontDone && isTopDone && isRightDone && !isBottomDone && !isLeftDone) {
                     onSuccessImageBottom.invoke(bitmap)
                     isBottomDone = true
                 }
-                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Left && isTopDone && isRightDone && isBottomDone && !isLeftDone) {
+                if (xDirection == DirectionOfFace.Front && yDirection == DirectionOfFace.Left && isFrontDone && isTopDone && isRightDone && isBottomDone && !isLeftDone) {
                     isLeftDone = true
                     onSuccessImageLeft.invoke(bitmap)
                 }
-
             }
             val faceGraphic = FaceContourGraphic(graphicOverlay, it, rect)
             graphicOverlay.add(faceGraphic)

@@ -9,7 +9,7 @@ data class AllImageProfileStudentForCourse(
     val studentName: String = "",
     @SerializedName("registrationId")
     val registrationId: Int = 0,
-    @SerializedName("listImageProfile")
-    val listImageProfile: List<String> = emptyList(),
+    @SerializedName("listDataImageProfile")
+    val listDataImageProfile: List<String> = emptyList(),
     var isReco:Boolean = false
 )

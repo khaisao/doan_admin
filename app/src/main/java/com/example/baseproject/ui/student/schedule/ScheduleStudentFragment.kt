@@ -85,8 +85,6 @@ class ScheduleStudentFragment :
                         childFragmentManager,
                         DialogNoticeEmptyImageProfileFragment::class.java.simpleName
                     )
-                } else {
-                    dialog.dismiss()
                 }
             }
         }

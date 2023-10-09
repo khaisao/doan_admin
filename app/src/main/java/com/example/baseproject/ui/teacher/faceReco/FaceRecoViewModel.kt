@@ -2,6 +2,7 @@ package com.example.baseproject.ui.teacher.faceReco
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.model.AllImageProfileStudentForCourse
 import com.example.baseproject.network.ApiInterface
@@ -20,7 +21,7 @@ class FaceRecoViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
 
-    val imagesData = MutableStateFlow(ArrayList<Pair<String, Bitmap>>())
+    val imagesData = MutableStateFlow(ArrayList<Pair<String, FloatArray>>())
     var listStudentRecognized = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
 
     fun getAllImageFromCoursePerCycle(coursePerCycleId: Int) {
@@ -31,22 +32,15 @@ class FaceRecoViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     val data = response.dataResponse
                     listStudentRecognized.value = data
-                    val images = ArrayList<Pair<String, Bitmap>>()
-                    for (studentItem in data) {
-                        for (imageProfileItem in studentItem.listImageProfile) {
-                            val bitMap =
-                                getBitmapFromUrl(imageProfileItem)
-                            if (bitMap != null) {
-                                images.add(
-                                    Pair(
-                                        studentItem.studentName + "_" + studentItem.studentId,
-                                        bitMap
-                                    )
-                                )
-                            }
+                    val images = ArrayList<Pair<String, FloatArray>>()
+                    for (item in data) {
+                        for (itemFloat in item.listDataImageProfile) {
+                            val stringArray = itemFloat.split(",")
+                            val floatArray = stringArray.map { it.toFloat() }.toFloatArray()
+                            images.add(Pair(item.studentName + "_" + item.studentId, floatArray))
                         }
                     }
-                    imagesData.emit(images)
+                    imagesData.value = images
                 }
             }
         } catch (e: Exception) {

@@ -139,9 +139,13 @@ class FaceRecoFragment :
                         } else {
                             startCameraPreview()
                         }
-                        if (it.size > 0) {
-                            fileReader.run(it, fileReaderCallback)
+//                        if (it.size > 0) {
+//                            fileReader.run(it, fileReaderCallback)
+//                        }
+                        if(it.size > 0){
+                            frameAnalyser.faceList = it
                         }
+
                         viewModel.isLoading.postValue(false)
                     }
                 }
