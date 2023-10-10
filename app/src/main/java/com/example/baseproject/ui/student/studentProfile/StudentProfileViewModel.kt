@@ -48,6 +48,33 @@ class StudentProfileViewModel @Inject constructor(
         }
     }
 
+    private val uploadAvatarActionStateChannel = Channel<Boolean>()
+    val uploadAvatarActionStateFlow = uploadAvatarActionStateChannel.receiveAsFlow()
+
+    fun updateStudentAvatar(file: File) {
+        try {
+            viewModelScope.launch(Dispatchers.IO + handler) {
+                isLoading.postValue(true)
+                val requestFile = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+                val part = MultipartBody.Part.createFormData(
+                    "image", file.name, requestFile
+                )
+                val studentIdRequestBody =
+                    "${rxPreferences.getStudentId()}".toRequestBody("text/plain".toMediaTypeOrNull())
+
+                val response = apiInterface.updateStudentAvatar(studentIdRequestBody, part)
+                if (response.errors.isEmpty()) {
+                    uploadAvatarActionStateChannel.send(true)
+                }
+                isLoading.postValue(false)
+            }
+        } catch (e: Exception) {
+
+        } finally {
+            isLoading.postValue(false)
+        }
+    }
+
 }
 
 sealed class UploadImageEvent() {

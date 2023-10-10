@@ -64,6 +64,12 @@ interface ApiInterface {
         @Part("teacherId") teacherId: RequestBody, @Part part: MultipartBody.Part
     ): ApiObjectResponse<Any>
 
+    @Multipart
+    @PATCH("api/student/updateAvatar")
+    suspend fun updateStudentAvatar(
+        @Part("studentId") studentId: RequestBody, @Part part: MultipartBody.Part
+    ): ApiObjectResponse<Any>
+
     @GET("api/student/getDataImageProfile/{id}")
     suspend fun getDataImageProfile(
         @Path("id") id: Int = 0

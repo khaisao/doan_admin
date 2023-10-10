@@ -57,23 +57,9 @@ class StudentProfileFragment :
     private val pickMediaForProfile =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
-                val inputImage = InputImage.fromFilePath(requireContext(), uri)
-                detector.process(inputImage)
-                    .addOnSuccessListener { faces ->
-                        if (faces.isNotEmpty()) {
-                            if (faces.size > 1) {
-                                toastMessage("Please choose a photo with only 1 face")
-                            } else {
-                                isChoosingImageProfile = true
-                                pickiT?.getPath(uri, Build.VERSION.SDK_INT)
-                            }
-                        } else {
-                            toastMessage("Please select a photo that contains a face")
-                        }
-                    }
-                    .addOnFailureListener { e ->
-                        toastMessage("Error")
-                    }
+                isChoosingImageProfile = true
+                pickiT?.getPath(uri, Build.VERSION.SDK_INT)
+
             } else {
             }
         }
@@ -158,12 +144,8 @@ class StudentProfileFragment :
         Reason: String?
     ) {
         val file = File(path)
-        if (isChoosingImageProfile) {
-            viewModel.updateImageProfile(file)
-            isChoosingImageProfile = false
-        } else {
-//            viewModel.updateAvatar()
-        }
+        viewModel.updateAvatar()
+
     }
 
     override fun PickiTonMultipleCompleteListener(
