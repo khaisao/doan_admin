@@ -15,6 +15,7 @@ import com.example.baseproject.model.CourseTeacherAssign
 import com.example.baseproject.model.DetailScheduleCourse
 import com.example.baseproject.model.DetailScheduleStudent
 import com.example.baseproject.model.OverviewScheduleStudent
+import com.example.baseproject.model.TeacherInfoResponse
 import okhttp3.MultipartBody
 
 import okhttp3.RequestBody
@@ -55,6 +56,12 @@ interface ApiInterface {
     @POST("api/student/updateImageProfile")
     suspend fun updateImageProfile(
         @Part("studentId") studentId: RequestBody, @Part part: MultipartBody.Part
+    ): ApiObjectResponse<Any>
+
+    @Multipart
+    @PATCH("api/teacher/updateAvatar")
+    suspend fun updateTeacherAvatar(
+        @Part("teacherId") teacherId: RequestBody, @Part part: MultipartBody.Part
     ): ApiObjectResponse<Any>
 
     @GET("api/student/getDataImageProfile/{id}")
@@ -104,5 +111,10 @@ interface ApiInterface {
     suspend fun addImageProfile(
         @Body addImageProfileBody: AddImageProfileBody
     ): ApiObjectResponse<Any>
+
+    @GET("api/teacher/getTeacherInfo/{teacherId}")
+    suspend fun getTeacherInfo(
+        @Path("teacherId") teacherId: Int,
+    ): ApiObjectResponse<TeacherInfoResponse>
 
 }

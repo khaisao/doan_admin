@@ -25,9 +25,13 @@ interface AppNavigation : BaseNavigator {
 
     fun openStudentProfileToChangePassword(bundle: Bundle? = null)
 
+    fun openTeacherProfileToChangePassword(bundle: Bundle? = null)
+
     fun openAdminToChangePasswordSuccess(bundle: Bundle? = null)
 
     fun openStudentToChangePasswordSuccess(bundle: Bundle? = null)
+
+    fun openTeacherToChangePasswordSuccess(bundle: Bundle? = null)
 
     fun openHomeToAddAccount(bundle: Bundle? = null)
 

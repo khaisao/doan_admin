@@ -2,18 +2,21 @@ package com.example.baseproject.ui.teacher.allCourse
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
 import com.example.baseproject.navigation.AppNavigation
+import com.example.baseproject.shareData.ShareViewModel
 import com.example.baseproject.ui.teacher.allCourse.adapter.CourseTeacherAssignAdapter
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
+import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -22,9 +25,12 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AllCourseTeacherFragment :
     BaseFragment<FragmentScheduleTeacherBinding, AllCourseTeacherViewModel>(R.layout.fragment_schedule_teacher) {
+
     private val viewModel: AllCourseTeacherViewModel by viewModels()
 
     override fun getVM(): AllCourseTeacherViewModel = viewModel
+
+    private val shareViewModel: ShareViewModel by activityViewModels()
 
     private lateinit var adapter: CourseTeacherAssignAdapter
 
@@ -63,6 +69,13 @@ class AllCourseTeacherFragment :
                 adapter.submitList(filterList)
             }
         }
+    }
+
+    override fun setOnClick() {
+        super.setOnClick()
+            binding.ivAvatar.setOnSafeClickListener {
+                shareViewModel.setPositionBottomNav(1)
+            }
     }
 
     override fun bindingStateView() {

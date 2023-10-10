@@ -50,12 +50,20 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_studentTopFragment_to_changePasswordFragment2, bundle)
     }
 
+    override fun openTeacherProfileToChangePassword(bundle: Bundle?) {
+        openScreen(R.id.action_teacherTopFragment_to_changePasswordFragment3, bundle)
+    }
+
     override fun openAdminToChangePasswordSuccess(bundle: Bundle?) {
         openScreen(R.id.action_changePasswordFragment_to_changePasswordSuccessFragment, bundle)
     }
 
     override fun openStudentToChangePasswordSuccess(bundle: Bundle?) {
         openScreen(R.id.action_changePasswordFragment2_to_changePasswordSuccessFragment2, bundle)
+    }
+
+    override fun openTeacherToChangePasswordSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_changePasswordFragment3_to_changePasswordSuccessFragment3, bundle)
     }
 
     override fun openHomeToAddAccount(bundle: Bundle?) {

@@ -78,26 +78,23 @@ class ChangePasswordFragment :
 
     override fun bindingStateView() {
         super.bindingStateView()
-        Log.d("asgawgawgawgawg", "bindingStateView: ${rxPreferences.getPassword()}")
-        Log.d("asgawgawgawgawg", "bindingStateView: ${rxPreferences.getAccountId()}")
         lifecycleScope.launch {
             viewModel.changePasswordActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
+                val bundle = Bundle()
+                bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Change password success")
+                bundle.putString(
+                    BundleKey.DES_ACTION_SUCCESS,
+                    "Congratulation! Change password success. Please continue your work"
+                )
                 if (it is ChangePasswordEvent.ChangePasswordSuccess) {
                     if (rxPreferences.getRole() == 1) {
-                        val bundle = Bundle()
-                        bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Change password success")
-                        bundle.putString(
-                            BundleKey.DES_ACTION_SUCCESS,
-                            "Congratulation! Change password success. Please continue your work"
-                        )
                         appNavigation.openStudentToChangePasswordSuccess(bundle)
-
                     }
                     if (rxPreferences.getRole() == 2) {
-
+                        appNavigation.openTeacherToChangePasswordSuccess(bundle)
                     }
                     if (rxPreferences.getRole() == 3) {
-                        appNavigation.openAdminToChangePasswordSuccess()
+                        appNavigation.openAdminToChangePasswordSuccess(bundle)
                     }
                 }
             }
