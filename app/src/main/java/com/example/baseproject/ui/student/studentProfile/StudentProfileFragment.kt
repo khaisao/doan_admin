@@ -85,8 +85,7 @@ class StudentProfileFragment :
         detector = FaceDetection.getClient(options)
 
         Glide.with(requireContext())
-            .load(R.drawable.no_avatar)
-            .transform(CenterInside(), RoundedCorners(100))
+            .load(rxPreferences.getAvatar())
             .into(binding.ivAvatar)
         adapter = UserProfileImageViewAdapter()
         binding.rvImageProfile.layoutManager = GridLayoutManager(requireContext(), 3)
@@ -96,9 +95,20 @@ class StudentProfileFragment :
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.uploadImageActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
-                if (it is UploadImageEvent.UploadImageSuccess) {
+            viewModel.uploadAvatarActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
+                if (it) {
                     toastMessage("Success")
+                    viewModel.getStudentInfo()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.getStudentInfoActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
+                if (it) {
+                    Glide.with(requireContext())
+                        .load(rxPreferences.getAvatar())
+                        .into(binding.ivAvatar)
                 }
             }
         }
@@ -144,7 +154,7 @@ class StudentProfileFragment :
         Reason: String?
     ) {
         val file = File(path)
-        viewModel.updateAvatar()
+        viewModel.updateStudentAvatar(file)
 
     }
 

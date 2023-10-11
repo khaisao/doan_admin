@@ -15,6 +15,7 @@ import com.example.baseproject.model.CourseTeacherAssign
 import com.example.baseproject.model.DetailScheduleCourse
 import com.example.baseproject.model.DetailScheduleStudent
 import com.example.baseproject.model.OverviewScheduleStudent
+import com.example.baseproject.model.StudentInfoResponse
 import com.example.baseproject.model.TeacherInfoResponse
 import okhttp3.MultipartBody
 
@@ -122,5 +123,10 @@ interface ApiInterface {
     suspend fun getTeacherInfo(
         @Path("teacherId") teacherId: Int,
     ): ApiObjectResponse<TeacherInfoResponse>
+
+    @GET("api/student/getStudentInfo/{studentId}")
+    suspend fun getStudentInfo(
+        @Path("studentId") studentId: Int,
+    ): ApiObjectResponse<StudentInfoResponse>
 
 }

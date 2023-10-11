@@ -2,17 +2,22 @@ package com.example.baseproject.ui.student.schedule
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleStudentBinding
 import com.example.baseproject.navigation.AppNavigation
+import com.example.baseproject.shareData.ShareViewModel
 import com.example.baseproject.ui.student.schedule.adapter.CourseStudentRegisterAdapter
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.loadImage
+import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Locale
@@ -26,6 +31,8 @@ class ScheduleStudentFragment :
     override fun getVM(): ScheduleStudentViewModel = viewModel
 
     private lateinit var adapter: CourseStudentRegisterAdapter
+
+    private val shareViewModel: ShareViewModel by activityViewModels()
 
     @Inject
     lateinit var rxPreferences: RxPreferences
@@ -67,6 +74,15 @@ class ScheduleStudentFragment :
             }
         }
 
+        binding.ivAvatar.loadImage(rxPreferences.getAvatar())
+
+    }
+
+    override fun setOnClick() {
+        super.setOnClick()
+        binding.ivAvatar.setOnSafeClickListener {
+            shareViewModel.setPositionBottomNav(1)
+        }
     }
 
     override fun bindingStateView() {

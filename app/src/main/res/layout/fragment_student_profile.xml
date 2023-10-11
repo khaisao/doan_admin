@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/iv_avatar"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
@@ -39,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-            </ImageView>
+            </de.hdodenhof.circleimageview.CircleImageView>
 
             <View
                 android:layout_width="60dp"
@@ -103,6 +103,7 @@
                 android:id="@+id/cl_add_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginHorizontal="25dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/bg_item_profile"
