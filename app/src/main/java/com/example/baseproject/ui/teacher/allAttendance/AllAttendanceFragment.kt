@@ -2,8 +2,6 @@ package com.example.baseproject.ui.teacher.allAttendance
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
@@ -14,9 +12,9 @@ import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.BundleKey
 import com.example.baseproject.util.stickyheadertableview.OnTableCellClickListener
 import com.example.core.base.fragment.BaseFragment
-import com.example.core.utils.DateFormat
+import com.example.baseproject.util.DateFormat
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.toDateWithFormatInputAndOutPut
+import com.example.baseproject.util.toDateWithFormatInputAndOutPut
 import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

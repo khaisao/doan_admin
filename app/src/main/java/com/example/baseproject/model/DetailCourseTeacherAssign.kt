@@ -2,7 +2,7 @@ package com.example.baseproject.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CourseTeacherAssign(
+data class DetailCourseTeacherAssign(
     @SerializedName("teacherId")
     val teacherId: Int = 0,
     @SerializedName("teacherName")
@@ -23,5 +23,4 @@ data class CourseTeacherAssign(
     val cycleId: Int = 0,
     @SerializedName("courseName")
     val courseName: String = "",
-
 )

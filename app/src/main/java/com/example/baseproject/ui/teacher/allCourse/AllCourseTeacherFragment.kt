@@ -8,10 +8,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentScheduleTeacherBinding
+import com.example.baseproject.model.DetailCourseTeacherAssign
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.shareData.ShareViewModel
 import com.example.baseproject.ui.teacher.allCourse.adapter.CourseTeacherAssignAdapter
 import com.example.baseproject.util.BundleKey
+import com.example.baseproject.util.DateFormat
+import com.example.baseproject.util.toDate
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
@@ -19,6 +22,7 @@ import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
@@ -40,6 +44,8 @@ class AllCourseTeacherFragment :
     @Inject
     lateinit var appNavigation: AppNavigation
 
+    private var currentOriginList: List<DetailCourseTeacherAssign> = emptyList()
+
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = CourseTeacherAssignAdapter(onCourseClick = {
@@ -59,30 +65,56 @@ class AllCourseTeacherFragment :
 
         binding.edtSearch.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrBlank()) {
-                adapter.submitList(viewModel.allCourseTeacherAssign.value)
+                adapter.submitList(currentOriginList)
             } else {
-                val filterList =
-                    viewModel.allCourseTeacherAssign.value.filter {
-                        it.courseName.lowercase(Locale.getDefault())
-                            .contains(text.toString().lowercase(Locale.ROOT))
-                    }
-                adapter.submitList(filterList)
+                adapter.submitList(currentOriginList.filter { course ->
+                    course.courseName.lowercase(Locale.ROOT)
+                        .contains(text.toString().lowercase(Locale.ROOT))
+                })
             }
+        }
+
+        allCyclePopupWindow = AllCyclePopupWindow(requireContext()) { cycleClicked ->
+            binding.tvAllCourse.text = cycleClicked.cyclesDes
+            val item = viewModel.allCourseTeacherAssign.value.first { allCycle ->
+                allCycle.cycleId == cycleClicked.cycleId
+            }
+            currentOriginList = item.listCourse
+            adapter.submitList(item.listCourse)
+            binding.edtSearch.text.clear()
         }
     }
 
+    private lateinit var allCyclePopupWindow: AllCyclePopupWindow
+
     override fun setOnClick() {
         super.setOnClick()
-            binding.ivAvatar.setOnSafeClickListener {
-                shareViewModel.setPositionBottomNav(1)
-            }
+
+        binding.ivAvatar.setOnSafeClickListener {
+            shareViewModel.setPositionBottomNav(1)
+        }
+
+        binding.tvAllCourse.setOnSafeClickListener {
+            allCyclePopupWindow.showPopup(binding.tvAllCourse)
+        }
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.allCourseTeacherAssign.collectFlowOnView(viewLifecycleOwner){
-                adapter.submitList(it)
+            viewModel.allCourseTeacherAssign.collectFlowOnView(viewLifecycleOwner) {
+                allCyclePopupWindow.setData(it)
+                for (item in it) {
+                    val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
+                    val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)
+                    val currentTime = Date()
+                    if (currentTime.after(cyclesStartDate) && currentTime.before(cyclesEndDate)) {
+                        adapter.submitList(item.listCourse)
+                        currentOriginList = item.listCourse
+                        binding.tvAllCourse.text = item.cyclesDes
+                        break
+                    }
+                }
             }
         }
     }

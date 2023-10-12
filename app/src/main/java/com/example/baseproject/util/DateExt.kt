@@ -1,4 +1,4 @@
-package com.example.core.utils
+package com.example.baseproject.util
 
 import java.text.ParseException
 import java.text.SimpleDateFormat

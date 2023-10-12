@@ -11,9 +11,10 @@ import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.model.CourseStudentRegister
-import com.example.baseproject.model.CourseTeacherAssign
+import com.example.baseproject.model.DetailCourseTeacherAssign
 import com.example.baseproject.model.DetailScheduleCourse
 import com.example.baseproject.model.DetailScheduleStudent
+import com.example.baseproject.model.OverviewCourseTeacherAssign
 import com.example.baseproject.model.OverviewScheduleStudent
 import com.example.baseproject.model.StudentInfoResponse
 import com.example.baseproject.model.TeacherInfoResponse
@@ -84,7 +85,7 @@ interface ApiInterface {
     @GET("api/teacher/getAllCourseAssign/{teacherId}")
     suspend fun getAllCourseAssign(
         @Path("teacherId") id: Int
-    ): ApiObjectResponse<List<CourseTeacherAssign>>
+    ): ApiObjectResponse<List<OverviewCourseTeacherAssign>>
 
     @POST("api/teacher/attendance")
     suspend fun attendance(

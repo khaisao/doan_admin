@@ -1,7 +1,7 @@
 package com.example.baseproject.ui.teacher.allCourse
 
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.CourseTeacherAssign
+import com.example.baseproject.model.OverviewCourseTeacherAssign
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
@@ -16,7 +16,7 @@ class AllCourseTeacherViewModel @Inject constructor(
     private val apiInterface: ApiInterface,
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
-    val allCourseTeacherAssign = MutableStateFlow<List<CourseTeacherAssign>>(emptyList())
+    val allCourseTeacherAssign = MutableStateFlow<List<OverviewCourseTeacherAssign>>(emptyList())
 
     fun getAllCourseAssign() {
         viewModelScope.launch(Dispatchers.IO + handler) {

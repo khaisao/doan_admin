@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemScheduleBinding
 import com.example.baseproject.model.DetailScheduleCourse
-import com.example.core.utils.DateFormat
+import com.example.baseproject.util.DateFormat
 import com.example.core.utils.setOnSafeClickListener
-import com.example.core.utils.toDateWithFormatInputAndOutPut
+import com.example.baseproject.util.toDateWithFormatInputAndOutPut
 
 class ScheduleCourseAdapter(
     private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit)
@@ -38,7 +38,8 @@ class ScheduleCourseAdapter(
         fun bind(schedule: DetailScheduleCourse) {
             binding.tvCourseName.text = schedule.courseName
             binding.tvClassroomName.text = schedule.classroomName
-            binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(DateFormat.FORMAT_1, DateFormat.FORMAT_4) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(DateFormat.FORMAT_1, DateFormat.FORMAT_4)
+            binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(DateFormat.FORMAT_1, DateFormat.FORMAT_4) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(
+                DateFormat.FORMAT_1, DateFormat.FORMAT_4)
             binding.root.setOnClickListener {
                 binding.btnAttendance.isVisible = binding.btnAttendance.isVisible != true
             }

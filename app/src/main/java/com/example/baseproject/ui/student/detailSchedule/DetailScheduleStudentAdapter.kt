@@ -1,6 +1,5 @@
 package com.example.baseproject.ui.student.detailSchedule
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -9,11 +8,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.R
 import com.example.baseproject.databinding.ItemScheduleWithAttendanceContentBinding
 import com.example.baseproject.model.DetailScheduleStudent
-import com.example.core.utils.DateFormat.Companion.FORMAT_1
-import com.example.core.utils.DateFormat.Companion.FORMAT_2
-import com.example.core.utils.DateFormat.Companion.FORMAT_3
+import com.example.baseproject.util.DateFormat.Companion.FORMAT_1
+import com.example.baseproject.util.DateFormat.Companion.FORMAT_2
+import com.example.baseproject.util.DateFormat.Companion.FORMAT_3
 import com.example.core.utils.loadImage
-import com.example.core.utils.toDateWithFormatInputAndOutPut
+import com.example.baseproject.util.toDateWithFormatInputAndOutPut
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

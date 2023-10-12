@@ -129,8 +129,4 @@ class AllAccFragment :
         popupWindow.showAsDropDown(binding.tvTypeAccount)
     }
 
-//    override fun onAccClick() {
-//        appNavigation.openHomeToUserProfile()
-//    }
-
 }
