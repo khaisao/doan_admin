@@ -43,6 +43,13 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_detailCourseFragment_to_detailAttendanceTeacherFragment"
+            app:destination="@id/detailAttendanceTeacherFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/faceRecoFragment"
@@ -83,5 +90,9 @@
         android:id="@+id/allAttendanceFragment"
         android:name="com.example.baseproject.ui.teacher.allAttendance.AllAttendanceFragment"
         android:label="AllAttendanceFragment" />
+    <fragment
+        android:id="@+id/detailAttendanceTeacherFragment"
+        android:name="com.example.baseproject.ui.teacher.detailAttendance.DetailAttendanceTeacherFragment"
+        android:label="DetailAttendanceTeacherFragment" />
 
 </navigation>

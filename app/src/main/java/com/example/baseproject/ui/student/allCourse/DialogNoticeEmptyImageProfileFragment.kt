@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.schedule
+package com.example.baseproject.ui.student.allCourse
 
 import android.os.Bundle
 import android.view.LayoutInflater

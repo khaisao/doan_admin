@@ -11,9 +11,9 @@ import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
 import com.example.baseproject.model.CourseStudentRegister
-import com.example.baseproject.model.DetailCourseTeacherAssign
 import com.example.baseproject.model.DetailScheduleCourse
-import com.example.baseproject.model.DetailScheduleStudent
+import com.example.baseproject.model.DetailAttendanceStudent
+import com.example.baseproject.model.DetailAttendanceStudentTeacherScreen
 import com.example.baseproject.model.OverviewCourseTeacherAssign
 import com.example.baseproject.model.OverviewScheduleStudent
 import com.example.baseproject.model.StudentInfoResponse
@@ -103,11 +103,11 @@ interface ApiInterface {
     suspend fun getDetailScheduleStudent(
         @Path("studentId") studentId: Int,
         @Path("coursePerCycleId") coursePerCycleId: Int,
-    ): ApiObjectResponse<List<DetailScheduleStudent>>
+    ): ApiObjectResponse<List<DetailAttendanceStudent>>
 
-    @GET("api/teacher/getAllAttendanceSpecificCourse/{courseId}")
+    @GET("api/teacher/getAllAttendanceSpecificCourse/{coursePerCycleId}")
     suspend fun getAllAttendanceSpecificCourse(
-        @Path("courseId") courseId: Int,
+        @Path("coursePerCycleId") coursePerCycleId: Int,
     ): ApiObjectResponse<List<OverviewScheduleStudent>>
 
     @GET("api/teacher/getAllScheduleSpecificCourse/{courseId}")
@@ -129,5 +129,11 @@ interface ApiInterface {
     suspend fun getStudentInfo(
         @Path("studentId") studentId: Int,
     ): ApiObjectResponse<StudentInfoResponse>
+
+    @GET("api/teacher/getAllAttendanceSpecificSchedule/{coursePerCycleId}/{scheduleId}")
+    suspend fun getAllAttendanceSpecificSchedule(
+        @Path("coursePerCycleId") coursePerCycleId: Int,
+        @Path("scheduleId") scheduleId: Int,
+    ): ApiObjectResponse<List<DetailAttendanceStudentTeacherScreen>>
 
 }

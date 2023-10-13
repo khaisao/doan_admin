@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.detailSchedule
+package com.example.baseproject.ui.student.detailAttendance
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
@@ -16,13 +16,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailScheduleStudentFragment :
-    BaseFragment<FragmentDetailScheduleStudentBinding, DetailScheduleStudentViewModel>(R.layout.fragment_detail_schedule_student) {
-    private val viewModel: DetailScheduleStudentViewModel by viewModels()
+class DetailAttendanceStudentFragment :
+    BaseFragment<FragmentDetailScheduleStudentBinding, DetailAttendanceStudentViewModel>(R.layout.fragment_detail_schedule_student) {
+    private val viewModel: DetailAttendanceStudentViewModel by viewModels()
 
-    override fun getVM(): DetailScheduleStudentViewModel = viewModel
+    override fun getVM(): DetailAttendanceStudentViewModel = viewModel
 
-    private lateinit var adapter: DetailScheduleStudentAdapter
+    private lateinit var adapter: DetailAttendanceStudentAdapter
 
     @Inject
     lateinit var rxPreferences: RxPreferences
@@ -32,7 +32,7 @@ class DetailScheduleStudentFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = DetailScheduleStudentAdapter()
+        adapter = DetailAttendanceStudentAdapter()
         binding.rvCouse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCouse.adapter = adapter
@@ -47,7 +47,7 @@ class DetailScheduleStudentFragment :
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.allDetailScheduleStudent.collectFlowOnView(viewLifecycleOwner) {
+            viewModel.allDetailAttendanceStudent.collectFlowOnView(viewLifecycleOwner) {
                 adapter.submitList(it)
 
             }

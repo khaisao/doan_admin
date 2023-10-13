@@ -2,20 +2,16 @@ package com.example.baseproject.ui.teacher.scheduleCourse
 
 import android.os.Bundle
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentDetailCourseBinding
 import com.example.baseproject.navigation.AppNavigation
-import com.example.baseproject.ui.teacher.allCourse.adapter.CourseTeacherAssignAdapter
 import com.example.baseproject.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
 import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -33,12 +29,21 @@ class ScheduleCourseFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = ScheduleCourseAdapter(onCourseClick = {
+        adapter = ScheduleCourseAdapter(
+            onCourseClick = {
                 val bundle = Bundle()
-            bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
-            bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
-            appNavigation.openDetailCourseToFaceReco(bundle)
-        })
+                bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
+                bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
+                appNavigation.openScheduleCourseToFaceReco(bundle)
+            },
+            onSeeAttendance = {
+                val bundle = Bundle()
+                bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
+                bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
+                bundle.putParcelable(BundleKey.ITEM_SCHEDULE, it)
+                appNavigation.openScheduleCourseToHistoryAttendance(bundle)
+            },
+        )
         binding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.adapter = adapter

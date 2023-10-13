@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.schedule
+package com.example.baseproject.ui.student.allCourse
 
 import androidx.lifecycle.viewModelScope
 import com.example.baseproject.model.CourseStudentRegister
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ScheduleStudentViewModel @Inject constructor(
+class AllCourseStudentViewModel @Inject constructor(
     private val apiInterface: ApiInterface,
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {

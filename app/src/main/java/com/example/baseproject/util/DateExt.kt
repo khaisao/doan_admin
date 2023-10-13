@@ -10,6 +10,7 @@ class DateFormat {
         final const val FORMAT_2 = "dd/MM/yyyy"
         final const val FORMAT_3 = "HH:mm"
         final const val FORMAT_4 = "dd/MM HH:mm"
+        final const val FORMAT_5 = "dd/MM/yyyy HH:mm"
     }
 }
 

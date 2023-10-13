@@ -51,7 +51,7 @@
         android:label="ChangePasswordSuccessFragment" />
     <fragment
         android:id="@+id/detailScheduleStudentFragment"
-        android:name="com.example.baseproject.ui.student.detailSchedule.DetailScheduleStudentFragment"
+        android:name="com.example.baseproject.ui.student.detailAttendance.DetailAttendanceStudentFragment"
         android:label="DetailScheduleStudentFragment" />
     <fragment
         android:id="@+id/faceScanFragment"

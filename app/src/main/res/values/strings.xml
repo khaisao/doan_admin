@@ -21,5 +21,9 @@
     <string name="name_is_empty">Name is empty</string>
     <string name="continue_string">Continue</string>
     <string name="attendance">Attendance</string>
+    <string name="see_attendance_list">See attendance list</string>
+    <string name="checked_in">Checked in</string>
+    <string name="not_checked_in">Not checked in</string>
+    <string name="all_student">All student</string>
 
 </resources>

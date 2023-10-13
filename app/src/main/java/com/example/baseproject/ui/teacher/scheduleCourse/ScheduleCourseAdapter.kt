@@ -13,7 +13,8 @@ import com.example.core.utils.setOnSafeClickListener
 import com.example.baseproject.util.toDateWithFormatInputAndOutPut
 
 class ScheduleCourseAdapter(
-    private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit)
+    private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit),
+    private var onSeeAttendance: ((schedule: DetailScheduleCourse) -> Unit),
 ) :
     ListAdapter<DetailScheduleCourse, ScheduleCourseAdapter.ConsultantHolder>(DiffCallback()) {
 
@@ -42,9 +43,13 @@ class ScheduleCourseAdapter(
                 DateFormat.FORMAT_1, DateFormat.FORMAT_4)
             binding.root.setOnClickListener {
                 binding.btnAttendance.isVisible = binding.btnAttendance.isVisible != true
+                binding.btnSeeAttendance.isVisible = binding.btnSeeAttendance.isVisible != true
             }
             binding.btnAttendance.setOnSafeClickListener {
                 onCourseClick.invoke(schedule)
+            }
+            binding.btnSeeAttendance.setOnSafeClickListener {
+                onSeeAttendance.invoke(schedule)
             }
         }
     }

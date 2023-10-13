@@ -1,4 +1,4 @@
-package com.example.baseproject.ui.student.schedule.adapter
+package com.example.baseproject.ui.student.allCourse.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemCourseBinding
-import com.example.baseproject.model.Course
 import com.example.baseproject.model.CourseStudentRegister
 import com.example.core.utils.setOnSafeClickListener
 

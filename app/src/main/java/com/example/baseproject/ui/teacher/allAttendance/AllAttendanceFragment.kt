@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.baseproject.R
 import com.example.baseproject.databinding.FragmentAllAttendanceBinding
-import com.example.baseproject.model.DetailScheduleStudent
+import com.example.baseproject.model.DetailAttendanceStudent
 import com.example.baseproject.model.OverviewScheduleStudent
 import com.example.baseproject.navigation.AppNavigation
 import com.example.baseproject.util.BundleKey
@@ -62,7 +62,7 @@ class AllAttendanceFragment :
             val row = allAttendance.size + 1
             val column = allAttendance[0].schedules.size + 1
 
-            val map = mutableMapOf<Int, List<DetailScheduleStudent>>()
+            val map = mutableMapOf<Int, List<DetailAttendanceStudent>>()
 
             for (item in allAttendance) {
                 map[item.studentId] = item.schedules

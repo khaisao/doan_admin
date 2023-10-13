@@ -1,9 +1,10 @@
-package com.example.baseproject.ui.teacher.scheduleCourse
+package com.example.baseproject.ui.student.detailAttendance
 
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.DetailScheduleCourse
+import com.example.baseproject.model.DetailAttendanceStudent
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
+import com.example.core.pref.RxPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,17 +12,21 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ScheduleCourseViewModel @Inject constructor(
-    private val apiInterface: ApiInterface
+class DetailAttendanceStudentViewModel @Inject constructor(
+    private val apiInterface: ApiInterface,
+    private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
-    val allSchedule = MutableStateFlow<List<DetailScheduleCourse>>(emptyList())
-    fun getAllScheduleSpecificCourse(coursePerCycleId: Int) {
+
+    val allDetailAttendanceStudent = MutableStateFlow<List<DetailAttendanceStudent>>(emptyList())
+
+    fun getDetailScheduleStudent(coursePerCyclesId: Int) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val response = apiInterface.getAllScheduleSpecificCourse(coursePerCycleId)
+                val studentId = rxPreferences.getStudentId()
+                val response = apiInterface.getDetailScheduleStudent(studentId, coursePerCyclesId)
                 if (response.errors.isEmpty()) {
-                    allSchedule.value = response.dataResponse
+                    allDetailAttendanceStudent.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)

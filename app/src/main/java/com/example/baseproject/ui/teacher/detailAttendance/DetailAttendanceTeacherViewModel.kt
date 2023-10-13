@@ -1,9 +1,8 @@
-package com.example.baseproject.ui.student.detailSchedule
+package com.example.baseproject.ui.teacher.detailAttendance
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.CourseStudentRegister
-import com.example.baseproject.model.DetailScheduleStudent
+import com.example.baseproject.model.DetailAttendanceStudentTeacherScreen
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
@@ -14,21 +13,23 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DetailScheduleStudentViewModel @Inject constructor(
+class DetailAttendanceTeacherViewModel @Inject constructor(
     private val apiInterface: ApiInterface,
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
 
-    val allDetailScheduleStudent = MutableStateFlow<List<DetailScheduleStudent>>(emptyList())
+    val allDetailAttendanceStudent =
+        MutableStateFlow<List<DetailAttendanceStudentTeacherScreen>>(emptyList())
 
-    fun getDetailScheduleStudent(coursePerCyclesId: Int) {
+    fun getAllAttendanceSpecificSchedule(coursePerCyclesId: Int, scheduleId: Int) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val studentId = rxPreferences.getStudentId()
-                val response = apiInterface.getDetailScheduleStudent(studentId, coursePerCyclesId)
+                val response =
+                    apiInterface.getAllAttendanceSpecificSchedule(coursePerCyclesId, scheduleId)
+                Log.d("asgawgawgawg", "getAllAttendanceSpecificSchedule: ${response.dataResponse}")
                 if (response.errors.isEmpty()) {
-                    allDetailScheduleStudent.value = response.dataResponse
+                    allDetailAttendanceStudent.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)
