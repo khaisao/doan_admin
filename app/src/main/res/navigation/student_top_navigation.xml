@@ -6,10 +6,10 @@
 
     <fragment
         android:id="@+id/scheduleStudentFragment"
-        android:name="com.example.baseproject.ui.student.allCourse.AllCourseStudentFragment"
+        android:name="com.khaipv.attendance.ui.student.allCourse.AllCourseStudentFragment"
         android:label="ScheduleStudentFragment" />
     <fragment
         android:id="@+id/studentProfileFragment"
-        android:name="com.example.baseproject.ui.student.studentProfile.StudentProfileFragment"
+        android:name="com.khaipv.attendance.ui.student.studentProfile.StudentProfileFragment"
         android:label="StudentProfileFragment" />
 </navigation>

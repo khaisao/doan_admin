@@ -22,7 +22,7 @@
                 android:layout_height="match_parent"
                 app:scaleType="fillCenter" />
 
-            <com.example.baseproject.ui.student.faceScan.camerax.GraphicOverlay
+            <com.khaipv.attendance.ui.student.faceScan.camerax.GraphicOverlay
                 android:id="@+id/graphicOverlay_finder"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

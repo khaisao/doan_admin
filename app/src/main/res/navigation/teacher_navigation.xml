@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/teacherTopFragment"
-        android:name="com.example.baseproject.ui.teacher.TeacherTopFragment"
+        android:name="com.khaipv.attendance.ui.teacher.TeacherTopFragment"
         android:label="TeacherTopFragment">
 
         <action
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailCourseFragment"
-        android:name="com.example.baseproject.ui.teacher.scheduleCourse.ScheduleCourseFragment"
+        android:name="com.khaipv.attendance.ui.teacher.scheduleCourse.ScheduleCourseFragment"
         android:label="DetailCourseFragment">
         <action
             android:id="@+id/action_detailCourseFragment_to_faceRecoFragment"
@@ -53,7 +53,7 @@
     </fragment>
     <fragment
         android:id="@+id/faceRecoFragment"
-        android:name="com.example.baseproject.ui.teacher.faceReco.FaceRecoFragment"
+        android:name="com.khaipv.attendance.ui.teacher.faceReco.FaceRecoFragment"
         android:label="FaceRecoFragment">
         <action
             android:id="@+id/action_faceRecoFragment_to_listFaceRecoFragment"
@@ -65,12 +65,12 @@
     </fragment>
     <fragment
         android:id="@+id/listFaceRecoFragment"
-        android:name="com.example.baseproject.ui.teacher.listFaceReco.ListFaceRecoFragment"
+        android:name="com.khaipv.attendance.ui.teacher.listFaceReco.ListFaceRecoFragment"
         android:label="ListFaceRecoFragment"
         tools:layout="@layout/fragment_list_face_reco" />
     <fragment
         android:id="@+id/changePasswordFragment3"
-        android:name="com.example.baseproject.ui.changePassword.ChangePasswordFragment"
+        android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordFragment"
         android:label="ChangePasswordFragment">
         <action
             android:id="@+id/action_changePasswordFragment3_to_changePasswordSuccessFragment3"
@@ -84,15 +84,15 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordSuccessFragment3"
-        android:name="com.example.baseproject.ui.changePassword.ChangePasswordSuccessFragment"
+        android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordSuccessFragment"
         android:label="ChangePasswordSuccessFragment" />
     <fragment
         android:id="@+id/allAttendanceFragment"
-        android:name="com.example.baseproject.ui.teacher.allAttendance.AllAttendanceFragment"
+        android:name="com.khaipv.attendance.ui.teacher.allAttendance.AllAttendanceFragment"
         android:label="AllAttendanceFragment" />
     <fragment
         android:id="@+id/detailAttendanceTeacherFragment"
-        android:name="com.example.baseproject.ui.teacher.detailAttendance.DetailAttendanceTeacherFragment"
+        android:name="com.khaipv.attendance.ui.teacher.detailAttendance.DetailAttendanceTeacherFragment"
         android:label="DetailAttendanceTeacherFragment" />
 
 </navigation>

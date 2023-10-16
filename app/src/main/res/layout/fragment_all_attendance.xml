@@ -8,7 +8,7 @@
         android:background="@color/white"
         android:orientation="vertical">
 
-        <com.example.baseproject.util.stickyheadertableview.StickyHeaderTableView
+        <com.khaipv.attendance.util.stickyheadertableview.StickyHeaderTableView
             android:id="@+id/stickyHeaderTableView"
             android:layout_width="0dp"
             android:layout_height="0dp"

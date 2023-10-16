@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/studentTopFragment"
-        android:name="com.example.baseproject.ui.student.StudentTopFragment"
+        android:name="com.khaipv.attendance.ui.student.StudentTopFragment"
         android:label="StudentTopFragment">
         <action
             android:id="@+id/action_studentTopFragment_to_changePasswordFragment2"
@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment2"
-        android:name="com.example.baseproject.ui.changePassword.ChangePasswordFragment"
+        android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordFragment"
         android:label="ChangePasswordFragment">
         <action
             android:id="@+id/action_changePasswordFragment2_to_changePasswordSuccessFragment2"
@@ -47,14 +47,14 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordSuccessFragment2"
-        android:name="com.example.baseproject.ui.changePassword.ChangePasswordSuccessFragment"
+        android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordSuccessFragment"
         android:label="ChangePasswordSuccessFragment" />
     <fragment
         android:id="@+id/detailScheduleStudentFragment"
-        android:name="com.example.baseproject.ui.student.detailAttendance.DetailAttendanceStudentFragment"
+        android:name="com.khaipv.attendance.ui.student.detailAttendance.DetailAttendanceStudentFragment"
         android:label="DetailScheduleStudentFragment" />
     <fragment
         android:id="@+id/faceScanFragment"
-        android:name="com.example.baseproject.ui.student.faceScan.FaceScanFragment"
+        android:name="com.khaipv.attendance.ui.student.faceScan.FaceScanFragment"
         android:label="FaceScanFragment" />
 </navigation>

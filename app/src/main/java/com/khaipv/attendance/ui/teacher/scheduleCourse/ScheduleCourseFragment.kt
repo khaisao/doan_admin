@@ -1,0 +1,81 @@
+package com.khaipv.attendance.ui.teacher.scheduleCourse
+
+import android.os.Bundle
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.khaipv.attendance.R
+import com.khaipv.attendance.databinding.FragmentDetailCourseBinding
+import com.khaipv.attendance.navigation.AppNavigation
+import com.khaipv.attendance.util.BundleKey
+import com.example.core.base.fragment.BaseFragment
+import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.setOnSafeClickListener
+import com.example.core.utils.toastMessage
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class ScheduleCourseFragment :
+    BaseFragment<FragmentDetailCourseBinding, ScheduleCourseViewModel>(R.layout.fragment_detail_course) {
+
+    private val viewModel: ScheduleCourseViewModel by viewModels()
+
+    override fun getVM(): ScheduleCourseViewModel = viewModel
+
+    private lateinit var adapter: ScheduleCourseAdapter
+
+    @Inject
+    lateinit var appNavigation: AppNavigation
+
+    override fun initView(savedInstanceState: Bundle?) {
+        super.initView(savedInstanceState)
+        adapter = ScheduleCourseAdapter(
+            onCourseClick = {
+                val bundle = Bundle()
+                bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
+                bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
+                appNavigation.openScheduleCourseToFaceReco(bundle)
+            },
+            onSeeAttendance = {
+                val bundle = Bundle()
+                bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
+                bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
+                bundle.putParcelable(BundleKey.ITEM_SCHEDULE, it)
+                appNavigation.openScheduleCourseToHistoryAttendance(bundle)
+            },
+        )
+        binding.rv.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rv.adapter = adapter
+        val courseId = arguments?.getInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE)
+        if (courseId != null) {
+            viewModel.getAllScheduleSpecificCourse(courseId)
+        } else {
+            toastMessage("Error, try again")
+            appNavigation.navigateUp()
+        }
+
+    }
+
+    override fun setOnClick() {
+        super.setOnClick()
+        binding.tvSeeAllAttendance.setOnSafeClickListener {
+            val courseId = arguments?.getInt(BundleKey.COURSE_PER_CYCLE_ID)
+            if (courseId != null) {
+                val bundle = Bundle()
+                bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID_ALL_ATTENDANCE, courseId)
+                appNavigation.openDetailCourseToAllAttendance(bundle)
+            } else {
+                toastMessage("Error, try again")
+            }
+        }
+    }
+
+    override fun bindingStateView() {
+        super.bindingStateView()
+        viewModel.allSchedule.collectFlowOnView(viewLifecycleOwner) {
+            adapter.submitList(it)
+        }
+    }
+
+}

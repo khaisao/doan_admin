@@ -7,10 +7,11 @@ plugins {
 }
 
 android {
+ 	namespace 'com.khaipv.attendance'
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "com.project.demo"
+        applicationId "com.khaipv.attendance"
         minSdk versions.minSdk
         targetSdk versions.targetSdk
         versionCode versions.versionCode
