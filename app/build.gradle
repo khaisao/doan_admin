@@ -113,4 +113,8 @@ dependencies {
 
     implementation 'com.github.HBiSoft:PickiT:2.0.5'
 
+    implementation 'com.guolindev.permissionx:permissionx:1.7.1'
+
+
+
 }

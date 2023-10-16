@@ -11,6 +11,7 @@ import com.khaipv.attendance.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.loadImage
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,6 +42,8 @@ class DetailAttendanceStudentFragment :
         if (coursePerCyclesId != null) {
             viewModel.getDetailScheduleStudent(coursePerCyclesId)
         }
+
+        binding.ivAvatar.loadImage(rxPreferences.getAvatar(), R.drawable.no_avatar)
 
     }
 

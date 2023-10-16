@@ -52,4 +52,6 @@ interface AppNavigation : BaseNavigator {
     fun openDetailCourseToAllAttendance(bundle: Bundle? = null)
 
     fun openToFaceScan(bundle: Bundle? = null)
+
+    fun openFaceScanToFaceScanSuccess(bundle: Bundle? = null)
 }

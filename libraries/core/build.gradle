@@ -76,6 +76,7 @@ dependencies {
 
     implementation libraries.glide
     kapt libraries.glideCompiler
+    implementation 'com.karumi:dexter:6.2.3'
 
 
 }

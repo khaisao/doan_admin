@@ -17,6 +17,7 @@ import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.toastMessage
+import com.khaipv.attendance.util.BundleKey
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -57,8 +58,13 @@ class FaceScanFragment :
         lifecycleScope.launch {
             viewModel.isScanSuccess.collectFlowOnView(viewLifecycleOwner) {
                 if (it != null && it == true) {
-                    toastMessage("Success, Please continue your work")
-                    appNavigation.navigateUp()
+                    val bundle = Bundle()
+                    bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Add face success")
+                    bundle.putString(
+                        BundleKey.DES_ACTION_SUCCESS,
+                        "Congratulation! Add face success. Please continue your work"
+                    )
+                    appNavigation.openFaceScanToFaceScanSuccess(bundle)
                 }
             }
         }
@@ -72,15 +78,7 @@ class FaceScanFragment :
     }
 
     private fun checkForPermission() {
-        if (allPermissionsGranted()) {
-            cameraManager.startCamera()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                REQUIRED_PERMISSIONS,
-                REQUEST_CODE_PERMISSIONS
-            )
-        }
+        cameraManager.startCamera()
     }
 
     private lateinit var cameraManager: CameraManager
@@ -161,15 +159,6 @@ class FaceScanFragment :
             stringBuilder.setLength(stringBuilder.length - 2)
         }
         return stringBuilder.toString()
-    }
-
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
-    }
-
-    companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 10
-        private val REQUIRED_PERMISSIONS = arrayOf(android.Manifest.permission.CAMERA)
     }
 
 }

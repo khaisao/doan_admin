@@ -106,4 +106,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_studentTopFragment_to_faceScanFragment, bundle)
     }
 
+    override fun openFaceScanToFaceScanSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_faceScanFragment_to_changePasswordSuccessFragment2, bundle)
+    }
+
 }

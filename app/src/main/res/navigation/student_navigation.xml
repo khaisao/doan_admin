@@ -56,5 +56,15 @@
     <fragment
         android:id="@+id/faceScanFragment"
         android:name="com.khaipv.attendance.ui.student.faceScan.FaceScanFragment"
-        android:label="FaceScanFragment" />
+        android:label="FaceScanFragment" >
+        <action
+            android:id="@+id/action_faceScanFragment_to_changePasswordSuccessFragment2"
+            app:destination="@id/changePasswordSuccessFragment2"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/faceScanFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 </navigation>

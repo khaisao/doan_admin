@@ -3,17 +3,22 @@ package com.khaipv.attendance.util
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.Settings
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
@@ -34,6 +39,29 @@ inline fun <reified T : Parcelable> Bundle.parcelable(key: String): T? = when {
 fun ViewGroup.scrollDownTo(descendant: View) {
     // Could use smoothScrollBy, but it sometimes over-scrolled a lot
     howFarDownIs(descendant)?.let { scrollBy(0, it) }
+}
+
+fun Context.openAppSystemSettings() {
+    startActivity(Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", packageName, null)
+    })
+}
+
+fun Context.openDialogRequireCameraPermission(){
+    val alertDialog = AlertDialog.Builder(this).apply {
+        setTitle("Camera Permission")
+        setMessage("The app couldn't function without the camera permission.")
+        setCancelable(false)
+        setPositiveButton("ALLOW") { dialog, which ->
+            openAppSystemSettings()
+        }
+        create()
+    }
+    alertDialog.show()
+}
+ fun Context.cameraPermissionsGranted() = arrayOf(android.Manifest.permission.CAMERA).all {
+    ContextCompat.checkSelfPermission(this, it) == PackageManager.PERMISSION_GRANTED
 }
 
 /**
