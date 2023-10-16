@@ -2,7 +2,7 @@ package com.example.baseproject.model
 
 import com.google.gson.annotations.SerializedName
 
-data class CourseStudentRegister(
+data class DetailCourseStudentRegister(
     @SerializedName("studentId")
     val studentId: Int,
     @SerializedName("studentName")

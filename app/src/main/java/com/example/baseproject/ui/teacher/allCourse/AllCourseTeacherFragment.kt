@@ -74,7 +74,7 @@ class AllCourseTeacherFragment :
             }
         }
 
-        allCyclePopupWindow = AllCyclePopupWindow(requireContext()) { cycleClicked ->
+        allCycleTeacherPopupWindow = AllCycleTeacherPopupWindow(requireContext()) { cycleClicked ->
             binding.tvAllCourse.text = cycleClicked.cyclesDes
             val item = viewModel.allCourseTeacherAssign.value.first { allCycle ->
                 allCycle.cycleId == cycleClicked.cycleId
@@ -85,7 +85,7 @@ class AllCourseTeacherFragment :
         }
     }
 
-    private lateinit var allCyclePopupWindow: AllCyclePopupWindow
+    private lateinit var allCycleTeacherPopupWindow: AllCycleTeacherPopupWindow
 
     override fun setOnClick() {
         super.setOnClick()
@@ -95,7 +95,7 @@ class AllCourseTeacherFragment :
         }
 
         binding.tvAllCourse.setOnSafeClickListener {
-            allCyclePopupWindow.showPopup(binding.tvAllCourse)
+            allCycleTeacherPopupWindow.showPopup(binding.tvAllCourse)
         }
     }
 
@@ -103,7 +103,7 @@ class AllCourseTeacherFragment :
         super.bindingStateView()
         lifecycleScope.launch {
             viewModel.allCourseTeacherAssign.collectFlowOnView(viewLifecycleOwner) {
-                allCyclePopupWindow.setData(it)
+                allCycleTeacherPopupWindow.setData(it)
                 for (item in it) {
                     val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
                     val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)

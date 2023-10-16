@@ -2,14 +2,15 @@ package com.example.baseproject.model
 
 import com.google.gson.annotations.SerializedName
 
-data class OverviewCourseTeacherAssign(
+data class OverviewCourseStudentRegister(
     @SerializedName("cycleId")
-    val cycleId: Int = 0,
+    val cycleId: Int,
     @SerializedName("cycleStartDate")
-    val cycleStartDate: String = "",
+    val cycleStartDate: String,
     @SerializedName("cycleEndDate")
-    val cycleEndDate: String = "",
+    val cycleEndDate: String,
     @SerializedName("cyclesDes")
-    val cyclesDes: String = "",
+    val cyclesDes: String,
     @SerializedName("listCourse")
-    val listCourse: List<DetailCourseTeacherAssign> = emptyList() )
+    val listCourse: List<DetailCourseStudentRegister> = emptyList(),
+)

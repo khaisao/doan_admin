@@ -6,25 +6,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.baseproject.databinding.ItemCourseBinding
-import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.DetailCourseStudentRegister
 import com.example.core.utils.setOnSafeClickListener
 
 class CourseStudentRegisterAdapter(
-    private var onCourseClick: ((courseStudentRegister: CourseStudentRegister) -> Unit)
+    private var onCourseClick: ((detailCourseStudentRegister: DetailCourseStudentRegister) -> Unit)
 ) :
-    ListAdapter<CourseStudentRegister, CourseStudentRegisterAdapter.ConsultantHolder>(DiffCallback()) {
+    ListAdapter<DetailCourseStudentRegister, CourseStudentRegisterAdapter.ConsultantHolder>(DiffCallback()) {
 
-    class DiffCallback : DiffUtil.ItemCallback<CourseStudentRegister>() {
+    class DiffCallback : DiffUtil.ItemCallback<DetailCourseStudentRegister>() {
         override fun areItemsTheSame(
-            oldItem: CourseStudentRegister,
-            newItem: CourseStudentRegister
+            oldItem: DetailCourseStudentRegister,
+            newItem: DetailCourseStudentRegister
         ): Boolean {
             return false
         }
 
         override fun areContentsTheSame(
-            oldItem: CourseStudentRegister,
-            newItem: CourseStudentRegister
+            oldItem: DetailCourseStudentRegister,
+            newItem: DetailCourseStudentRegister
         ): Boolean {
             return false
         }
@@ -32,7 +32,7 @@ class CourseStudentRegisterAdapter(
 
     inner class ConsultantHolder(val binding: ItemCourseBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(course: CourseStudentRegister) {
+        fun bind(course: DetailCourseStudentRegister) {
             binding.tvCourseName.text = course.courseName
             binding.root.setOnSafeClickListener {
                 onCourseClick.invoke(course)

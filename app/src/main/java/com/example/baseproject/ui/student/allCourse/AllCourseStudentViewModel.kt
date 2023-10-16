@@ -1,7 +1,8 @@
 package com.example.baseproject.ui.student.allCourse
 
 import androidx.lifecycle.viewModelScope
-import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.DetailCourseStudentRegister
+import com.example.baseproject.model.OverviewCourseStudentRegister
 import com.example.baseproject.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
@@ -17,7 +18,7 @@ class AllCourseStudentViewModel @Inject constructor(
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
 
-    val allCourseStudentRegister = MutableStateFlow<List<CourseStudentRegister>>(emptyList())
+    val allDetailCourseStudentRegister = MutableStateFlow<List<OverviewCourseStudentRegister>>(emptyList())
     val listDataImageProfile = MutableStateFlow<List<String>>(emptyList())
 
     fun getAllCourseRegister() {
@@ -27,7 +28,7 @@ class AllCourseStudentViewModel @Inject constructor(
                 val studentId = rxPreferences.getStudentId()
                 val response = apiInterface.getAllCourseRegister(studentId)
                 if (response.errors.isEmpty()) {
-                    allCourseStudentRegister.value = response.dataResponse
+                    allDetailCourseStudentRegister.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)

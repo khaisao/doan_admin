@@ -8,9 +8,9 @@ import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.baseproject.databinding.PopUpWindownAllCyclesBinding
 import com.example.baseproject.model.OverviewCourseTeacherAssign
-import com.example.baseproject.ui.teacher.allCourse.adapter.AllCyclesAdapter
+import com.example.baseproject.ui.teacher.allCourse.adapter.AllCyclesTeacherAdapter
 
-class AllCyclePopupWindow(
+class AllCycleTeacherPopupWindow(
     private val context: Context,
     private val onCycleClick: (OverviewCourseTeacherAssign) -> Unit
 ) {
@@ -34,7 +34,7 @@ class AllCyclePopupWindow(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             true
         )
-        val adapter = AllCyclesAdapter {
+        val adapter = AllCyclesTeacherAdapter {
             onCycleClick.invoke(it)
             popupWindow.dismiss()
         }

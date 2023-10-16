@@ -9,10 +9,10 @@ import com.example.baseproject.databinding.ItemCyclesBinding
 import com.example.baseproject.model.OverviewCourseTeacherAssign
 import com.example.core.utils.setOnSafeClickListener
 
-class AllCyclesAdapter(
+class AllCyclesTeacherAdapter(
     private var onCyclesClick: ((cycles: OverviewCourseTeacherAssign) -> Unit)
 ) :
-    ListAdapter<OverviewCourseTeacherAssign, AllCyclesAdapter.AllCyclesAdapterHolder>(DiffCallback()) {
+    ListAdapter<OverviewCourseTeacherAssign, AllCyclesTeacherAdapter.AllCyclesAdapterHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<OverviewCourseTeacherAssign>() {
         override fun areItemsTheSame(
@@ -46,7 +46,7 @@ class AllCyclesAdapter(
         return AllCyclesAdapterHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AllCyclesAdapter.AllCyclesAdapterHolder, position: Int) {
+    override fun onBindViewHolder(holder: AllCyclesTeacherAdapter.AllCyclesAdapterHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

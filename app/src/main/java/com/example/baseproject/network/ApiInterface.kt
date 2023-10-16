@@ -10,10 +10,11 @@ import com.example.baseproject.model.DataImageProfileResponse
 import com.example.baseproject.model.LoginResponse
 import com.example.baseproject.model.RegisterAccountRequest
 import com.example.baseproject.model.AttendanceBody
-import com.example.baseproject.model.CourseStudentRegister
+import com.example.baseproject.model.DetailCourseStudentRegister
 import com.example.baseproject.model.DetailScheduleCourse
 import com.example.baseproject.model.DetailAttendanceStudent
 import com.example.baseproject.model.DetailAttendanceStudentTeacherScreen
+import com.example.baseproject.model.OverviewCourseStudentRegister
 import com.example.baseproject.model.OverviewCourseTeacherAssign
 import com.example.baseproject.model.OverviewScheduleStudent
 import com.example.baseproject.model.StudentInfoResponse
@@ -80,7 +81,7 @@ interface ApiInterface {
     @GET("api/student/getAllCourseRegister/{studentId}")
     suspend fun getAllCourseRegister(
         @Path("studentId") id: Int
-    ): ApiObjectResponse<List<CourseStudentRegister>>
+    ): ApiObjectResponse<List<OverviewCourseStudentRegister>>
 
     @GET("api/teacher/getAllCourseAssign/{teacherId}")
     suspend fun getAllCourseAssign(
