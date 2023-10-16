@@ -17,6 +17,8 @@ import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.Face
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 class FaceContourDetectionProcessor(
@@ -40,8 +42,27 @@ class FaceContourDetectionProcessor(
     override val graphicOverlay: GraphicOverlay
         get() = view
 
-    override fun detectInImage(image: InputImage): Task<List<Face>> {
-        return detector.process(image)
+    override fun detectInImage(bitmap: Bitmap): Task<List<Face>> {
+        saveImageScan(bitmap,"hello")
+        return detector.process(bitmap, 0)
+    }
+    private fun saveImageScan(bitmap: Bitmap, fileName: String) {
+        val cacheDir = context.cacheDir
+        val file =
+            File(cacheDir, "$fileName.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
+
+        try {
+            val stream = FileOutputStream(file)
+            bitmap.compress(
+                Bitmap.CompressFormat.JPEG,
+                100,
+                stream
+            )
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
     }
 
     override fun stop() {

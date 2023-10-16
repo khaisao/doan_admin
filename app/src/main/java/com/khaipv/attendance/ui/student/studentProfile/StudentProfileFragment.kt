@@ -60,15 +60,6 @@ class StudentProfileFragment :
                 isChoosingImageProfile = true
                 pickiT?.getPath(uri, Build.VERSION.SDK_INT)
 
-            } else {
-            }
-        }
-
-    private val pickImageForAvatar =
-        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            if (uri != null) {
-
-            } else {
             }
         }
 
@@ -90,6 +81,8 @@ class StudentProfileFragment :
         adapter = UserProfileImageViewAdapter()
         binding.rvImageProfile.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.rvImageProfile.adapter = adapter
+        binding.tvName.text = rxPreferences.getName()
+        binding.tvUsername.text = rxPreferences.getUserName()
     }
 
     override fun bindingStateView() {

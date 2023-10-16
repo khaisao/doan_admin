@@ -65,7 +65,7 @@ class AllCourseStudentFragment :
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCouse.adapter = adapter
 
-        binding.tvTitle.text = "Hello, " + rxPreferences.getUserName()
+        binding.tvTitle.text = "Hello, " + rxPreferences.getName()
 
         viewModel.getAllCourseRegister()
 
