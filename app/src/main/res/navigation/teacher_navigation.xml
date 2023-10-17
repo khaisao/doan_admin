@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/detailCourseFragment"
-        android:name="com.khaipv.attendance.ui.teacher.scheduleCourse.ScheduleCourseFragment"
+        android:name="com.khaipv.attendance.ui.teacher.scheduleCourse.ScheduleCourseTeacherFragment"
         android:label="DetailCourseFragment">
         <action
             android:id="@+id/action_detailCourseFragment_to_faceRecoFragment"

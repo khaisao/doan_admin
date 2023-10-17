@@ -15,21 +15,21 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class ScheduleCourseFragment :
-    BaseFragment<FragmentDetailCourseBinding, ScheduleCourseViewModel>(R.layout.fragment_detail_course) {
+class ScheduleCourseTeacherFragment :
+    BaseFragment<FragmentDetailCourseBinding, ScheduleCourseTeacherViewModel>(R.layout.fragment_detail_course) {
 
-    private val viewModel: ScheduleCourseViewModel by viewModels()
+    private val viewModel: ScheduleCourseTeacherViewModel by viewModels()
 
-    override fun getVM(): ScheduleCourseViewModel = viewModel
+    override fun getVM(): ScheduleCourseTeacherViewModel = viewModel
 
-    private lateinit var adapter: ScheduleCourseAdapter
+    private lateinit var adapter: ScheduleCourseTeacherAdapter
 
     @Inject
     lateinit var appNavigation: AppNavigation
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = ScheduleCourseAdapter(
+        adapter = ScheduleCourseTeacherAdapter(
             onCourseClick = {
                 val bundle = Bundle()
                 bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
@@ -59,16 +59,7 @@ class ScheduleCourseFragment :
 
     override fun setOnClick() {
         super.setOnClick()
-        binding.tvSeeAllAttendance.setOnSafeClickListener {
-            val courseId = arguments?.getInt(BundleKey.COURSE_PER_CYCLE_ID)
-            if (courseId != null) {
-                val bundle = Bundle()
-                bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID_ALL_ATTENDANCE, courseId)
-                appNavigation.openDetailCourseToAllAttendance(bundle)
-            } else {
-                toastMessage("Error, try again")
-            }
-        }
+
     }
 
     override fun bindingStateView() {

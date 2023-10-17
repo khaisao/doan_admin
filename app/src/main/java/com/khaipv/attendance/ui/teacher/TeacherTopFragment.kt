@@ -45,24 +45,17 @@ class TeacherTopFragment :
         PermissionX.init(requireActivity())
             .permissions(Manifest.permission.CAMERA)
             .onExplainRequestReason { scope, deniedList ->
-                alertDialog.show()
+                scope.showRequestReasonDialog(deniedList, "Core fundamental are based on these permissions", "OK", "Cancel")
             }
             .onForwardToSettings { scope, deniedList ->
-                alertDialog.show()
+                scope.showForwardToSettingsDialog(deniedList, "You need to allow necessary permissions in Settings manually", "OK", "Cancel")
             }
             .request { allGranted, grantedList, deniedList ->
-
+                if (!allGranted) {
+                    alertDialog.show()
+                }
             }
 
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (!requireActivity().cameraPermissionsGranted()) {
-            if (!alertDialog.isShowing) {
-                alertDialog.show()
-            }
-        }
     }
 
     private fun setupBottomNavigationBar() {

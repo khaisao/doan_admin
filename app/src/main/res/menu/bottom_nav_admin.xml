@@ -2,15 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/tabSchedule"
-        android:contentDescription="Schedule"
+        android:contentDescription="All course"
         android:icon="@drawable/ic_schedule"
-        android:title="Schedule" />
+        android:title="All course" />
 
     <item
         android:id="@+id/tabAccTeacher"
-        android:contentDescription="Acc Teacher"
+        android:contentDescription="All account"
         android:icon="@drawable/ic_acc_teacher"
-        android:title="Acc teacher" />
+        android:title="All account" />
 
     <item
         android:id="@+id/tabAdminProfile"

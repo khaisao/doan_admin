@@ -61,9 +61,9 @@ class AllCourseStudentFragment :
             bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, it.coursePerCycleId)
             appNavigation.openStudentTopToDetailScheduleStudent(bundle)
         })
-        binding.rvCouse.layoutManager =
+        binding.rvCourse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rvCouse.adapter = adapter
+        binding.rvCourse.adapter = adapter
 
         binding.tvTitle.text = "Hello, " + rxPreferences.getName()
 
@@ -127,10 +127,15 @@ class AllCourseStudentFragment :
         lifecycleScope.launch {
             viewModel.listDataImageProfile.collectFlowOnView(viewLifecycleOwner) {
                 if (it.isEmpty()) {
-                    dialog.show(
-                        childFragmentManager,
-                        DialogNoticeEmptyImageProfileFragment::class.java.simpleName
-                    )
+                    try {
+                        dialog.show(
+                            childFragmentManager,
+                            DialogNoticeEmptyImageProfileFragment::class.java.simpleName
+                        )
+                    } catch (e: Exception) {
+
+                    }
+
                 }
             }
         }

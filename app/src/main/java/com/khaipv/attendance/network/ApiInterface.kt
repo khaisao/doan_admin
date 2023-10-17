@@ -14,6 +14,7 @@ import com.khaipv.attendance.model.DetailCourseStudentRegister
 import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.model.DetailAttendanceStudent
 import com.khaipv.attendance.model.DetailAttendanceStudentTeacherScreen
+import com.khaipv.attendance.model.OverViewCourseHaveShedule
 import com.khaipv.attendance.model.OverviewCourseStudentRegister
 import com.khaipv.attendance.model.OverviewCourseTeacherAssign
 import com.khaipv.attendance.model.OverviewScheduleStudent
@@ -53,7 +54,7 @@ interface ApiInterface {
 
     @GET("api/admin/getAllCourseHaveSchedule")
     suspend fun getAllCourseHaveSchedule(
-    ): ApiObjectResponse<List<CourseHaveShedule>>
+    ): ApiObjectResponse<List<OverViewCourseHaveShedule>>
 
     @Multipart
     @POST("api/student/updateImageProfile")

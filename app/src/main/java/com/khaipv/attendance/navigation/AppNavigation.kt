@@ -54,4 +54,6 @@ interface AppNavigation : BaseNavigator {
     fun openToFaceScan(bundle: Bundle? = null)
 
     fun openFaceScanToFaceScanSuccess(bundle: Bundle? = null)
+
+    fun openAdminTopToSchedule(bundle: Bundle? = null)
 }

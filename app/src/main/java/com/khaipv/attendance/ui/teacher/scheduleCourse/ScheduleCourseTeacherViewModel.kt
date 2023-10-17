@@ -1,7 +1,7 @@
-package com.khaipv.attendance.ui.admin.schedule
+package com.khaipv.attendance.ui.teacher.scheduleCourse
 
 import androidx.lifecycle.viewModelScope
-import com.khaipv.attendance.model.CourseHaveShedule
+import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,26 +11,25 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ScheduleAdminViewModel @Inject constructor(
+class ScheduleCourseTeacherViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
-    val listCourseHaveShedule = MutableStateFlow<List<CourseHaveShedule>>(emptyList())
-
-    fun getAllCourseHaveSchedule() {
+    val allSchedule = MutableStateFlow<List<DetailScheduleCourse>>(emptyList())
+    fun getAllScheduleSpecificCourse(coursePerCycleId: Int) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val response = apiInterface.getAllCourseHaveSchedule()
+                val response = apiInterface.getAllScheduleSpecificCourse(coursePerCycleId)
                 if (response.errors.isEmpty()) {
-                    listCourseHaveShedule.value = response.dataResponse
+                    allSchedule.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)
             } finally {
                 isLoading.postValue(false)
             }
+
         }
     }
-
 }
 

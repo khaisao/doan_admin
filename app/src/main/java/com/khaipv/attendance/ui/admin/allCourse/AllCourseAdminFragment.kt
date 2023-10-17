@@ -1,25 +1,26 @@
-package com.khaipv.attendance.ui.teacher.allCourse
+package com.khaipv.attendance.ui.admin.allCourse
 
 import android.os.Bundle
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaipv.attendance.R
-import com.khaipv.attendance.databinding.FragmentScheduleTeacherBinding
-import com.khaipv.attendance.model.DetailCourseTeacherAssign
-import com.khaipv.attendance.navigation.AppNavigation
-import com.khaipv.attendance.shareData.ShareViewModel
-import com.khaipv.attendance.ui.teacher.allCourse.adapter.CourseTeacherAssignAdapter
-import com.khaipv.attendance.util.BundleKey
-import com.khaipv.attendance.util.DateFormat
-import com.khaipv.attendance.util.toDate
+import com.khaipv.attendance.databinding.FragmentScheduleAdminBinding
+import com.khaipv.attendance.ui.admin.allCourse.adapter.CourseAdapter
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
+import com.example.core.utils.toastMessage
+import com.khaipv.attendance.model.CourseHaveShedule
+import com.khaipv.attendance.model.DetailCourseTeacherAssign
+import com.khaipv.attendance.model.OverViewCourseHaveShedule
+import com.khaipv.attendance.navigation.AppNavigation
+import com.khaipv.attendance.ui.teacher.allCourse.AllCycleTeacherPopupWindow
+import com.khaipv.attendance.util.BundleKey
+import com.khaipv.attendance.util.DateFormat
+import com.khaipv.attendance.util.toDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -27,31 +28,28 @@ import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AllCourseTeacherFragment :
-    BaseFragment<FragmentScheduleTeacherBinding, AllCourseTeacherViewModel>(R.layout.fragment_schedule_teacher) {
+class AllCourseAdminFragment :
+    BaseFragment<FragmentScheduleAdminBinding, AllCourseAdminViewModel>(R.layout.fragment_schedule_admin) {
+    private val viewModel: AllCourseAdminViewModel by viewModels()
 
-    private val viewModel: AllCourseTeacherViewModel by viewModels()
+    override fun getVM(): AllCourseAdminViewModel = viewModel
 
-    override fun getVM(): AllCourseTeacherViewModel = viewModel
-
-    private val shareViewModel: ShareViewModel by activityViewModels()
-
-    private lateinit var adapter: CourseTeacherAssignAdapter
-
-    @Inject
-    lateinit var rxPreferences: RxPreferences
+    private lateinit var adapter: CourseAdapter
+    private lateinit var allCycleAdminPopupWindow: AllCycleAdminPopupWindow
 
     @Inject
     lateinit var appNavigation: AppNavigation
 
-    private var currentOriginList: List<DetailCourseTeacherAssign> = emptyList()
+    @Inject
+    lateinit var rxPreferences: RxPreferences
+    private var currentOriginList: List<CourseHaveShedule> = emptyList()
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = CourseTeacherAssignAdapter(onCourseClick = {
+        adapter = CourseAdapter(onCourseClick = {
             val bundle = Bundle()
             bundle.putInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE, it.coursePerCycleId)
-            appNavigation.openScheduleToDetailCourse(bundle)
+            appNavigation.openAdminTopToSchedule(bundle)
         })
         binding.rvCourse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -59,9 +57,16 @@ class AllCourseTeacherFragment :
 
         binding.tvTitle.text = "Hello, " + rxPreferences.getName()
 
-        binding.ivAvatar.loadImage(rxPreferences.getAvatar())
-
-        viewModel.getAllCourseAssign()
+        viewModel.getAllCourseHaveSchedule()
+        allCycleAdminPopupWindow = AllCycleAdminPopupWindow(requireContext()) { cycleClicked ->
+            binding.tvAllCourse.text = cycleClicked.cyclesDes
+            val item = viewModel.listCourseHaveShedule.value.first { allCycle ->
+                allCycle.cycleId == cycleClicked.cycleId
+            }
+            currentOriginList = item.listCourse
+            adapter.submitList(item.listCourse)
+            binding.edtSearch.text.clear()
+        }
 
         binding.edtSearch.doOnTextChanged { text, start, before, count ->
             if (text.isNullOrBlank()) {
@@ -73,37 +78,20 @@ class AllCourseTeacherFragment :
                 })
             }
         }
-
-        allCycleTeacherPopupWindow = AllCycleTeacherPopupWindow(requireContext()) { cycleClicked ->
-            binding.tvAllCourse.text = cycleClicked.cyclesDes
-            val item = viewModel.allCourseTeacherAssign.value.first { allCycle ->
-                allCycle.cycleId == cycleClicked.cycleId
-            }
-            currentOriginList = item.listCourse
-            adapter.submitList(item.listCourse)
-            binding.edtSearch.text.clear()
-        }
     }
-
-    private lateinit var allCycleTeacherPopupWindow: AllCycleTeacherPopupWindow
 
     override fun setOnClick() {
         super.setOnClick()
-
-        binding.ivAvatar.setOnSafeClickListener {
-            shareViewModel.setPositionBottomNav(1)
-        }
-
         binding.tvAllCourse.setOnSafeClickListener {
-            allCycleTeacherPopupWindow.showPopup(binding.tvAllCourse)
+            allCycleAdminPopupWindow.showPopup(binding.tvAllCourse)
         }
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.allCourseTeacherAssign.collectFlowOnView(viewLifecycleOwner) {
-                allCycleTeacherPopupWindow.setData(it)
+            viewModel.listCourseHaveShedule.collectFlowOnView(viewLifecycleOwner) {
+                allCycleAdminPopupWindow.setData(it)
                 for (item in it) {
                     val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
                     val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)

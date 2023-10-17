@@ -1,14 +1,18 @@
-package com.khaipv.attendance.ui.admin.schedule.adapter
+package com.khaipv.attendance.ui.admin.allCourse.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core.utils.setOnSafeClickListener
 import com.khaipv.attendance.databinding.ItemCourseBinding
 import com.khaipv.attendance.model.CourseHaveShedule
+import com.khaipv.attendance.model.DetailCourseTeacherAssign
 
 class CourseAdapter(
+    private var onCourseClick: ((course: CourseHaveShedule) -> Unit)
+
 ) :
     ListAdapter<CourseHaveShedule, CourseAdapter.ConsultantHolder>(DiffCallback()) {
 
@@ -32,6 +36,9 @@ class CourseAdapter(
         RecyclerView.ViewHolder(binding.root) {
         fun bind(course: CourseHaveShedule) {
             binding.tvCourseName.text = course.courseName
+            binding.root.setOnSafeClickListener {
+                onCourseClick.invoke(course)
+            }
         }
     }
 

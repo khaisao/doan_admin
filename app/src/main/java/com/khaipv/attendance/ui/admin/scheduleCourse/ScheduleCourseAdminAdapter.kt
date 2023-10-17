@@ -1,4 +1,4 @@
-package com.khaipv.attendance.ui.teacher.scheduleCourse
+package com.khaipv.attendance.ui.admin.scheduleCourse
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,13 +10,14 @@ import com.khaipv.attendance.databinding.ItemScheduleBinding
 import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.util.DateFormat
 import com.example.core.utils.setOnSafeClickListener
+import com.khaipv.attendance.databinding.ItemScheduleAdminBinding
 import com.khaipv.attendance.util.toDateWithFormatInputAndOutPut
 
-class ScheduleCourseAdapter(
+class ScheduleCourseAdminAdapter(
     private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit),
     private var onSeeAttendance: ((schedule: DetailScheduleCourse) -> Unit),
 ) :
-    ListAdapter<DetailScheduleCourse, ScheduleCourseAdapter.ConsultantHolder>(DiffCallback()) {
+    ListAdapter<DetailScheduleCourse, ScheduleCourseAdminAdapter.ConsultantHolder>(DiffCallback()) {
 
     class DiffCallback : DiffUtil.ItemCallback<DetailScheduleCourse>() {
         override fun areItemsTheSame(
@@ -34,7 +35,7 @@ class ScheduleCourseAdapter(
         }
     }
 
-    inner class ConsultantHolder(val binding: ItemScheduleBinding) :
+    inner class ConsultantHolder(val binding: ItemScheduleAdminBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(schedule: DetailScheduleCourse) {
             binding.tvCourseName.text = schedule.courseName
@@ -56,11 +57,11 @@ class ScheduleCourseAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConsultantHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val binding = ItemScheduleBinding.inflate(inflater, parent, false)
+        val binding = ItemScheduleAdminBinding.inflate(inflater, parent, false)
         return ConsultantHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ScheduleCourseAdapter.ConsultantHolder, position: Int) {
+    override fun onBindViewHolder(holder: ConsultantHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

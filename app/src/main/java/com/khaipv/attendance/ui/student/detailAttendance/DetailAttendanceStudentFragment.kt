@@ -34,9 +34,9 @@ class DetailAttendanceStudentFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = DetailAttendanceStudentAdapter()
-        binding.rvCouse.layoutManager =
+        binding.rvCourse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rvCouse.adapter = adapter
+        binding.rvCourse.adapter = adapter
 
         val coursePerCyclesId = arguments?.getInt(BundleKey.COURSE_PER_CYCLE_ID)
         if (coursePerCyclesId != null) {

@@ -110,4 +110,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_faceScanFragment_to_changePasswordSuccessFragment2, bundle)
     }
 
+    override fun openAdminTopToSchedule(bundle: Bundle?) {
+        openScreen(R.id.action_adminTopFragment_to_scheduleCourseAdminFragment, bundle)
+    }
+
 }

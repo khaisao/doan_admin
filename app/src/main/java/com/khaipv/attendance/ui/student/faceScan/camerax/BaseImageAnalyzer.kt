@@ -43,22 +43,22 @@ abstract class BaseImageAnalyzer<T> : ImageAnalysis.Analyzer {
             val rotationBitmap: Bitmap = com.khaipv.attendance.util.ImageUtils.rotateImage(
                 bitmap, imageProxy.imageInfo.rotationDegrees
             )
-            val surfaceWidth = rotationBitmap.width.toFloat()
-            val surfaceHeight = rotationBitmap.height.toFloat()
-            val widthCrop: Float = surfaceWidth * WIDTH_CROP_PERCENT / 100
-            val heightCrop: Float = widthCrop / RATIO_W_H
-            val offsetWidth = (surfaceWidth - widthCrop) / 2
-            val offsetHeight = (surfaceHeight - heightCrop) / 2
-            val cropBitmap = Bitmap.createBitmap(
-                rotationBitmap,
-                offsetWidth.toInt(),
-                offsetHeight.toInt(),
-                widthCrop.toInt(),
-                heightCrop.toInt()
-            )
+//            val surfaceWidth = rotationBitmap.width.toFloat()
+//            val surfaceHeight = rotationBitmap.height.toFloat()
+//            val widthCrop: Float = surfaceWidth * WIDTH_CROP_PERCENT / 100
+//            val heightCrop: Float = widthCrop / RATIO_W_H
+//            val offsetWidth = (surfaceWidth - widthCrop) / 2
+//            val offsetHeight = (surfaceHeight - heightCrop) / 2
+//            val cropBitmap = Bitmap.createBitmap(
+//                rotationBitmap,
+//                offsetWidth.toInt(),
+//                offsetHeight.toInt(),
+//                widthCrop.toInt(),
+//                heightCrop.toInt()
+//            )
             CoroutineScope(Dispatchers.IO).launch {
                 delay(500)
-                detectInImage(cropBitmap)
+                detectInImage(rotationBitmap)
                     .addOnSuccessListener { results ->
                         onSuccess(
                             results,

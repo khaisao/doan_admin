@@ -1,4 +1,4 @@
-package com.khaipv.attendance.ui.teacher.scheduleCourse
+package com.khaipv.attendance.ui.admin.scheduleCourse
 
 import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.model.DetailScheduleCourse
@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ScheduleCourseViewModel @Inject constructor(
+class ScheduleCourseAdminViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
     val allSchedule = MutableStateFlow<List<DetailScheduleCourse>>(emptyList())

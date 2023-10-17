@@ -25,5 +25,7 @@
     <string name="checked_in">Checked in</string>
     <string name="not_checked_in">Not checked in</string>
     <string name="all_student">All student</string>
+    <string name="update_schedule">Update schedule</string>
+    <string name="delete_schedule">Delete schedule</string>
 
 </resources>
