@@ -1,5 +1,6 @@
 package com.khaipv.attendance.ui.student.faceScan.face_detection
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
@@ -79,6 +80,7 @@ class FaceContourDetectionProcessor(
     var isRightDone = false
     var isBottomDone = false
     var isLeftDone = false
+    @SuppressLint("UnsafeOptInUsageError")
     override fun onSuccess(
         results: List<Face>,
         graphicOverlay: GraphicOverlay,
