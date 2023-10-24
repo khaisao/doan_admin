@@ -5,23 +5,20 @@ import com.khaipv.attendance.model.AccountTeacherResponse
 import com.khaipv.attendance.model.AddImageProfileBody
 import com.khaipv.attendance.model.AllImageProfileStudentForCourse
 import com.khaipv.attendance.model.ApiObjectResponse
-import com.khaipv.attendance.model.CourseHaveShedule
-import com.khaipv.attendance.model.DataImageProfileResponse
-import com.khaipv.attendance.model.LoginResponse
-import com.khaipv.attendance.model.RegisterAccountRequest
 import com.khaipv.attendance.model.AttendanceBody
-import com.khaipv.attendance.model.DetailCourseStudentRegister
-import com.khaipv.attendance.model.DetailScheduleCourse
+import com.khaipv.attendance.model.DataImageProfileResponse
 import com.khaipv.attendance.model.DetailAttendanceStudent
 import com.khaipv.attendance.model.DetailAttendanceStudentTeacherScreen
+import com.khaipv.attendance.model.DetailScheduleCourse
+import com.khaipv.attendance.model.LoginResponse
 import com.khaipv.attendance.model.OverViewCourseHaveShedule
 import com.khaipv.attendance.model.OverviewCourseStudentRegister
 import com.khaipv.attendance.model.OverviewCourseTeacherAssign
 import com.khaipv.attendance.model.OverviewScheduleStudent
+import com.khaipv.attendance.model.RegisterAccountRequest
 import com.khaipv.attendance.model.StudentInfoResponse
 import com.khaipv.attendance.model.TeacherInfoResponse
 import okhttp3.MultipartBody
-
 import okhttp3.RequestBody
 import retrofit2.http.*
 
