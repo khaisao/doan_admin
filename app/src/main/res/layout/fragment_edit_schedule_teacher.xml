@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#121A40"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            style="@style/text_bold_22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Edit schedule"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_main_screen"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+            <TextView
+                android:id="@+id/tv_all_course"
+                style="@style/text_bold_22"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:text="Edit schedule"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_start_time"
+                style="@style/text_bold_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="Start time"
+                android:textColor="#192459"
+                app:layout_constraintStart_toStartOf="@id/tv_all_course"
+                app:layout_constraintTop_toBottomOf="@id/tv_all_course" />
+
+            <TextView
+                android:id="@+id/tv_title_end_time"
+                style="@style/text_bold_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="End time"
+                android:textColor="#192459"
+                app:layout_constraintStart_toStartOf="@id/tv_title_start_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_start_time" />
+
+            <TextView
+                android:id="@+id/tv_title_classroom"
+                style="@style/text_bold_16"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="Classroom"
+                android:textColor="#192459"
+                app:layout_constraintStart_toStartOf="@id/tv_title_start_time"
+                app:layout_constraintTop_toBottomOf="@id/tv_title_end_time" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="right"
+                app:constraint_referenced_ids="tv_title_start_time, tv_title_end_time, tv_title_classroom" />
+
+            <LinearLayout
+                android:id="@+id/ll_start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_edit_schedule_item"
+                android:gravity="center_vertical"
+                android:paddingVertical="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title_start_time"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintTop_toTopOf="@id/tv_title_start_time">
+
+                <TextView
+                    android:id="@+id/tv_start_time"
+                    style="@style/text_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="2022/20"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_edit_schedule_item"
+                android:gravity="center_vertical"
+                android:paddingVertical="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title_end_time"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintTop_toTopOf="@id/tv_title_end_time">
+
+                <TextView
+                    android:id="@+id/tv_end_time"
+                    style="@style/text_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="2022/20"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_classroom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:background="@drawable/bg_edit_schedule_item"
+                android:gravity="center_vertical"
+                android:paddingVertical="10dp"
+                android:paddingStart="20dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_title_classroom"
+                app:layout_constraintStart_toEndOf="@id/barrier"
+                app:layout_constraintTop_toTopOf="@id/tv_title_classroom">
+
+                <TextView
+                    android:id="@+id/tv_classroom"
+                    style="@style/text_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="2022/20"
+                    android:textColor="@color/black" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_arrow_down" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_submit"
+                style="@style/text_bold_16"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/bg_btn_log_out"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:paddingVertical="10dp"
+                android:text="Submit"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

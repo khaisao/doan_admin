@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         debug{
-            buildConfigField "String", "BASE_URL", "\"http://10.0.2.2:3000/\""
+            buildConfigField "String", "BASE_URL", "\"http://localhost:3000/\""
         }
         release {
             minifyEnabled false
@@ -115,6 +115,6 @@ dependencies {
 
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
 
-
+    implementation 'com.github.abdulrehmank7:iOS-date-time-picker:1.05'
 
 }

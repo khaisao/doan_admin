@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -39,13 +41,27 @@
             app:layout_constraintStart_toEndOf="@id/iv_ic"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_course_name"
-                style="@style/text_bold_16"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hệ thống quản lí thông tin"
-                android:textColor="@color/black" />
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_lesson_order"
+                    style="@style/text_bold_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lesson 1: "
+                    android:textColor="#0048FF" />
+                <TextView
+                    android:id="@+id/tv_course_name"
+                    style="@style/text_bold_16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Hệ thống quản lí thông tin"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/tv_time"
@@ -70,6 +86,7 @@
         <TextView
             android:id="@+id/btn_attendance"
             android:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
@@ -88,6 +105,7 @@
         <TextView
             android:id="@+id/btn_see_attendance"
             android:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="13dp"
@@ -101,6 +119,25 @@
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_attendance"
+            app:layout_constraintTop_toBottomOf="@id/ll_content" />
+
+        <TextView
+            android:id="@+id/btn_edit"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="13dp"
+            android:background="@drawable/bg_btn_log_out"
+            android:gravity="center"
+            tools:visibility="visible"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="5dp"
+            android:text="@string/edit"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_see_attendance"
             app:layout_constraintTop_toBottomOf="@id/ll_content" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

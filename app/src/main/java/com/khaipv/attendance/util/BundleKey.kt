@@ -10,5 +10,6 @@ class BundleKey {
         const val ITEM_SCHEDULE = "ITEM_SCHEDULE"
         const val COURSE_PER_CYCLE_ID_ALL_ATTENDANCE = "COURSE_PER_CYCLE_ID_ALL_ATTENDANCE"
         const val DES_ACTION_SUCCESS = "DES_ACTION_SUCCESS"
+        const val ITEM_SCHEDULE_TO_EDIT = "ITEM_SCHEDULE_TO_EDIT"
     }
 }

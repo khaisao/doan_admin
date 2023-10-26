@@ -15,6 +15,7 @@ import com.khaipv.attendance.util.toDateWithFormatInputAndOutPut
 class ScheduleCourseTeacherAdapter(
     private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit),
     private var onSeeAttendance: ((schedule: DetailScheduleCourse) -> Unit),
+    private var onEditSchedule: ((schedule: DetailScheduleCourse) -> Unit),
 ) :
     ListAdapter<DetailScheduleCourse, ScheduleCourseTeacherAdapter.ConsultantHolder>(DiffCallback()) {
 
@@ -41,15 +42,20 @@ class ScheduleCourseTeacherAdapter(
             binding.tvClassroomName.text = schedule.classroomName
             binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(DateFormat.FORMAT_1, DateFormat.FORMAT_4) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(
                 DateFormat.FORMAT_1, DateFormat.FORMAT_4)
+            binding.tvLessonOrder.text = "Lesson $adapterPosition: "
             binding.root.setOnClickListener {
                 binding.btnAttendance.isVisible = binding.btnAttendance.isVisible != true
                 binding.btnSeeAttendance.isVisible = binding.btnSeeAttendance.isVisible != true
+                binding.btnEdit.isVisible = binding.btnEdit.isVisible != true
             }
             binding.btnAttendance.setOnSafeClickListener {
                 onCourseClick.invoke(schedule)
             }
             binding.btnSeeAttendance.setOnSafeClickListener {
                 onSeeAttendance.invoke(schedule)
+            }
+            binding.btnEdit.setOnSafeClickListener {
+                onEditSchedule.invoke(schedule)
             }
         }
     }

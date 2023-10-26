@@ -43,6 +43,11 @@ class ScheduleCourseTeacherFragment :
                 bundle.putParcelable(BundleKey.ITEM_SCHEDULE, it)
                 appNavigation.openScheduleCourseToHistoryAttendance(bundle)
             },
+            onEditSchedule = {
+                val bundle = Bundle()
+                bundle.putParcelable(BundleKey.ITEM_SCHEDULE_TO_EDIT, it)
+                appNavigation.openScheduleTeacherToEditSchedule(bundle)
+            },
         )
         binding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
