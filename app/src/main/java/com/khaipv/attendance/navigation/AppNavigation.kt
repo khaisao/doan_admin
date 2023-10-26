@@ -58,4 +58,6 @@ interface AppNavigation : BaseNavigator {
     fun openAdminTopToSchedule(bundle: Bundle? = null)
 
     fun openScheduleTeacherToEditSchedule(bundle: Bundle? = null)
+
+    fun openEditScheduleToEditScheduleSuccess(bundle: Bundle? = null)
 }

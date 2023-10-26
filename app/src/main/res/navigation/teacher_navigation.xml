@@ -92,6 +92,7 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordSuccessFragment3"
+        tools:layout="@layout/fragment_change_password_success"
         android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordSuccessFragment"
         android:label="ChangePasswordSuccessFragment" />
     <fragment
@@ -106,6 +107,16 @@
         android:id="@+id/editScheduleTeacherFragment"
         tools:layout="@layout/fragment_edit_schedule_teacher"
         android:name="com.khaipv.attendance.ui.teacher.editSchedule.EditScheduleTeacherFragment"
-        android:label="EditScheduleTeacherFragment" />
+        android:label="EditScheduleTeacherFragment" >
+        <action
+            android:id="@+id/action_editScheduleTeacherFragment_to_changePasswordSuccessFragment3"
+            app:destination="@id/changePasswordSuccessFragment3"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/editScheduleTeacherFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
 
 </navigation>

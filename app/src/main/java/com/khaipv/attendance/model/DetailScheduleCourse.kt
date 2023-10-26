@@ -18,4 +18,6 @@ data class DetailScheduleCourse(
     val classroomName: String = "",
     @SerializedName("courseName")
     val courseName: String = "",
+    @SerializedName("classroomId")
+    val classroomId: Int = 0,
 ) : Parcelable

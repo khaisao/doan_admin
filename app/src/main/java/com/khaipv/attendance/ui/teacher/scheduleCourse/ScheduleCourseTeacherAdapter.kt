@@ -40,9 +40,13 @@ class ScheduleCourseTeacherAdapter(
         fun bind(schedule: DetailScheduleCourse) {
             binding.tvCourseName.text = schedule.courseName
             binding.tvClassroomName.text = schedule.classroomName
-            binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(DateFormat.FORMAT_1, DateFormat.FORMAT_4) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(
-                DateFormat.FORMAT_1, DateFormat.FORMAT_4)
-            binding.tvLessonOrder.text = "Lesson $adapterPosition: "
+            binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(
+                DateFormat.FORMAT_1,
+                DateFormat.FORMAT_5
+            ) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(
+                DateFormat.FORMAT_1, DateFormat.FORMAT_5
+            )
+            binding.tvLessonOrder.text = "Lesson ${adapterPosition + 1}: "
             binding.root.setOnClickListener {
                 binding.btnAttendance.isVisible = binding.btnAttendance.isVisible != true
                 binding.btnSeeAttendance.isVisible = binding.btnSeeAttendance.isVisible != true
@@ -66,7 +70,10 @@ class ScheduleCourseTeacherAdapter(
         return ConsultantHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ScheduleCourseTeacherAdapter.ConsultantHolder, position: Int) {
+    override fun onBindViewHolder(
+        holder: ScheduleCourseTeacherAdapter.ConsultantHolder,
+        position: Int
+    ) {
         holder.bind(getItem(position))
     }
 

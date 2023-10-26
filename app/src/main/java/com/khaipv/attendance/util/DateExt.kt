@@ -11,6 +11,7 @@ class DateFormat {
         final const val FORMAT_3 = "HH:mm"
         final const val FORMAT_4 = "dd/MM HH:mm"
         final const val FORMAT_5 = "dd/MM/yyyy HH:mm"
+        final const val FORMAT_6 = "yyyy/MM/dd HH:mm:ss"
     }
 }
 
@@ -38,7 +39,8 @@ fun String.toDate(format: String): Date? {
     }
 }
 
-fun Date.toString(format: String): String {
+
+fun Date.toStringWithFormat(format: String): String {
     val dateFormatter = SimpleDateFormat(format, Locale.US)
     return dateFormatter.format(this)
 }

@@ -4,6 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
+import com.khaipv.attendance.model.Classroom
+import com.khaipv.attendance.model.UpdateScheduleBody
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,14 +16,16 @@ import javax.inject.Inject
 class EditScheduleTeacherViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
-    val allSchedule = MutableStateFlow<List<DetailScheduleCourse>>(emptyList())
-    fun getAllScheduleSpecificCourse(coursePerCycleId: Int) {
+
+    val allClassroom = MutableStateFlow<List<Classroom>>(emptyList())
+
+    fun getAllClassroom() {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val response = apiInterface.getAllScheduleSpecificCourse(coursePerCycleId)
+                val response = apiInterface.getAllClassroom()
                 if (response.errors.isEmpty()) {
-                    allSchedule.value = response.dataResponse
+                    allClassroom.value = response.dataResponse
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)
@@ -29,6 +33,22 @@ class EditScheduleTeacherViewModel @Inject constructor(
                 isLoading.postValue(false)
             }
 
+        }
+    }
+
+    val isUpdateScheduleSuccess = MutableStateFlow<Boolean?>(null)
+
+    fun updateSchedule(updateScheduleBody: UpdateScheduleBody) {
+        viewModelScope.launch(Dispatchers.IO + handler) {
+            try {
+                isLoading.postValue(true)
+                val response = apiInterface.updateSchedule(updateScheduleBody)
+                isUpdateScheduleSuccess.value = response.errors.isEmpty()
+            } catch (e: Exception) {
+
+            } finally {
+                isLoading.postValue(false)
+            }
         }
     }
 }

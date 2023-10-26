@@ -118,4 +118,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_detailCourseFragment_to_editScheduleTeacherFragment, bundle)
     }
 
+    override fun openEditScheduleToEditScheduleSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_editScheduleTeacherFragment_to_changePasswordSuccessFragment3, bundle)
+    }
+
 }

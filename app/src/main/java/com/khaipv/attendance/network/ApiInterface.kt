@@ -6,6 +6,7 @@ import com.khaipv.attendance.model.AddImageProfileBody
 import com.khaipv.attendance.model.AllImageProfileStudentForCourse
 import com.khaipv.attendance.model.ApiObjectResponse
 import com.khaipv.attendance.model.AttendanceBody
+import com.khaipv.attendance.model.Classroom
 import com.khaipv.attendance.model.DataImageProfileResponse
 import com.khaipv.attendance.model.DetailAttendanceStudent
 import com.khaipv.attendance.model.DetailAttendanceStudentTeacherScreen
@@ -18,6 +19,7 @@ import com.khaipv.attendance.model.OverviewScheduleStudent
 import com.khaipv.attendance.model.RegisterAccountRequest
 import com.khaipv.attendance.model.StudentInfoResponse
 import com.khaipv.attendance.model.TeacherInfoResponse
+import com.khaipv.attendance.model.UpdateScheduleBody
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -134,5 +136,14 @@ interface ApiInterface {
         @Path("coursePerCycleId") coursePerCycleId: Int,
         @Path("scheduleId") scheduleId: Int,
     ): ApiObjectResponse<List<DetailAttendanceStudentTeacherScreen>>
+
+    @GET("api/teacher/getAllClassroom")
+    suspend fun getAllClassroom(
+    ): ApiObjectResponse<List<Classroom>>
+
+    @PATCH("api/teacher/updateSchedule")
+    suspend fun updateSchedule(
+        @Body updateScheduleBody: UpdateScheduleBody
+    ): ApiObjectResponse<Any>
 
 }
