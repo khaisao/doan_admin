@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -21,6 +22,8 @@ class SplashViewModel @Inject constructor(
     private val loginActionStateChannel = Channel<LoginSplashEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
 
+    private var fcmDeviceToken: String? = null
+
     init {
         login()
     }
@@ -29,20 +32,20 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
+                FirebaseMessaging.getInstance().token.addOnSuccessListener {
+                    fcmDeviceToken = it
+                }
                 val userName = rxPreferences.getUserName()
                 val password = rxPreferences.getPassword()
-                Log.d("asgwgawgawg", "login: $userName")
-                Log.d("asgwgawgawg", "login: $password")
-                if (!userName.isNullOrEmpty() && !password.isNullOrEmpty()) {
-                    val response = apiInterface.login(userName, password)
+                if (!userName.isNullOrEmpty() && !password.isNullOrEmpty() && fcmDeviceToken != null) {
+                    val response = apiInterface.login(userName, password, fcmDeviceToken!!)
                     if (response.errors.isEmpty()) {
                         rxPreferences.saveUserName(response.dataResponse.userName)
                         rxPreferences.savePassword(response.dataResponse.password)
                         rxPreferences.saveToken(response.dataResponse.token)
                         rxPreferences.saveRole(response.dataResponse.role)
                         rxPreferences.saveAccountId(response.dataResponse.accountId)
-                        Log.d("asgwgawgawg", "login: ${response.dataResponse.avatar}")
-                        if(response.dataResponse.avatar != null){
+                        if (response.dataResponse.avatar != null) {
                             rxPreferences.saveAvatar(response.dataResponse.avatar)
                         }
                         if (response.dataResponse.role == 1) {

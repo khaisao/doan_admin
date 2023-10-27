@@ -31,6 +31,7 @@ interface ApiInterface {
     suspend fun login(
         @Field("userName") userName: String,
         @Field("password") password: String,
+        @Field("fcmDeviceToken") fcmDeviceToken: String,
     ): ApiObjectResponse<LoginResponse>
 
     @GET("api/teacher/getAllImageProfileStudentForCourse/{id}")

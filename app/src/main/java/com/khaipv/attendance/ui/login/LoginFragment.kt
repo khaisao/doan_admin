@@ -1,21 +1,21 @@
 package com.khaipv.attendance.ui.login
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.InputType
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.khaipv.attendance.R
-import com.khaipv.attendance.databinding.FragmentLoginBinding
-import com.khaipv.attendance.navigation.AppNavigation
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
 import com.example.core.utils.toastMessage
+import com.google.firebase.messaging.FirebaseMessaging
+import com.khaipv.attendance.R
+import com.khaipv.attendance.databinding.FragmentLoginBinding
+import com.khaipv.attendance.navigation.AppNavigation
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,10 +32,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
 
     private val viewModel: LoginViewModel by viewModels()
 
+    private var fcmDeviceToken: String? = null
+
     override fun getVM(): LoginViewModel = viewModel
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            fcmDeviceToken = it
+        }
         binding.edtUser.doOnTextChanged { text, start, before, count ->
             binding.tvErrorUsername.isVisible = false
         }
@@ -59,8 +64,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         binding.tvLogin.setOnSafeClickListener {
             val user = binding.edtUser.text.toString()
             val password = binding.edtPassword.text.toString()
-            if (isValidLogin(user, password)) {
-                viewModel.login(user, password)
+            if (isValidLogin(user, password) && fcmDeviceToken != null) {
+                viewModel.login(user, password, fcmDeviceToken!!)
+            } else {
+                toastMessage("Some thing error, try again")
             }
         }
 
@@ -70,17 +77,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         super.bindingStateView()
         lifecycleScope.launch {
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
-                if (it is LoginEvent.LoginSuccess) {
-                    if (rxPreferences.getRole() == 3) {
-                        appNavigation.openLoginToAdminTop()
-                    }
-                    if (rxPreferences.getRole() == 2) {
-                        appNavigation.openLoginToTeacherTop()
-                    }
-                    if (rxPreferences.getRole() == 1) {
-                        appNavigation.openLoginToStudentTop()
-                    }
-                }
+//                if (it is LoginEvent.LoginSuccess) {
+//                    if (rxPreferences.getRole() == 3) {
+//                        appNavigation.openLoginToAdminTop()
+//                    }
+//                    if (rxPreferences.getRole() == 2) {
+//                        appNavigation.openLoginToTeacherTop()
+//                    }
+//                    if (rxPreferences.getRole() == 1) {
+//                        appNavigation.openLoginToStudentTop()
+//                    }
+//                }
             }
         }
     }

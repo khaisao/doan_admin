@@ -4,6 +4,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -116,5 +117,7 @@ dependencies {
     implementation 'com.guolindev.permissionx:permissionx:1.7.1'
 
     implementation 'com.github.abdulrehmank7:iOS-date-time-picker:1.05'
+    implementation 'com.google.firebase:firebase-messaging:20.2.4'
+    implementation platform('com.google.firebase:firebase-bom:32.4.0')
 
 }
