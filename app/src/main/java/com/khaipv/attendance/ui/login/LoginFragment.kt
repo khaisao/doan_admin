@@ -77,17 +77,17 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         super.bindingStateView()
         lifecycleScope.launch {
             viewModel.loginActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
-//                if (it is LoginEvent.LoginSuccess) {
-//                    if (rxPreferences.getRole() == 3) {
-//                        appNavigation.openLoginToAdminTop()
-//                    }
-//                    if (rxPreferences.getRole() == 2) {
-//                        appNavigation.openLoginToTeacherTop()
-//                    }
-//                    if (rxPreferences.getRole() == 1) {
-//                        appNavigation.openLoginToStudentTop()
-//                    }
-//                }
+                if (it is LoginEvent.LoginSuccess) {
+                    if (rxPreferences.getRole() == 3) {
+                        appNavigation.openLoginToAdminTop()
+                    }
+                    if (rxPreferences.getRole() == 2) {
+                        appNavigation.openLoginToTeacherTop()
+                    }
+                    if (rxPreferences.getRole() == 1) {
+                        appNavigation.openLoginToStudentTop()
+                    }
+                }
             }
         }
     }

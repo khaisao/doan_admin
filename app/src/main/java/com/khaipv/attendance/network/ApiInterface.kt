@@ -57,12 +57,6 @@ interface ApiInterface {
     ): ApiObjectResponse<List<OverViewCourseHaveShedule>>
 
     @Multipart
-    @POST("api/student/updateImageProfile")
-    suspend fun updateImageProfile(
-        @Part("studentId") studentId: RequestBody, @Part part: MultipartBody.Part
-    ): ApiObjectResponse<Any>
-
-    @Multipart
     @PATCH("api/teacher/updateAvatar")
     suspend fun updateTeacherAvatar(
         @Part("teacherId") teacherId: RequestBody, @Part part: MultipartBody.Part

@@ -15,26 +15,12 @@ class CourseTeacherAssignAdapter(
 ) :
     ListAdapter<DetailCourseTeacherAssign, CourseTeacherAssignAdapter.ConsultantHolder>(DiffCallback()) {
 
-    private var listCurrentList: List<DetailCourseTeacherAssign> = emptyList()
-
-//    override fun submitList(list: MutableList<DetailCourseTeacherAssign>?) {
+    //    override fun submitList(list: MutableList<DetailCourseTeacherAssign>?) {
 //        super.submitList(list)
 //        if (list != null) {
 //            listCurrentList = list
 //        }
 //    }
-
-    fun filterList(query: String) {
-        val filteredList = if (query.isBlank()) {
-            listCurrentList // Không có từ khóa tìm kiếm, trả về danh sách gốc
-        } else {
-            listCurrentList.filter { course ->
-                // Thực hiện tìm kiếm dựa trên từ khóa trong đây
-                course.courseName.lowercase(Locale.ROOT).contains(query.lowercase(Locale.ROOT))
-            }
-        }
-        submitList(filteredList.toMutableList()) // Cập nhật danh sách hiển thị trong RecyclerView
-    }
 
     class DiffCallback : DiffUtil.ItemCallback<DetailCourseTeacherAssign>() {
         override fun areItemsTheSame(

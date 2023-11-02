@@ -25,6 +25,8 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
     @Inject
     lateinit var appNavigation: AppNavigation
 
+    private val TAG = "MainActivity"
+
     @Inject
     lateinit var networkConnectionManager: NetworkConnectionManager
 
@@ -48,9 +50,9 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
         networkConnectionManager.isNetworkConnectedFlow
             .onEach {
                 if (it) {
-                    Timber.tag("ahihi").d("onCreate: Network connected")
+                    Timber.tag(TAG).d("onCreate: Network connected")
                 } else {
-                    Timber.tag("ahihi").d("onCreate: Network disconnected")
+                    Timber.tag(TAG).d("onCreate: Network disconnected")
                 }
             }
             .launchIn(lifecycleScope)

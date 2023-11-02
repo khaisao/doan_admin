@@ -7,7 +7,3 @@ data class ApiObjectResponse<T>(
     @SerializedName("data") var dataResponse: T,
 )
 
-data class ApiException(
-    @SerializedName("errors") var errors: List<String>,
-    @SerializedName("data") var dataResponse: Any,
-)
