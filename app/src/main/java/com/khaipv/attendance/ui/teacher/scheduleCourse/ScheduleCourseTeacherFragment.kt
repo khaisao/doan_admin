@@ -48,6 +48,7 @@ class ScheduleCourseTeacherFragment :
                 bundle.putParcelable(BundleKey.ITEM_SCHEDULE_TO_EDIT, it)
                 appNavigation.openScheduleTeacherToEditSchedule(bundle)
             },
+            viewModel
         )
         binding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

@@ -10,12 +10,18 @@ import com.khaipv.attendance.databinding.ItemScheduleBinding
 import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.util.DateFormat
 import com.example.core.utils.setOnSafeClickListener
+import com.khaipv.attendance.R
 import com.khaipv.attendance.util.toDateWithFormatInputAndOutPut
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ScheduleCourseTeacherAdapter(
     private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit),
     private var onSeeAttendance: ((schedule: DetailScheduleCourse) -> Unit),
     private var onEditSchedule: ((schedule: DetailScheduleCourse) -> Unit),
+    private val viewModel: ScheduleCourseTeacherViewModel
 ) :
     ListAdapter<DetailScheduleCourse, ScheduleCourseTeacherAdapter.ConsultantHolder>(DiffCallback()) {
 
@@ -60,6 +66,27 @@ class ScheduleCourseTeacherAdapter(
             }
             binding.btnEdit.setOnSafeClickListener {
                 onEditSchedule.invoke(schedule)
+            }
+            CoroutineScope(Dispatchers.IO).launch {
+                val listAttendance = viewModel.getAllAttendanceSpecificSchedule(
+                    schedule.coursePerCycleId,
+                    schedule.scheduleId
+                )
+                var isAlreadyAttendance = false
+                for(item in listAttendance){
+                    if(!item.timeAttendance.isNullOrBlank()){
+                        isAlreadyAttendance = true
+                    }
+                }
+                withContext(Dispatchers.Main){
+                    if(!isAlreadyAttendance){
+                        binding.btnAttendance.isEnabled = true
+                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_log_out)
+                    } else {
+                        binding.btnAttendance.isEnabled = false
+                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_primary_disable)
+                    }
+                }
             }
         }
     }
