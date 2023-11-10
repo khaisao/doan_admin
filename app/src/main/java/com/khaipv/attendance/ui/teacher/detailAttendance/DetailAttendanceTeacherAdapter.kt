@@ -1,5 +1,6 @@
 package com.khaipv.attendance.ui.teacher.detailAttendance
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -12,6 +13,7 @@ import com.khaipv.attendance.util.DateFormat
 import com.khaipv.attendance.util.DateFormat.Companion.FORMAT_1
 import com.khaipv.attendance.util.toDateWithFormatInputAndOutPut
 import com.example.core.utils.loadImage
+import com.khaipv.attendance.util.DateFormat.Companion.FORMAT_4
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -44,8 +46,8 @@ class DetailAttendanceTeacherAdapter :
             binding.tvStudentName.text = item.studentName
             binding.tvStudentAttendanceTime.text =
                 item.timeAttendance?.toDateWithFormatInputAndOutPut(
-                    DateFormat.FORMAT_1,
-                    DateFormat.FORMAT_4
+                    FORMAT_1,
+                    FORMAT_4
                 ) ?: ""
             if (item.startTime != null && isScheduleIsPass(item.startTime!!)) {
                 if (item.timeAttendance != null) {

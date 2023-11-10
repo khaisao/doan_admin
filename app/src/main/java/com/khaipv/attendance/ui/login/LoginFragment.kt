@@ -66,8 +66,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
             val password = binding.edtPassword.text.toString()
             if (isValidLogin(user, password) && fcmDeviceToken != null) {
                 viewModel.login(user, password, fcmDeviceToken!!)
-            } else {
-                toastMessage("Some thing error, try again")
             }
         }
 

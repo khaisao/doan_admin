@@ -40,6 +40,8 @@ class SplashFragment :
             val fcmDeviceToken = it
             if (!userName.isNullOrEmpty() && !password.isNullOrEmpty() && fcmDeviceToken != null) {
                 viewModel.login(userName, password, fcmDeviceToken)
+            } else {
+                appNavigation.openSplashToLoginScreen()
             }
         }
     }

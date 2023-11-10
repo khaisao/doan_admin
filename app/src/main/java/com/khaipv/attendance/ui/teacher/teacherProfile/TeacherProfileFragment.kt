@@ -123,8 +123,12 @@ class TeacherProfileFragment :
         wasSuccessful: Boolean,
         Reason: String?
     ) {
-        val file = File(path)
-        viewModel.updateTeacherAvatar(file)
+        if (path != null) {
+            val file = File(path)
+            viewModel.updateTeacherAvatar(file)
+        } else {
+            toastMessage("Error, try again")
+        }
     }
 
     override fun PickiTonMultipleCompleteListener(

@@ -1,5 +1,6 @@
 package com.khaipv.attendance.ui.login
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
@@ -24,6 +25,7 @@ class LoginViewModel @Inject constructor(
             try {
                 isLoading.postValue(true)
                 val response = apiInterface.login(user, password, fcmDeviceToken)
+                Log.d("sagagwaggawagwga", "login: $response")
                 if (response.errors.isEmpty()) {
                     rxPreferences.saveUserName(response.dataResponse.userName)
                     rxPreferences.savePassword(response.dataResponse.password)
@@ -50,7 +52,7 @@ class LoginViewModel @Inject constructor(
                     loginActionStateChannel.send(LoginEvent.LoginSuccess)
                 }
             } catch (e: Exception) {
-                messageError.postValue(e)
+//                messageError.postValue(e.message)
                 loginActionStateChannel.send(LoginEvent.LoginError)
             } finally {
                 isLoading.postValue(false)

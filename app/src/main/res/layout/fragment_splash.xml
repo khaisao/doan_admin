@@ -5,20 +5,20 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:background="#121A40"
+        android:background="@color/white"
         android:layout_height="match_parent">
         <ImageView
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginTop="30dp"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginHorizontal="50dp"
             android:adjustViewBounds="true"
-            android:src="@drawable/splash_bg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:src="@drawable/splash_imageview"
+            android:layout_width="128dp"
+            android:layout_height="128dp"/>
 
-<!--        <View-->
-<!--            android:layout_width="200dp"-->
-<!--            android:layout_height="200dp"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

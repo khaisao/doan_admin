@@ -1,5 +1,6 @@
 package com.example.core.base
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.core.R
@@ -10,23 +11,27 @@ import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import timber.log.Timber
 import java.net.ConnectException
-
+open class ErrorNetworkResponse(
+    var status: Int?,
+    var message: String?
+)
 abstract class BaseViewModel : ViewModel() {
 
     var messageError = SingleLiveEvent<Any>()
     var isLoading = SingleLiveEvent<Boolean>()
 
-    val handler = CoroutineExceptionHandler { _, exception ->
-        messageError.postValue(exception.message)
+    val handler = CoroutineExceptionHandler { asas, throwable ->
+        onError(throwable)
     }
 
-    fun handleError(
+    fun onError(
         throwable: Throwable,
-        callBack: ((result: ErrorResponse) -> Unit?)?
+        cb: ((result: ErrorNetworkResponse) -> Unit?)? = null
     ) {
-        if (throwable is ConnectException) {
-            messageError.postValue(throwable.message)
+        if (false) {
+            messageError.postValue(R.string.not_connected_internet)
         } else if (throwable is HttpException) {
             var errorBody: String? = null
             try {
@@ -34,29 +39,29 @@ abstract class BaseViewModel : ViewModel() {
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            var response: ErrorResponse? = null
+            var errorNetworkResponse: ErrorNetworkResponse? = null
             try {
-                response =
+                errorNetworkResponse =
                     Gson().fromJson(
                         errorBody,
-                        ErrorResponse::class.java
+                        ErrorNetworkResponse::class.java
                     )
             } catch (e: Exception) {
                 e.printStackTrace()
             }
-            if (response != null) {
-                if (response.status == 401) {
-                    callBack?.invoke(response)
+            if (errorNetworkResponse != null) {
+                if (errorNetworkResponse.status == 401) {
+                    cb?.invoke(errorNetworkResponse)
                 } else {
                     messageError.postValue(
-                        response.message ?: "${response.status} "
+                        errorNetworkResponse.message ?: "${errorNetworkResponse.status} "
                     )
                 }
             } else {
                 messageError.postValue(throwable.message)
             }
         } else {
-            messageError.postValue(R.string.not_connected_internet)
+            messageError.postValue("Some thing went wrong")
         }
 
     }
