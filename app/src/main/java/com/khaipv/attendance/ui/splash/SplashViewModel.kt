@@ -22,22 +22,12 @@ class SplashViewModel @Inject constructor(
     private val loginActionStateChannel = Channel<LoginSplashEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
 
-    private var fcmDeviceToken: String? = null
-
-    init {
-        login()
-    }
-
-    fun login() {
+    fun login(userName:String, password:String, fcmDeviceToken:String) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                FirebaseMessaging.getInstance().token.addOnSuccessListener {
-                    fcmDeviceToken = it
-                }
-                val userName = rxPreferences.getUserName()
-                val password = rxPreferences.getPassword()
-                if (!userName.isNullOrEmpty() && !password.isNullOrEmpty() && fcmDeviceToken != null) {
+
+                if (userName.isNotEmpty() && password.isNotEmpty() && fcmDeviceToken.isNotEmpty()) {
                     val response = apiInterface.login(userName, password, fcmDeviceToken!!)
                     if (response.errors.isEmpty()) {
                         rxPreferences.saveUserName(response.dataResponse.userName)
