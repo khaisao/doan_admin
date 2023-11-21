@@ -2,8 +2,12 @@ package com.khaipv.attendance.ui.student
 
 import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +16,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.toastMessage
 import com.khaipv.attendance.R
 import com.khaipv.attendance.databinding.FragmentStudentTopBinding
 import com.khaipv.attendance.shareData.ShareViewModel
@@ -57,6 +62,7 @@ class StudentTopFragment :
                     alertDialog.show()
                 }
             }
+        askNotificationPermission()
     }
 
 
@@ -77,6 +83,31 @@ class StudentTopFragment :
         navController =
             Navigation.findNavController(activity as Activity, R.id.top_student_nav_host_fragment)
         bottomNavigationView.setupWithNavController(navController)
+    }
 
+    private fun askNotificationPermission() {
+        // This is only necessary for API level >= 33 (TIRAMISU)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                // FCM SDK (and your app) can post notifications.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+
+            } else {
+                // Directly ask for the permission
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission(),
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // FCM SDK (and your app) can post notifications.
+        } else {
+            toastMessage("Need notification permission to get notice")
+        }
     }
 }

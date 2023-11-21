@@ -24,5 +24,6 @@
     <string name="update_schedule">Update schedule</string>
     <string name="delete_schedule">Delete schedule</string>
     <string name="edit">Edit</string>
+    <string name="default_notification_channel_id">Attendance</string>
 
 </resources>
