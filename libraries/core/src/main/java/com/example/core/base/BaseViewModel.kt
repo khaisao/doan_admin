@@ -1,22 +1,20 @@
 package com.example.core.base
 
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.core.R
 import com.example.core.model.network.BaseResponse
-import com.example.core.model.network.ErrorResponse
 import com.example.core.utils.SingleLiveEvent
 import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineExceptionHandler
 import okhttp3.ResponseBody
 import retrofit2.HttpException
-import timber.log.Timber
 import java.net.ConnectException
+
 open class ErrorNetworkResponse(
-    var status: Int?,
-    var message: String?
+    var data: List<String> = emptyList(),
+    var errors: List<String> = emptyList()
 )
+
 abstract class BaseViewModel : ViewModel() {
 
     var messageError = SingleLiveEvent<Any>()
@@ -30,7 +28,7 @@ abstract class BaseViewModel : ViewModel() {
         throwable: Throwable,
         cb: ((result: ErrorNetworkResponse) -> Unit?)? = null
     ) {
-        if (false) {
+        if (throwable is ConnectException) {
             messageError.postValue(R.string.not_connected_internet)
         } else if (throwable is HttpException) {
             var errorBody: String? = null
@@ -50,18 +48,14 @@ abstract class BaseViewModel : ViewModel() {
                 e.printStackTrace()
             }
             if (errorNetworkResponse != null) {
-                if (errorNetworkResponse.status == 401) {
-                    cb?.invoke(errorNetworkResponse)
-                } else {
-                    messageError.postValue(
-                        errorNetworkResponse.message ?: "${errorNetworkResponse.status} "
-                    )
-                }
+                messageError.postValue(
+                    errorNetworkResponse.errors[0]
+                )
             } else {
                 messageError.postValue(throwable.message)
             }
         } else {
-            messageError.postValue("Some thing went wrong")
+            messageError.postValue("Something went wrong")
         }
 
     }
