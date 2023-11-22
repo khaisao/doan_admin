@@ -60,4 +60,6 @@ interface AppNavigation : BaseNavigator {
     fun openScheduleTeacherToEditSchedule(bundle: Bundle? = null)
 
     fun openEditScheduleToEditScheduleSuccess(bundle: Bundle? = null)
+
+    fun openGlobalSplashToDetailAttendance(bundle: Bundle? = null)
 }

@@ -1,8 +1,8 @@
 package com.example.core.module
 
 import android.content.Context
-import com.example.core.utils.NetworkConnectionManager
-import com.example.core.utils.NetworkConnectionManagerImpl
+import com.example.core.network.connectivity.NetworkConnectionManager
+import com.example.core.network.connectivity.NetworkConnectionManagerImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,6 +1,7 @@
 package com.khaipv.attendance.ui.student.detailAttendance
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,6 +40,7 @@ class DetailAttendanceStudentFragment :
         binding.rvCourse.adapter = adapter
 
         val coursePerCyclesId = arguments?.getInt(BundleKey.COURSE_PER_CYCLE_ID)
+        Log.d("asgagwwagwagwga", "initView: $coursePerCyclesId")
         if (coursePerCyclesId != null) {
             viewModel.getDetailScheduleStudent(coursePerCyclesId)
         }

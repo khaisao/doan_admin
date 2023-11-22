@@ -12,13 +12,21 @@ import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.*
+import com.example.core.pref.RxPreferences
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.khaipv.attendance.R
+import com.khaipv.attendance.container.MainActivity
+import com.khaipv.attendance.util.BundleKey
+import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class AppFirebaseMessagingService : FirebaseMessagingService() {
+
+    @Inject
+    lateinit var rxPreferences: RxPreferences
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
@@ -40,6 +48,11 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         val coursePerCycleId = remoteMessage.data["coursePerCycleId"]
         val className = remoteMessage.data["className"]
 
+        val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra(BundleKey.COURSE_PER_CYCLE_ID, coursePerCycleId)
+
+        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
         val notificationBuilder =
             NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.mipmap.ic_launcher)
@@ -47,6 +60,7 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
                 .setContentText("You didn't checkin: $className")
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent)
 
         notificationBuilder.setVibrate(longArrayOf(100, 100))
 
@@ -64,7 +78,14 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         notificationBuilder.priority = NotificationManager.IMPORTANCE_HIGH
         notificationBuilder.setChannelId(channelId)
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
+        if (!rxPreferences.getUserName().isNullOrEmpty() && !rxPreferences.getPassword()
+                .isNullOrEmpty() && rxPreferences.getRole() == 1
+        ) {
+            notificationManager.notify(
+                System.currentTimeMillis().toInt(),
+                notificationBuilder.build()
+            )
+        }
     }
 
 

@@ -16,13 +16,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
-        <action
-            android:id="@+id/action_studentTopFragment_to_detailScheduleStudentFragment"
-            app:destination="@id/detailScheduleStudentFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"
-            app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left" />
+
         <action
             android:id="@+id/action_studentTopFragment_to_faceScanFragment"
             app:destination="@id/faceScanFragment"
@@ -31,6 +25,15 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left" />
     </fragment>
+
+    <action
+        android:id="@+id/action_studentTopFragment_to_detailScheduleStudentFragment"
+        app:destination="@id/detailScheduleStudentFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left" />
+
     <fragment
         android:id="@+id/changePasswordFragment2"
         android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordFragment"

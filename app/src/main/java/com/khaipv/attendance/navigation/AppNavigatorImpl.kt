@@ -122,4 +122,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_editScheduleTeacherFragment_to_changePasswordSuccessFragment3, bundle)
     }
 
+    override fun openGlobalSplashToDetailAttendance(bundle: Bundle?) {
+        openScreen(R.id.action_global_to_detail_attendance, bundle)
+    }
+
 }

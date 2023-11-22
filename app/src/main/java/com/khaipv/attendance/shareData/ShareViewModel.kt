@@ -1,6 +1,5 @@
 package com.khaipv.attendance.shareData
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.model.AllImageProfileStudentForCourse
 import com.khaipv.attendance.network.ApiInterface

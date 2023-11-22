@@ -95,5 +95,18 @@
     <include app:graph="@navigation/admin_navigation" />
     <include app:graph="@navigation/teacher_navigation" />
     <include app:graph="@navigation/student_navigation" />
+    <fragment
+        android:id="@+id/detailAttendanceStudentFragment"
+        android:name="com.khaipv.attendance.ui.student.detailAttendance.DetailAttendanceStudentFragment"
+        android:label="DetailAttendanceStudentFragment" />
+    <action
+        android:id="@+id/action_global_to_detail_attendance"
+        app:destination="@id/detailAttendanceStudentFragment"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"
+        app:popEnterAnim="@anim/slide_in_right"
+        app:popExitAnim="@anim/slide_out_left"
+        app:popUpTo="@id/splashFragment"
+        app:popUpToInclusive="true" />
 
 </navigation>

@@ -1,15 +1,18 @@
 package com.khaipv.attendance.container
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.core.base.activity.BaseActivityNotRequireViewModel
 import com.example.core.pref.RxPreferences
-import com.example.core.utils.NetworkConnectionManager
+import com.example.core.network.connectivity.NetworkConnectionManager
 import com.example.core.utils.setLanguage
+import com.example.core.utils.toastMessage
 import com.khaipv.attendance.R
 import com.khaipv.attendance.databinding.ActivityMainBinding
 import com.khaipv.attendance.navigation.AppNavigation
+import com.khaipv.attendance.util.BundleKey
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
@@ -56,6 +59,8 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
                 }
             }
             .launchIn(lifecycleScope)
+
+        handlerCoursePerCycleId(intent, false)
     }
 
     override fun onStart() {
@@ -68,4 +73,25 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
         networkConnectionManager.stopListenNetworkState()
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handlerCoursePerCycleId(intent, true)
+    }
+
+    private fun handlerCoursePerCycleId(intent: Intent?, isAppRunning: Boolean) {
+        val coursePerCycleId = intent?.getStringExtra(BundleKey.COURSE_PER_CYCLE_ID)
+        val bundle = Bundle()
+        if (coursePerCycleId != null) {
+            bundle.putInt(BundleKey.COURSE_PER_CYCLE_ID, coursePerCycleId.toInt())
+            try {
+                if (isAppRunning) {
+                    appNavigation.openStudentTopToDetailScheduleStudent(bundle)
+                } else {
+                    appNavigation.openGlobalSplashToDetailAttendance(bundle)
+                }
+            } catch (e: Exception) {
+                toastMessage("Something went wrong, try again")
+            }
+        }
+    }
 }
