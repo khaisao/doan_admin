@@ -75,7 +75,13 @@ class ListFaceRecoFragment :
         lifecycleScope.launch {
             viewModel.attendanceActionStateFlow.collectFlowOnView(viewLifecycleOwner) {
                 if (it is AttendanceEvent.AttendanceSuccess) {
-                    toastMessage("Success")
+                    val bundle = Bundle()
+                    bundle.putString(BundleKey.TITLE_ACTION_SUCCESS, "Attendance success")
+                    bundle.putString(
+                        BundleKey.DES_ACTION_SUCCESS,
+                        "Congratulation! Attendance success. Please continue your work"
+                    )
+                    appNavigation.openListFaceRecoToAttendanceSuccess(bundle)
                 } else {
                     toastMessage("Error, please check again")
                 }

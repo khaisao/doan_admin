@@ -9,7 +9,6 @@ import com.khaipv.attendance.navigation.AppNavigation
 import com.khaipv.attendance.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.setOnSafeClickListener
 import com.example.core.utils.toastMessage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -30,7 +29,7 @@ class ScheduleCourseTeacherFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         adapter = ScheduleCourseTeacherAdapter(
-            onCourseClick = {
+            onAttendanceClick = {
                 val bundle = Bundle()
                 bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
                 bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)

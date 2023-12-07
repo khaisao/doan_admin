@@ -10,15 +10,13 @@ import com.khaipv.attendance.databinding.ItemScheduleBinding
 import com.khaipv.attendance.model.DetailScheduleCourse
 import com.khaipv.attendance.util.DateFormat
 import com.example.core.utils.setOnSafeClickListener
-import com.khaipv.attendance.R
 import com.khaipv.attendance.util.toDateWithFormatInputAndOutPut
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class ScheduleCourseTeacherAdapter(
-    private var onCourseClick: ((schedule: DetailScheduleCourse) -> Unit),
+    private var onAttendanceClick: ((schedule: DetailScheduleCourse) -> Unit),
     private var onSeeAttendance: ((schedule: DetailScheduleCourse) -> Unit),
     private var onEditSchedule: ((schedule: DetailScheduleCourse) -> Unit),
     private val viewModel: ScheduleCourseTeacherViewModel
@@ -46,12 +44,20 @@ class ScheduleCourseTeacherAdapter(
         fun bind(schedule: DetailScheduleCourse) {
             binding.tvCourseName.text = schedule.courseName
             binding.tvClassroomName.text = schedule.classroomName
-            binding.tvTime.text = schedule.startTime.toDateWithFormatInputAndOutPut(
-                DateFormat.FORMAT_1,
-                DateFormat.FORMAT_5
-            ) + " - " + schedule.endTime.toDateWithFormatInputAndOutPut(
-                DateFormat.FORMAT_1, DateFormat.FORMAT_5
-            )
+            binding.tvTime.text = buildString {
+                append(
+                    schedule.startTime.toDateWithFormatInputAndOutPut(
+                        DateFormat.FORMAT_1,
+                        DateFormat.FORMAT_5
+                    )
+                )
+                append(" - ")
+                append(
+                    schedule.endTime.toDateWithFormatInputAndOutPut(
+                        DateFormat.FORMAT_1, DateFormat.FORMAT_5
+                    )
+                )
+            }
             binding.tvLessonOrder.text = "Lesson ${adapterPosition + 1}: "
             binding.root.setOnClickListener {
                 binding.btnAttendance.isVisible = binding.btnAttendance.isVisible != true
@@ -59,7 +65,7 @@ class ScheduleCourseTeacherAdapter(
                 binding.btnEdit.isVisible = binding.btnEdit.isVisible != true
             }
             binding.btnAttendance.setOnSafeClickListener {
-                onCourseClick.invoke(schedule)
+                onAttendanceClick.invoke(schedule)
             }
             binding.btnSeeAttendance.setOnSafeClickListener {
                 onSeeAttendance.invoke(schedule)
@@ -78,15 +84,16 @@ class ScheduleCourseTeacherAdapter(
                         isAlreadyAttendance = true
                     }
                 }
-                withContext(Dispatchers.Main){
-                    if(!isAlreadyAttendance){
-                        binding.btnAttendance.isEnabled = true
-                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_log_out)
-                    } else {
-                        binding.btnAttendance.isEnabled = false
-                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_primary_disable)
-                    }
-                }
+                //Todo remove comment
+//                withContext(Dispatchers.Main){
+//                    if(!isAlreadyAttendance){
+//                        binding.btnAttendance.isEnabled = true
+//                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_log_out)
+//                    } else {
+//                        binding.btnAttendance.isEnabled = false
+//                        binding.btnAttendance.setBackgroundResource(R.drawable.bg_btn_primary_disable)
+//                    }
+//                }
             }
         }
     }

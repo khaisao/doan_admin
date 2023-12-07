@@ -126,4 +126,8 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_global_to_detail_attendance, bundle)
     }
 
+    override fun openListFaceRecoToAttendanceSuccess(bundle: Bundle?) {
+        openScreen(R.id.action_listFaceRecoFragment_to_changePasswordSuccessFragment3, bundle)
+    }
+
 }

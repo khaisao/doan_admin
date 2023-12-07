@@ -62,4 +62,6 @@ interface AppNavigation : BaseNavigator {
     fun openEditScheduleToEditScheduleSuccess(bundle: Bundle? = null)
 
     fun openGlobalSplashToDetailAttendance(bundle: Bundle? = null)
+
+    fun openListFaceRecoToAttendanceSuccess(bundle: Bundle? = null)
 }

@@ -75,7 +75,17 @@
         android:id="@+id/listFaceRecoFragment"
         android:name="com.khaipv.attendance.ui.teacher.listFaceReco.ListFaceRecoFragment"
         android:label="ListFaceRecoFragment"
-        tools:layout="@layout/fragment_list_face_reco" />
+        tools:layout="@layout/fragment_list_face_reco" >
+        <action
+            android:id="@+id/action_listFaceRecoFragment_to_changePasswordSuccessFragment3"
+            app:destination="@id/changePasswordSuccessFragment3"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/faceRecoFragment"
+            app:popUpToInclusive="true"/>
+    </fragment>
     <fragment
         android:id="@+id/changePasswordFragment3"
         android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordFragment"

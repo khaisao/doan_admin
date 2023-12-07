@@ -142,7 +142,7 @@ class FaceRecoFragment :
 //                        if (it.size > 0) {
 //                            fileReader.run(it, fileReaderCallback)
 //                        }
-                        if(it.size > 0){
+                        if (it.size > 0) {
                             frameAnalyser.faceList = it
                         }
 
@@ -258,6 +258,12 @@ class FaceRecoFragment :
             frameAnalyser.faceList = data
             Logger.log("Images parsed. Found $numImagesWithNoFaces images with no faces.")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        shareViewModel.listStudentRecognized.value = emptyList()
+        shareViewModel.listStudentRecognizedId.clear()
     }
 
 

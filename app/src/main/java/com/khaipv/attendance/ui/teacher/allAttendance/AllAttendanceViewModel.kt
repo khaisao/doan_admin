@@ -23,7 +23,7 @@ class AllAttendanceViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     allAttendance.value = response.dataResponse
                 } else {
-                    messageError.postValue("Dont have attendance history")
+                    messageError.postValue("Don't have attendance history")
                 }
             } catch (e: Exception) {
                 messageError.postValue(e)
