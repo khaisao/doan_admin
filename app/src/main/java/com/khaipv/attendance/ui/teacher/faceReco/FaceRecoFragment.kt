@@ -127,28 +127,40 @@ class FaceRecoFragment :
     override fun bindingStateView() {
         super.bindingStateView()
         lifecycleScope.launch {
-            viewModel.imagesData.collectFlowOnView(viewLifecycleOwner) {
-                if (it.size > 0) {
-                    withContext(Dispatchers.Main) {
-                        if (ActivityCompat.checkSelfPermission(
-                                requireContext(),
-                                Manifest.permission.CAMERA
-                            ) != PackageManager.PERMISSION_GRANTED
-                        ) {
-                            requestCameraPermission()
-                        } else {
-                            startCameraPreview()
-                        }
-//                        if (it.size > 0) {
-//                            fileReader.run(it, fileReaderCallback)
-//                        }
-                        if (it.size > 0) {
-                            frameAnalyser.faceList = it
-                        }
-
+            viewModel.imagesData.collectFlowOnView(viewLifecycleOwner) { uiState ->
+                when (uiState) {
+                    is GetImageUiState.Success -> {
                         viewModel.isLoading.postValue(false)
+                        if (uiState.image.size > 0) {
+                            withContext(Dispatchers.Main) {
+                                if (ActivityCompat.checkSelfPermission(
+                                        requireContext(),
+                                        Manifest.permission.CAMERA
+                                    ) != PackageManager.PERMISSION_GRANTED
+                                ) {
+                                    requestCameraPermission()
+                                } else {
+                                    startCameraPreview()
+                                }
+                                if (uiState.image.size > 0) {
+                                    frameAnalyser.faceList = uiState.image
+                                }
+                            }
+                        } else {
+                            toastMessage("Empty face data")
+                            appNavigation.navigateUp()
+                        }
                     }
+
+                    is GetImageUiState.Error -> {
+                        viewModel.isLoading.postValue(false)
+                        toastMessage("Something went wrong, try again")
+                        appNavigation.navigateUp()
+                    }
+
+                    else -> {}
                 }
+
             }
         }
 

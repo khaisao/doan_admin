@@ -21,7 +21,7 @@ class FaceRecoViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
 
-    val imagesData = MutableStateFlow(ArrayList<Pair<String, FloatArray>>())
+    val imagesData = MutableStateFlow<GetImageUiState>(GetImageUiState.Standby)
     var listStudentRecognized = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
 
     fun getAllImageFromCoursePerCycle(coursePerCycleId: Int) {
@@ -40,13 +40,12 @@ class FaceRecoViewModel @Inject constructor(
                             images.add(Pair(item.studentName + "_" + item.studentId, floatArray))
                         }
                     }
-                    imagesData.value = images
+                    imagesData.value = GetImageUiState.Success(images)
                 }
             }
         } catch (e: Exception) {
-
+            imagesData.value = GetImageUiState.Error
         }
-
     }
 
     private suspend fun getBitmapFromUrl(url: String): Bitmap? {
@@ -62,8 +61,8 @@ class FaceRecoViewModel @Inject constructor(
 
 }
 
-sealed class LoadAllImageProfileStudentEvent() {
-    object LoadAllImageProfileStudentSuccess : LoadAllImageProfileStudentEvent()
-    object LoadAllImageProfileStudentError : LoadAllImageProfileStudentEvent()
+sealed class GetImageUiState {
+    object Standby : GetImageUiState()
+    data class Success(val image: ArrayList<Pair<String, FloatArray>>) : GetImageUiState()
+    object Error : GetImageUiState()
 }
-
