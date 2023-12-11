@@ -57,7 +57,7 @@ class AppPreferences @Inject constructor(
     }
 
     override fun logout() {
-
+        // Add this if need
     }
 
     override fun saveUserName(userName: String) {

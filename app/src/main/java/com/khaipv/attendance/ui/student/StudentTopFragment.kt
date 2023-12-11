@@ -2,9 +2,12 @@ package com.khaipv.attendance.ui.student
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -20,8 +23,6 @@ import com.example.core.utils.toastMessage
 import com.khaipv.attendance.R
 import com.khaipv.attendance.databinding.FragmentStudentTopBinding
 import com.khaipv.attendance.shareData.ShareViewModel
-import com.khaipv.attendance.util.cameraPermissionsGranted
-import com.khaipv.attendance.util.openAppSystemSettings
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.launch
 
@@ -45,8 +46,11 @@ class StudentTopFragment :
             setTitle("Camera Permission")
             setMessage("The app couldn't function without the camera permission.")
             setCancelable(false)
-            setPositiveButton("ALLOW") { dialog, which ->
-                requireContext().openAppSystemSettings()
+            setPositiveButton("ALLOW") { _, _ ->
+                startActivity(Intent().apply {
+                    action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    data = Uri.fromParts("package", requireContext().packageName, null)
+                })
             }
         }.create()
         PermissionX.init(requireActivity())
@@ -57,7 +61,7 @@ class StudentTopFragment :
             .onForwardToSettings { scope, deniedList ->
                 scope.showForwardToSettingsDialog(deniedList, "You need to allow necessary permissions in Settings manually", "OK", "Cancel")
             }
-            .request { allGranted, grantedList, deniedList ->
+            .request { allGranted, _, _ ->
                 if (!allGranted) {
                     alertDialog.show()
                 }
@@ -93,7 +97,7 @@ class StudentTopFragment :
             ) {
                 // FCM SDK (and your app) can post notifications.
             } else if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
-
+                // Show dialog if require
             } else {
                 // Directly ask for the permission
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

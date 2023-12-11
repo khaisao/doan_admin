@@ -43,6 +43,10 @@ class SplashFragment :
             } else {
                 appNavigation.openSplashToLoginScreen()
             }
+        }.addOnFailureListener {
+            appNavigation.openSplashToLoginScreen()
+        }.addOnCanceledListener {
+            appNavigation.openSplashToLoginScreen()
         }
     }
 

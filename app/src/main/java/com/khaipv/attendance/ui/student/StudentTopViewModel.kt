@@ -6,10 +6,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StudentTopViewModel @Inject constructor(
-) : BaseViewModel() {
-
-
-}
-
+) : BaseViewModel()
 
 
