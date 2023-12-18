@@ -1,3 +1,4 @@
 include ':libraries:core'
 include ':app'
 rootProject.name = "Attendance"
+include ':libfacesdk'

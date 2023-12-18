@@ -12,13 +12,19 @@ android {
     compileSdk versions.compileSdk
 
     defaultConfig {
-        applicationId "com.khaipv.attendance"
+        applicationId 'com.kbyai.facerecognition'
         minSdk versions.minSdk
         targetSdk versions.targetSdk
         versionCode versions.versionCode
         versionName versions.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['src/main/jniLibs']
+        }
     }
 
     buildTypes {
@@ -51,6 +57,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     implementation project(':libraries:core')
+    implementation project(path: ':libfacesdk')
 
     //appcompat
     implementation libraries.appcompat
