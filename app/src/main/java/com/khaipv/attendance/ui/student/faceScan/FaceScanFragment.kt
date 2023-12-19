@@ -1,10 +1,7 @@
 package com.khaipv.attendance.ui.student.faceScan
 
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +13,6 @@ import com.khaipv.attendance.ui.student.faceScan.camerax.CameraManager
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
-import com.example.core.utils.toastMessage
 import com.khaipv.attendance.util.BundleKey
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -123,7 +119,7 @@ class FaceScanFragment :
             },
             onSuccessImageLeft = {
                 listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
-                viewModel.addImageProfile(listBitmapImage)
+                viewModel.addImageProfileFaceNetModel(listBitmapImage)
                 binding.ivArrowLeft.isVisible = false
                 saveImageScan(it, "left")
             },

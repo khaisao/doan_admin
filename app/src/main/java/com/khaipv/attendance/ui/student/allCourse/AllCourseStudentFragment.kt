@@ -1,6 +1,11 @@
 package com.khaipv.attendance.ui.student.allCourse
 
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -21,11 +26,18 @@ import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.loadImage
 import com.example.core.utils.setOnSafeClickListener
+import com.example.core.utils.toastMessage
+import com.kbyai.facesdk.FaceBox
+import com.kbyai.facesdk.FaceDetectionParam
+import com.kbyai.facesdk.FaceSDK
+import com.khaipv.attendance.ui.student.faceScan.FaceScanViewModel
+import com.khaipv.attendance.util.Utils
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.random.Random
 
 @AndroidEntryPoint
 class AllCourseStudentFragment :
@@ -93,6 +105,7 @@ class AllCourseStudentFragment :
         binding.ivAvatar.loadImage(rxPreferences.getAvatar())
 
     }
+    private val SELECT_PHOTO_REQUEST_CODE = 1
 
     override fun setOnClick() {
         super.setOnClick()
@@ -103,6 +116,56 @@ class AllCourseStudentFragment :
         binding.tvAllCourse.setOnSafeClickListener {
             allCycleStudentPopupWindow.showPopup(binding.tvAllCourse)
         }
+        binding.tvTitle.setOnSafeClickListener {
+            val intent = Intent()
+            intent.setType("image/*")
+            intent.setAction(Intent.ACTION_PICK)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO_REQUEST_CODE)
+        }
+    }
+    private val faceScanViewModel: FaceScanViewModel by viewModels()
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SELECT_PHOTO_REQUEST_CODE && resultCode == AppCompatActivity.RESULT_OK) {
+            try {
+                var bitmap: Bitmap = Utils.getCorrectlyOrientedImage(requireContext(), data?.data!!)
+
+                val faceDetectionParam = FaceDetectionParam()
+                var faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(bitmap, faceDetectionParam)
+
+                if(faceBoxes.isNullOrEmpty()) {
+                    toastMessage("No Face")
+                } else if (faceBoxes.size > 1) {
+                    toastMessage("Multiple face")
+                } else {
+                    val templates = FaceSDK.templateExtraction(bitmap, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+//                    val decodeHex = byteHex.decodeHex()
+//                    val isEqual: Boolean = templates.contentEquals(decodeHex)
+
+                    faceScanViewModel.addImageProfileKbyModel(listOf(byteHex))
+//                    dbManager.insertPerson("Person" + Random.nextInt(10000, 20000), faceImage, templates)
+//                    personAdapter.notifyDataSetChanged()
+//                    Toast.makeText(this, getString(R.string.person_enrolled), Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: java.lang.Exception) {
+                //handle exception
+                e.printStackTrace()
+            }
+        }
+    }
+
+    fun ByteArray.toHex3(): String = joinToString("") {
+        java.lang.Byte.toUnsignedInt(it).toString(radix = 16).padStart(2, '0')
+    }
+
+    fun String.decodeHex(): ByteArray {
+        check(length % 2 == 0) { "Must have an even length" }
+
+        return chunked(2)
+            .map { it.toInt(16).toByte() }
+            .toByteArray()
     }
 
     override fun bindingStateView() {
@@ -132,7 +195,7 @@ class AllCourseStudentFragment :
                             childFragmentManager,
                             DialogNoticeEmptyImageProfileFragment::class.java.simpleName
                         )
-                    } catch (e: Exception) {
+                    } catch (_: Exception) {
 
                     }
 

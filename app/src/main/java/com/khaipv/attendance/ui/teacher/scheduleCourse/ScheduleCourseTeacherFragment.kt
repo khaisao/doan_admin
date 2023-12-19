@@ -33,7 +33,8 @@ class ScheduleCourseTeacherFragment :
                 val bundle = Bundle()
                 bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
                 bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
-                appNavigation.openScheduleCourseToFaceReco(bundle)
+//                appNavigation.openScheduleCourseToFaceRecoFaceNet(bundle)
+                appNavigation.openScheduleCourseToFaceRecoKbi(bundle)
             },
             onSeeAttendance = {
                 val bundle = Bundle()

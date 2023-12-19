@@ -58,10 +58,17 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"/>
+        <action
+            android:id="@+id/action_detailCourseFragment_to_faceRecoKbiFragment"
+            app:destination="@id/faceRecoKbiFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/faceRecoFragment"
-        android:name="com.khaipv.attendance.ui.teacher.faceReco.FaceRecoFragment"
+        android:name="com.khaipv.attendance.ui.teacher.faceReco.FaceRecoFaceNetFragment"
         android:label="FaceRecoFragment">
         <action
             android:id="@+id/action_faceRecoFragment_to_listFaceRecoFragment"
@@ -128,5 +135,9 @@
             app:popUpTo="@id/editScheduleTeacherFragment"
             app:popUpToInclusive="true"/>
     </fragment>
+    <fragment
+        android:id="@+id/faceRecoKbiFragment"
+        android:name="com.khaipv.attendance.ui.teacher.faceReco.FaceRecoKbiFragment"
+        android:label="FaceRecoKbiFragment" />
 
 </navigation>

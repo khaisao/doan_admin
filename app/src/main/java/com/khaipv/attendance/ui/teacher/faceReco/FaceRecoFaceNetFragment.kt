@@ -4,7 +4,6 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.util.Size
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,7 +40,7 @@ import javax.inject.Inject
 
 //adb reverse tcp:3000 tcp:3000
 @AndroidEntryPoint
-class FaceRecoFragment :
+class FaceRecoFaceNetFragment :
     BaseFragment<ActivityFaceRecoBinding, FaceRecoViewModel>(R.layout.activity_face_reco) {
 
     @Inject
@@ -138,7 +137,6 @@ class FaceRecoFragment :
                                         Manifest.permission.CAMERA
                                     ) != PackageManager.PERMISSION_GRANTED
                                 ) {
-                                    requestCameraPermission()
                                 } else {
                                     startCameraPreview()
                                 }
@@ -233,34 +231,6 @@ class FaceRecoFragment :
         super.onStop()
         stopCamera()
     }
-
-    private fun requestCameraPermission() {
-        cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
-    }
-
-    private val cameraPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                startCameraPreview()
-            } else {
-                val alertDialog = AlertDialog.Builder(requireContext()).apply {
-                    setTitle("Camera Permission")
-                    setMessage("The app couldn't function without the camera permission.")
-                    setCancelable(false)
-                    setPositiveButton("ALLOW") { dialog, which ->
-                        dialog.dismiss()
-                        requestCameraPermission()
-                    }
-                    setNegativeButton("CLOSE") { dialog, which ->
-                        dialog.dismiss()
-                        appNavigation.navigateUp()
-                    }
-                    create()
-                }
-                alertDialog.show()
-            }
-
-        }
 
     private val fileReaderCallback = object : FileReader.ProcessCallback {
         override fun onProcessCompleted(

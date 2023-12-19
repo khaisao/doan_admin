@@ -19,7 +19,7 @@ class FaceScanViewModel @Inject constructor(
 
     val isScanSuccess = MutableStateFlow<Boolean?>(null)
 
-    fun addImageProfile(listImageData: List<String>) {
+    fun addImageProfileFaceNetModel(listImageData: List<String>) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
@@ -27,7 +27,34 @@ class FaceScanViewModel @Inject constructor(
                 val response = apiInterface.addImageProfile(
                     AddImageProfileBody(
                         studentId = studentId,
-                        listImageData = listImageData
+                        listImageData = listImageData,
+                        0
+                    )
+                )
+                if (response.errors.isEmpty()) {
+                    isScanSuccess.value = true
+                } else {
+                    messageError.postValue("Error, try again")
+                }
+            } catch (e: Exception) {
+                messageError.postValue(e)
+            } finally {
+                isLoading.postValue(false)
+            }
+
+        }
+    }
+
+    fun addImageProfileKbyModel(listImageData: List<String>) {
+        viewModelScope.launch(Dispatchers.IO + handler) {
+            try {
+                isLoading.postValue(true)
+                val studentId = rxPreferences.getStudentId()
+                val response = apiInterface.addImageProfile(
+                    AddImageProfileBody(
+                        studentId = studentId,
+                        listImageData = listImageData,
+                        modelMode = 1
                     )
                 )
                 if (response.errors.isEmpty()) {

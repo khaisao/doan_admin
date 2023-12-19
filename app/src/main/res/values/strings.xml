@@ -26,5 +26,7 @@
     <string name="edit">Edit</string>
     <string name="default_notification_channel_id">Attendance</string>
     <string name="confirm_attendance">Confirm attendance</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -41,7 +41,9 @@ interface AppNavigation : BaseNavigator {
 
     fun openScheduleToDetailCourse(bundle: Bundle? = null)
 
-    fun openScheduleCourseToFaceReco(bundle: Bundle? = null)
+    fun openScheduleCourseToFaceRecoFaceNet(bundle: Bundle? = null)
+
+    fun openScheduleCourseToFaceRecoKbi(bundle: Bundle? = null)
 
     fun openScheduleCourseToHistoryAttendance(bundle: Bundle? = null)
 

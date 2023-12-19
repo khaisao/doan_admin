@@ -2,7 +2,6 @@ package com.khaipv.attendance.container
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.core.base.activity.BaseActivityNotRequireViewModel
@@ -13,7 +12,6 @@ import com.example.core.utils.toastMessage
 import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.R
 import com.khaipv.attendance.databinding.ActivityMainBinding
-import com.khaipv.attendance.luxand.FSDK
 import com.khaipv.attendance.navigation.AppNavigation
 import com.khaipv.attendance.util.BundleKey
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,8 +41,7 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        val abc = FSDK.ActivateLibrary("jG2cdGzJ9w3G+N7nS6xtiAbdaHTQCbFShalmbMbgR4A9rsTOsWjwXrnIX4giedGCUerHDM19HHXa4bk9gKVgFbkKCUcZ6fyRUpkAYPKVI0h5lqs UV8uxCmG8LMmumE+ ukwQ4udEtVwg/7jqPGXdcoKvm6u0BWd5RExvQHlu93l8=")
-//        Log.d("asgawgawgawg", "onCreate: $abc")
+
         var ret = FaceSDK.setActivation(
             "d0q76AKm3+kzUaoVX0WnW7l8YAApMbMGPC7t1qLYktAAPBiCZbWEZD8yICNh6fLbbvKby5nHtz4T\n" +
                     "uePOdFydIXqBJS+WNYhZra+qQxSmsvR8jF/zzjMVbFlZeDMd9zbO+jA5pXkk38GP5znVRWToBRrS\n" +
@@ -52,7 +49,34 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
                     "NlBTeUDEhW5RPrDNU+/LctoSySEEM/hyZaqKRK4Jz3qaG5nXxwtAXvSPWA8mVC4wogIu8l8cl01k\n" +
                     "ldvdMzF20c+aR1l9KgygMdGQTQkJQc5caMqHlg=="
         )
-        Log.d("asgagwggwaw", "onCreate: $ret")
+
+        if (ret == FaceSDK.SDK_SUCCESS) {
+            ret = FaceSDK.init(assets)
+        }
+        if (ret != FaceSDK.SDK_SUCCESS) {
+            when (ret) {
+                FaceSDK.SDK_LICENSE_KEY_ERROR -> {
+                    toastMessage("Invalid license!")
+                }
+
+                FaceSDK.SDK_LICENSE_APPID_ERROR -> {
+                    toastMessage("Invalid error!")
+                }
+
+                FaceSDK.SDK_LICENSE_EXPIRED -> {
+                    toastMessage("License expired!")
+                }
+
+                FaceSDK.SDK_NO_ACTIVATED -> {
+                    toastMessage("No activated!")
+                }
+
+                FaceSDK.SDK_INIT_ERROR -> {
+                    toastMessage("Init error!")
+                }
+            }
+        }
+
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host) as NavHostFragment
         appNavigation.bind(navHostFragment.navController)
