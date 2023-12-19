@@ -24,11 +24,12 @@ class FaceRecoViewModel @Inject constructor(
     val imagesData = MutableStateFlow<GetImageUiState>(GetImageUiState.Standby)
     var listStudentRecognized = MutableStateFlow<List<AllImageProfileStudentForCourse>>(emptyList())
 
-    fun getAllImageFromCoursePerCycle(coursePerCycleId: Int) {
+    fun getAllImageFromCoursePerCycle(coursePerCycleId: Int, modelMode: Int) {
         try {
             isLoading.postValue(true)
             viewModelScope.launch(Dispatchers.IO + handler) {
-                val response = apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId)
+                val response =
+                    apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId, modelMode)
                 if (response.errors.isEmpty()) {
                     val data = response.dataResponse
                     listStudentRecognized.value = data

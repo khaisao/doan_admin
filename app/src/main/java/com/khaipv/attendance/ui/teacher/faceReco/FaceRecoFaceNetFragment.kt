@@ -98,7 +98,7 @@ class FaceRecoFaceNetFragment :
                 toastMessage("Error, try again")
                 appNavigation.navigateUp()
             } else {
-                viewModel.getAllImageFromCoursePerCycle(courseId!!)
+                viewModel.getAllImageFromCoursePerCycle(courseId!!, 0)
             }
         }
     }
