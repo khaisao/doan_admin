@@ -6,6 +6,7 @@ import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
 import com.google.firebase.messaging.FirebaseMessaging
+import com.khaipv.attendance.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -22,7 +23,7 @@ class SplashViewModel @Inject constructor(
     private val loginActionStateChannel = Channel<LoginSplashEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
 
-    fun login(userName:String, password:String, fcmDeviceToken:String) {
+    fun login(userName: String, password: String, fcmDeviceToken: String) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
@@ -36,7 +37,9 @@ class SplashViewModel @Inject constructor(
                         rxPreferences.saveRole(response.dataResponse.role)
                         rxPreferences.saveAccountId(response.dataResponse.accountId)
                         if (response.dataResponse.avatar != null) {
-                            rxPreferences.saveAvatar(response.dataResponse.avatar)
+                            rxPreferences.saveAvatar(BuildConfig.BASE_URL + response.dataResponse.avatar)
+                        } else {
+                            rxPreferences.saveAvatar("")
                         }
                         if (response.dataResponse.role == 1) {
                             rxPreferences.saveStudentId(response.dataResponse.studentId)

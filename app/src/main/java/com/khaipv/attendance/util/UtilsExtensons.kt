@@ -118,3 +118,15 @@ inline fun <reified T> Any.toListData(): List<T> {
         emptyList()
     }
 }
+
+fun ByteArray.toHex3(): String = joinToString("") {
+    java.lang.Byte.toUnsignedInt(it).toString(radix = 16).padStart(2, '0')
+}
+
+fun String.decodeHex(): ByteArray {
+    check(length % 2 == 0) { "Must have an even length" }
+
+    return chunked(2)
+        .map { it.toInt(16).toByte() }
+        .toByteArray()
+}

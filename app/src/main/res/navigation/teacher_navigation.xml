@@ -27,9 +27,9 @@
     </fragment>
     <fragment
         android:id="@+id/detailCourseFragment"
-        tools:layout="@layout/fragment_detail_course"
         android:name="com.khaipv.attendance.ui.teacher.scheduleCourse.ScheduleCourseTeacherFragment"
-        android:label="DetailCourseFragment">
+        android:label="DetailCourseFragment"
+        tools:layout="@layout/fragment_detail_course">
         <action
             android:id="@+id/action_detailCourseFragment_to_faceRecoFragment"
             app:destination="@id/faceRecoFragment"
@@ -57,14 +57,14 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_detailCourseFragment_to_faceRecoKbiFragment"
             app:destination="@id/faceRecoKbiFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
-            app:popExitAnim="@anim/slide_out_left"/>
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/faceRecoFragment"
@@ -82,7 +82,7 @@
         android:id="@+id/listFaceRecoFragment"
         android:name="com.khaipv.attendance.ui.teacher.listFaceReco.ListFaceRecoFragment"
         android:label="ListFaceRecoFragment"
-        tools:layout="@layout/fragment_list_face_reco" >
+        tools:layout="@layout/fragment_list_face_reco">
         <action
             android:id="@+id/action_listFaceRecoFragment_to_changePasswordSuccessFragment3"
             app:destination="@id/changePasswordSuccessFragment3"
@@ -90,8 +90,7 @@
             app:exitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
-            app:popUpTo="@id/faceRecoFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpTo="@id/detailCourseFragment" />
     </fragment>
     <fragment
         android:id="@+id/changePasswordFragment3"
@@ -109,9 +108,9 @@
     </fragment>
     <fragment
         android:id="@+id/changePasswordSuccessFragment3"
-        tools:layout="@layout/fragment_change_password_success"
         android:name="com.khaipv.attendance.ui.changePassword.ChangePasswordSuccessFragment"
-        android:label="ChangePasswordSuccessFragment" />
+        android:label="ChangePasswordSuccessFragment"
+        tools:layout="@layout/fragment_change_password_success" />
     <fragment
         android:id="@+id/allAttendanceFragment"
         android:name="com.khaipv.attendance.ui.teacher.allAttendance.AllAttendanceFragment"
@@ -122,9 +121,9 @@
         android:label="DetailAttendanceTeacherFragment" />
     <fragment
         android:id="@+id/editScheduleTeacherFragment"
-        tools:layout="@layout/fragment_edit_schedule_teacher"
         android:name="com.khaipv.attendance.ui.teacher.editSchedule.EditScheduleTeacherFragment"
-        android:label="EditScheduleTeacherFragment" >
+        android:label="EditScheduleTeacherFragment"
+        tools:layout="@layout/fragment_edit_schedule_teacher">
         <action
             android:id="@+id/action_editScheduleTeacherFragment_to_changePasswordSuccessFragment3"
             app:destination="@id/changePasswordSuccessFragment3"
@@ -133,11 +132,19 @@
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_left"
             app:popUpTo="@id/editScheduleTeacherFragment"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/faceRecoKbiFragment"
         android:name="com.khaipv.attendance.ui.teacher.faceReco.FaceRecoKbiFragment"
-        android:label="FaceRecoKbiFragment" />
+        android:label="FaceRecoKbiFragment">
+        <action
+            android:id="@+id/action_faceRecoKbiFragment_to_listFaceRecoFragment"
+            app:destination="@id/listFaceRecoFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
+    </fragment>
 
 </navigation>

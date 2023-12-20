@@ -6,8 +6,6 @@ import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.Size
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -115,7 +113,7 @@ class FaceRecoFaceNetFragment :
             }
             val bundle = Bundle()
             bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, scheduleId!!)
-            appNavigation.openFaceRecoToListFaceReco(bundle)
+            appNavigation.openFaceRecoFaceNetToListFaceReco(bundle)
         }
 
         binding.ivFlipCamera.setOnSafeClickListener {

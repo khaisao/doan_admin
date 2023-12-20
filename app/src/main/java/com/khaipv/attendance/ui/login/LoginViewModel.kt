@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
+import com.khaipv.attendance.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -33,7 +34,9 @@ class LoginViewModel @Inject constructor(
                     rxPreferences.saveRole(response.dataResponse.role)
                     rxPreferences.saveAccountId(response.dataResponse.accountId)
                     if (response.dataResponse.avatar != null) {
-                        rxPreferences.saveAvatar(response.dataResponse.avatar)
+                        rxPreferences.saveAvatar(BuildConfig.BASE_URL + response.dataResponse.avatar)
+                    } else {
+                        rxPreferences.saveAvatar("")
                     }
                     if (response.dataResponse.role == 1) {
                         rxPreferences.saveStudentId(response.dataResponse.studentId)

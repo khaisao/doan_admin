@@ -32,6 +32,7 @@ import com.kbyai.facesdk.FaceDetectionParam
 import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.ui.student.faceScan.FaceScanViewModel
 import com.khaipv.attendance.util.Utils
+import com.khaipv.attendance.util.toHex3
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.util.Date
@@ -102,9 +103,10 @@ class AllCourseStudentFragment :
             }
         }
 
-        binding.ivAvatar.loadImage(rxPreferences.getAvatar())
+        binding.ivAvatar.loadImage(rxPreferences.getAvatar(), R.drawable.no_avatar)
 
     }
+
     private val SELECT_PHOTO_REQUEST_CODE = 1
 
     override fun setOnClick() {
@@ -120,9 +122,13 @@ class AllCourseStudentFragment :
             val intent = Intent()
             intent.setType("image/*")
             intent.setAction(Intent.ACTION_PICK)
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PHOTO_REQUEST_CODE)
+            startActivityForResult(
+                Intent.createChooser(intent, "Select Picture"),
+                SELECT_PHOTO_REQUEST_CODE
+            )
         }
     }
+
     private val faceScanViewModel: FaceScanViewModel by viewModels()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -134,7 +140,7 @@ class AllCourseStudentFragment :
                 val faceDetectionParam = FaceDetectionParam()
                 var faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(bitmap, faceDetectionParam)
 
-                if(faceBoxes.isNullOrEmpty()) {
+                if (faceBoxes.isNullOrEmpty()) {
                     toastMessage("No Face")
                 } else if (faceBoxes.size > 1) {
                     toastMessage("Multiple face")
@@ -156,17 +162,6 @@ class AllCourseStudentFragment :
         }
     }
 
-    fun ByteArray.toHex3(): String = joinToString("") {
-        java.lang.Byte.toUnsignedInt(it).toString(radix = 16).padStart(2, '0')
-    }
-
-    fun String.decodeHex(): ByteArray {
-        check(length % 2 == 0) { "Must have an even length" }
-
-        return chunked(2)
-            .map { it.toInt(16).toByte() }
-            .toByteArray()
-    }
 
     override fun bindingStateView() {
         super.bindingStateView()
@@ -191,10 +186,10 @@ class AllCourseStudentFragment :
             viewModel.listDataImageProfile.collectFlowOnView(viewLifecycleOwner) {
                 if (it.isEmpty()) {
                     try {
-                        dialog.show(
-                            childFragmentManager,
-                            DialogNoticeEmptyImageProfileFragment::class.java.simpleName
-                        )
+//                        dialog.show(
+//                            childFragmentManager,
+//                            DialogNoticeEmptyImageProfileFragment::class.java.simpleName
+//                        )
                     } catch (_: Exception) {
 
                     }

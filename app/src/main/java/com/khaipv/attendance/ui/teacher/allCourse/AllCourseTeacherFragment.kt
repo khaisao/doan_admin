@@ -52,7 +52,7 @@ class AllCourseTeacherFragment :
             val bundle = Bundle()
             bundle.putInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE, it.coursePerCycleId)
             appNavigation.openScheduleToDetailCourse(bundle)
-        })
+        }, rxPreferences)
         binding.rvCourse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCourse.adapter = adapter

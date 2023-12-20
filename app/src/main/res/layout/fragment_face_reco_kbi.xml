@@ -22,5 +22,20 @@
         app:layout_constraintTop_toTopOf="parent">
     </com.khaipv.attendance.util.FaceView>
 
+        <TextView
+            android:id="@+id/tv_continue"
+            android:layout_marginBottom="30dp"
+            android:layout_width="match_parent"
+            android:layout_marginHorizontal="30dp"
+            android:layout_height="50dp"
+            android:textAllCaps="true"
+            android:background="@drawable/bg_btn_log_out"
+            android:gravity="center"
+            android:text="@string/continue_string"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

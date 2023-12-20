@@ -1,5 +1,6 @@
 package com.example.core.base
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.core.R
 import com.example.core.model.network.BaseResponse
@@ -21,6 +22,7 @@ abstract class BaseViewModel : ViewModel() {
     var isLoading = SingleLiveEvent<Boolean>()
 
     val handler = CoroutineExceptionHandler { asas, throwable ->
+        Log.d("asgagwgawagw", "$throwable: ")
         onError(throwable)
     }
 

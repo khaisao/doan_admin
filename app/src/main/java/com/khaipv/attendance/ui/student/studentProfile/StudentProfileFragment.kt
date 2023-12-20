@@ -27,6 +27,7 @@ import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.hbisoft.pickit.PickiT
 import com.hbisoft.pickit.PickiTCallbacks
+import com.khaipv.attendance.BuildConfig
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -74,9 +75,9 @@ class StudentProfileFragment :
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
             .build()
         detector = FaceDetection.getClient(options)
-
         Glide.with(requireContext())
             .load(rxPreferences.getAvatar())
+            .placeholder(R.drawable.no_avatar)
             .into(binding.ivAvatar)
         adapter = UserProfileImageViewAdapter()
         binding.rvImageProfile.layoutManager = GridLayoutManager(requireContext(), 3)

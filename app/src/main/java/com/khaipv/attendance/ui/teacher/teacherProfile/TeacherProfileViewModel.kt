@@ -6,6 +6,7 @@ import com.example.core.base.BaseViewModel
 import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_USERNAME_LOGIN
 import com.example.core.pref.AppPreferences.Companion.PREF_PARAM_PASSWORD
 import com.example.core.pref.RxPreferences
+import com.khaipv.attendance.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -70,7 +71,7 @@ class TeacherProfileViewModel @Inject constructor(
                 val response = apiInterface.getTeacherInfo(rxPreferences.getTeacherId())
                 if (response.errors.isEmpty()) {
                     if (response.dataResponse.avatar != null && response.dataResponse.avatar.isNotEmpty())
-                        rxPreferences.saveAvatar(response.dataResponse.avatar)
+                        rxPreferences.saveAvatar(BuildConfig.BASE_URL + response.dataResponse.avatar)
                     getTeacherInfoActionStateChannel.send(true)
                 }
             }

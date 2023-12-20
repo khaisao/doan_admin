@@ -24,7 +24,6 @@ import android.view.SurfaceHolder
 import android.view.SurfaceView
 import androidx.camera.core.CameraSelector
 import androidx.core.graphics.toRectF
-import com.ml.quaterion.facenetdetection.Prediction
 
 // Defines an overlay on which the boxes and text will be drawn.
 class BoundingBoxOverlay( context: Context , attributeSet: AttributeSet )

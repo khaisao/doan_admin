@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
+import com.khaipv.attendance.BuildConfig
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -58,7 +59,7 @@ class StudentProfileViewModel @Inject constructor(
                 val response = apiInterface.getStudentInfo(rxPreferences.getStudentId())
                 if (response.errors.isEmpty()) {
                     if (response.dataResponse.avatar != null && response.dataResponse.avatar.isNotEmpty())
-                        rxPreferences.saveAvatar(response.dataResponse.avatar)
+                        rxPreferences.saveAvatar(BuildConfig.BASE_URL + response.dataResponse.avatar)
                     getStudentInfoActionStateChannel.send(true)
                 }
             }

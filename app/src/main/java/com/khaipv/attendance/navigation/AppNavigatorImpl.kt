@@ -94,8 +94,12 @@ class AppNavigatorImpl @Inject constructor() : BaseNavigatorImpl(),
         openScreen(R.id.action_detailCourseFragment_to_detailAttendanceTeacherFragment, bundle)
     }
 
-    override fun openFaceRecoToListFaceReco(bundle: Bundle?) {
+    override fun openFaceRecoFaceNetToListFaceReco(bundle: Bundle?) {
         openScreen(R.id.action_faceRecoFragment_to_listFaceRecoFragment, bundle)
+    }
+
+    override fun openFaceRecoKbiToListFaceReco(bundle: Bundle?) {
+        openScreen(R.id.action_faceRecoKbiFragment_to_listFaceRecoFragment, bundle)
     }
 
     override fun openStudentTopToDetailScheduleStudent(bundle: Bundle?) {

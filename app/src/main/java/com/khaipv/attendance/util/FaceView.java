@@ -12,6 +12,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.kbyai.facesdk.FaceBox;
+import com.khaipv.attendance.ui.teacher.faceReco.FaceRecoKbiFragment;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class FaceView extends View {
     private Size frameSize;
 
     private List<FaceBox> faceBoxes;
-    private List<String> personNames;
+    private List<FaceRecoKbiFragment.FaceDataWithName> faceDataWithName;
+    private String name;
 
     public FaceView(Context context) {
         this(context, null);
@@ -63,10 +65,16 @@ public class FaceView extends View {
         this.frameSize = frameSize;
     }
 
-    public void setFaceBoxes(List<FaceBox> faceBoxes, List<String> personNames)
+    public void setFaceBoxes(List<FaceBox> faceBoxes, String name)
     {
         this.faceBoxes = faceBoxes;
-        this.personNames = personNames;
+        this.name = name;
+        invalidate();
+    }
+
+    public void setFaceBoxes(List<FaceRecoKbiFragment.FaceDataWithName> faceDataWithName)
+    {
+        this.faceDataWithName = faceDataWithName;
         invalidate();
     }
 
@@ -74,35 +82,41 @@ public class FaceView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if (frameSize != null &&  faceBoxes != null) {
+//        if (frameSize != null &&  faceBoxes != null) {
+//            float x_scale = this.frameSize.getWidth() / (float)canvas.getWidth();
+//            float y_scale = this.frameSize.getHeight() / (float)canvas.getHeight();
+//
+//            for (int i = 0; i < faceBoxes.size(); i++) {
+//                FaceBox faceBox = faceBoxes.get(i);
+//                    realPaint.setStrokeWidth(3);
+//                    realPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+//                    if(faceBox == null){
+//
+//                    }
+//                    canvas.drawText(name, (faceBox.x1 / x_scale) + 10, (faceBox.y1 / y_scale) - 30, realPaint);
+//
+//                    realPaint.setStyle(Paint.Style.STROKE);
+//                    realPaint.setStrokeWidth(5);
+//                    canvas.drawRect(new Rect((int)(faceBox.x1 / x_scale), (int)(faceBox.y1 / y_scale),
+//                            (int)(faceBox.x2 / x_scale), (int)(faceBox.y2 / y_scale)), realPaint);
+//            }
+//        }
+
+        if (frameSize != null &&  faceDataWithName != null) {
             float x_scale = this.frameSize.getWidth() / (float)canvas.getWidth();
             float y_scale = this.frameSize.getHeight() / (float)canvas.getHeight();
 
-            for (int i = 0; i < faceBoxes.size(); i++) {
-                FaceBox faceBox = faceBoxes.get(i);
+            for (int i = 0; i < faceDataWithName.size(); i++) {
+                FaceBox faceBox = faceDataWithName.get(i).getFace();
+                String name = faceDataWithName.get(i).getName();
+                realPaint.setStrokeWidth(3);
+                realPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+                canvas.drawText(name, (faceBox.x1 / x_scale) + 10, (faceBox.y1 / y_scale) - 30, realPaint);
 
-//                if (faceBox.liveness < SettingsActivity.getLivenessThreshold(context))
-//                {
-//                    spoofPaint.setStrokeWidth(3);
-//                    spoofPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-//                    canvas.drawText("SPOOF " + faceBox.liveness, (faceBox.x1 / x_scale) + 10, (faceBox.y1 / y_scale) - 30, spoofPaint);
-//
-//                    spoofPaint.setStrokeWidth(5);
-//                    spoofPaint.setStyle(Paint.Style.STROKE);
-//                    canvas.drawRect(new Rect((int)(faceBox.x1 / x_scale), (int)(faceBox.y1 / y_scale),
-//                            (int)(faceBox.x2 / x_scale), (int)(faceBox.y2 / y_scale)), spoofPaint);
-//                }
-//                else
-//                {
-                    realPaint.setStrokeWidth(3);
-                    realPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-                    canvas.drawText("REAL " + faceBox, (faceBox.x1 / x_scale) + 10, (faceBox.y1 / y_scale) - 30, realPaint);
-
-                    realPaint.setStyle(Paint.Style.STROKE);
-                    realPaint.setStrokeWidth(5);
-                    canvas.drawRect(new Rect((int)(faceBox.x1 / x_scale), (int)(faceBox.y1 / y_scale),
-                            (int)(faceBox.x2 / x_scale), (int)(faceBox.y2 / y_scale)), realPaint);
-//                }
+                realPaint.setStyle(Paint.Style.STROKE);
+                realPaint.setStrokeWidth(5);
+                canvas.drawRect(new Rect((int)(faceBox.x1 / x_scale), (int)(faceBox.y1 / y_scale),
+                        (int)(faceBox.x2 / x_scale), (int)(faceBox.y2 / y_scale)), realPaint);
             }
         }
     }

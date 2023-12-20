@@ -5,22 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.core.pref.RxPreferences
+import com.example.core.utils.loadImage
 import com.khaipv.attendance.databinding.ItemCourseBinding
 import com.khaipv.attendance.model.DetailCourseTeacherAssign
 import com.example.core.utils.setOnSafeClickListener
+import com.khaipv.attendance.R
 import java.util.Locale
 
 class CourseTeacherAssignAdapter(
-    private var onCourseClick: ((course: DetailCourseTeacherAssign) -> Unit)
+    private var onCourseClick: ((course: DetailCourseTeacherAssign) -> Unit),
+    private val rxPreferences: RxPreferences
 ) :
     ListAdapter<DetailCourseTeacherAssign, CourseTeacherAssignAdapter.ConsultantHolder>(DiffCallback()) {
-
-    //    override fun submitList(list: MutableList<DetailCourseTeacherAssign>?) {
-//        super.submitList(list)
-//        if (list != null) {
-//            listCurrentList = list
-//        }
-//    }
 
     class DiffCallback : DiffUtil.ItemCallback<DetailCourseTeacherAssign>() {
         override fun areItemsTheSame(
@@ -45,6 +42,7 @@ class CourseTeacherAssignAdapter(
             binding.root.setOnSafeClickListener {
                 onCourseClick.invoke(course)
             }
+            binding.ivAvatar.loadImage(rxPreferences.getAvatar(), R.drawable.no_avatar)
         }
     }
 
