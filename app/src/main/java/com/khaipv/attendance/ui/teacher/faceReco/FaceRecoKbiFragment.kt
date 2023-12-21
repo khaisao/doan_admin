@@ -22,6 +22,7 @@ import io.fotoapparat.Fotoapparat
 import io.fotoapparat.parameter.Resolution
 import io.fotoapparat.preview.Frame
 import io.fotoapparat.preview.FrameProcessor
+import io.fotoapparat.selector.back
 import io.fotoapparat.selector.front
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -55,7 +56,7 @@ class FaceRecoKbiFragment :
         super.initView(savedInstanceState)
         fotoapparat = Fotoapparat.with(requireContext())
             .into(binding.preview)
-            .lensPosition(front())
+            .lensPosition(back())
             .frameProcessor(FaceFrameProcessor())
             .previewResolution { Resolution(PREVIEW_HEIGHT, PREVIEW_WIDTH) }
             .build()
@@ -133,7 +134,7 @@ class FaceRecoKbiFragment :
         val listFaceDataWithName = mutableListOf<FaceDataWithName>()
         override fun process(frame: Frame) {
 
-            var cameraMode = 7
+            var cameraMode = 6
 
             val bitmap =
                 FaceSDK.yuv2Bitmap(frame.image, frame.size.width, frame.size.height, cameraMode)
