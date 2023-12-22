@@ -29,7 +29,6 @@ class FaceRecoViewModel @Inject constructor(
         try {
             isLoading.postValue(true)
             viewModelScope.launch(Dispatchers.IO + handler) {
-                Log.d("asgagwagwawg", "getAllImageFromCoursePerCycle: ")
                 val response =
                     apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId, modelMode)
                 if (response.errors.isEmpty()) {
@@ -53,7 +52,7 @@ class FaceRecoViewModel @Inject constructor(
 
     val imagesKbiData = MutableStateFlow<GetImageUiState>(GetImageUiState.Standby)
 
-    fun getAllImageKbiFromCoursePerCycle(coursePerCycleId: Int, modelMode: Int) {
+    fun getAllImageKbiFromCoursePerCycle(coursePerCycleId: Int) {
         try {
             isLoading.postValue(true)
             viewModelScope.launch(Dispatchers.IO + handler) {

@@ -1,7 +1,6 @@
 package com.khaipv.attendance.ui.teacher.faceReco
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Size
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -40,12 +39,15 @@ class FaceRecoKbiFragment :
 
     private val shareViewModel: ShareViewModel by activityViewModels()
 
-    val PREVIEW_WIDTH = 720
-    val PREVIEW_HEIGHT = 1280
-
+    companion object {
+        const val PREVIEW_WIDTH = 720
+        const val PREVIEW_HEIGHT = 1280
+    }
 
     private var courseId: Int? = null
     private var scheduleId: Int? = null
+
+    private var cameraMode = CameraMode.Front.mode
 
     @Inject
     lateinit var appNavigation: AppNavigation
@@ -54,28 +56,30 @@ class FaceRecoKbiFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+
         fotoapparat = Fotoapparat.with(requireContext())
             .into(binding.preview)
-            .lensPosition(back())
+            .lensPosition(if (cameraMode == CameraMode.Front.mode) front() else back())
             .frameProcessor(FaceFrameProcessor())
             .previewResolution { Resolution(PREVIEW_HEIGHT, PREVIEW_WIDTH) }
             .build()
+
         courseId = arguments?.getInt(BundleKey.COURSE_ID_ATTENDANCE)
         scheduleId = arguments?.getInt(BundleKey.SCHEDULE_ID_ATTENDANCE)
         if (courseId == null || scheduleId == null) {
             toastMessage("Error, try again")
             appNavigation.navigateUp()
         } else {
-            viewModel.getAllImageKbiFromCoursePerCycle(courseId!!, 1)
+            viewModel.getAllImageKbiFromCoursePerCycle(courseId!!)
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
+        binding.ivFlipCamera.isEnabled = false
+
     }
 
     override fun setOnClick() {
         super.setOnClick()
+
         binding.tvContinue.setOnSafeClickListener {
             val listStudentRecognized = shareViewModel.listStudentRecognized.value
             shareViewModel.listStudentRecognizedId.addAll(getListIdStudentDetect())
@@ -88,6 +92,25 @@ class FaceRecoKbiFragment :
             bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, scheduleId!!)
             appNavigation.openFaceRecoKbiToListFaceReco(bundle)
         }
+
+        binding.ivFlipCamera.setOnSafeClickListener {
+
+            fotoapparat.stop()
+            cameraMode = if (cameraMode == CameraMode.Back.mode) {
+                CameraMode.Front.mode
+            } else {
+                CameraMode.Back.mode
+            }
+            fotoapparat = Fotoapparat.with(requireContext())
+                .into(binding.preview)
+                .lensPosition(if (cameraMode == CameraMode.Front.mode) front() else back())
+                .frameProcessor(FaceFrameProcessor())
+                .previewResolution { Resolution(PREVIEW_HEIGHT, PREVIEW_WIDTH) }
+                .build()
+            fotoapparat.start()
+
+        }
+
     }
 
     private lateinit var listUser: List<UserWithByteArray>
@@ -95,10 +118,26 @@ class FaceRecoKbiFragment :
     override fun bindingStateView() {
         super.bindingStateView()
 
-        viewModel.imagesKbiData.collectFlowOnView(viewLifecycleOwner) {
-            if (it is GetImageKbiUiState.Success) {
-                listUser = it.image
-                fotoapparat.start()
+        viewModel.imagesKbiData.collectFlowOnView(viewLifecycleOwner) { uiState ->
+            when (uiState) {
+                is GetImageKbiUiState.Success -> {
+                    if (uiState.image.isNotEmpty()) {
+                        listUser = uiState.image
+                        fotoapparat.start()
+                        binding.ivFlipCamera.isEnabled = true
+                    } else {
+                        toastMessage("Empty face data")
+                        appNavigation.navigateUp()
+                    }
+                }
+
+                is GetImageKbiUiState.Error -> {
+                    viewModel.isLoading.postValue(false)
+                    toastMessage("Something went wrong, try again")
+                    appNavigation.navigateUp()
+                }
+
+                else -> {}
             }
         }
 
@@ -120,7 +159,7 @@ class FaceRecoKbiFragment :
 
     val listStudentDetect: MutableSet<String> = mutableSetOf()
 
-    fun getListIdStudentDetect(): List<Int> {
+    private fun getListIdStudentDetect(): List<Int> {
         val set = listStudentDetect.toSet().toList()
         val listId = mutableListOf<Int>()
         for (item in set) {
@@ -131,10 +170,8 @@ class FaceRecoKbiFragment :
     }
 
     inner class FaceFrameProcessor : FrameProcessor {
-        val listFaceDataWithName = mutableListOf<FaceDataWithName>()
+        private val listFaceDataWithName = mutableListOf<FaceDataWithName>()
         override fun process(frame: Frame) {
-
-            var cameraMode = 6
 
             val bitmap =
                 FaceSDK.yuv2Bitmap(frame.image, frame.size.width, frame.size.height, cameraMode)
@@ -152,18 +189,18 @@ class FaceRecoKbiFragment :
                     val faceBox = item.face
                     val templates = FaceSDK.templateExtraction(bitmap, faceBox)
 
-                    var maxSimiarlity = 0f
-                    var maximiarlityPerson: UserWithByteArray? = null
+                    var maxSimilarity = 0f
+                    var maximalityPerson: UserWithByteArray? = null
 
                     for (person in listUser) {
                         val similarity = FaceSDK.similarityCalculation(templates, person.byteArray)
 
-                        if (similarity > maxSimiarlity) {
-                            maxSimiarlity = similarity
-                            maximiarlityPerson = person
+                        if (similarity > maxSimilarity) {
+                            maxSimilarity = similarity
+                            maximalityPerson = person
                         }
-                        if (maxSimiarlity > 0.78) {
-                            val identifiedPerson = maximiarlityPerson
+                        if (maxSimilarity > 0.78) {
+                            val identifiedPerson = maximalityPerson
                             if (identifiedPerson != null) {
                                 item.name = identifiedPerson.name
                                 listStudentDetect.add(identifiedPerson.name)
@@ -177,12 +214,19 @@ class FaceRecoKbiFragment :
                             binding.faceView.setFaceBoxes(
                                 listFaceDataWithName
                             )
-                        } catch (e: Exception) {
-
+                        } catch (_: Exception) {
                         }
                     }
                 }
+            } else {
+                binding.faceView.setFaceBoxes(
+                    null
+                )
             }
         }
     }
+}
+
+enum class CameraMode(val mode: Int) {
+    Front(7), Back(6)
 }
