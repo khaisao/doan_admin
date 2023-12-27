@@ -27,7 +27,6 @@ class DetailAttendanceTeacherViewModel @Inject constructor(
                 isLoading.postValue(true)
                 val response =
                     apiInterface.getAllAttendanceSpecificSchedule(coursePerCyclesId, scheduleId)
-                Log.d("asgawgawgawg", "getAllAttendanceSpecificSchedule: ${response.dataResponse}")
                 if (response.errors.isEmpty()) {
                     allDetailAttendanceStudent.value = response.dataResponse
                 }

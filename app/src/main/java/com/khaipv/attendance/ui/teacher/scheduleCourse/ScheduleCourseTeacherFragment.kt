@@ -1,6 +1,7 @@
 package com.khaipv.attendance.ui.teacher.scheduleCourse
 
 import android.os.Bundle
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaipv.attendance.R
@@ -10,6 +11,7 @@ import com.khaipv.attendance.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.toastMessage
+import com.khaipv.attendance.shareData.ShareViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -18,6 +20,8 @@ class ScheduleCourseTeacherFragment :
     BaseFragment<FragmentDetailCourseBinding, ScheduleCourseTeacherViewModel>(R.layout.fragment_detail_course) {
 
     private val viewModel: ScheduleCourseTeacherViewModel by viewModels()
+
+    private val shareViewModel: ShareViewModel by activityViewModels()
 
     override fun getVM(): ScheduleCourseTeacherViewModel = viewModel
 
@@ -28,6 +32,7 @@ class ScheduleCourseTeacherFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+        shareViewModel.clearData()
         adapter = ScheduleCourseTeacherAdapter(
             onAttendanceClick = {
                 val bundle = Bundle()

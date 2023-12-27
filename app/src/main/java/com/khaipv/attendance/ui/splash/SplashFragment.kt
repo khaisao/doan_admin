@@ -1,6 +1,7 @@
 package com.khaipv.attendance.ui.splash
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.khaipv.attendance.R
@@ -35,6 +36,7 @@ class SplashFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            Log.d("asgagwawgagw", "initView: $it")
             val userName = rxPreferences.getUserName()
             val password = rxPreferences.getPassword()
             val fcmDeviceToken = it

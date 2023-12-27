@@ -49,19 +49,20 @@ class ListFaceRecoFragment :
     override fun setOnClick() {
         super.setOnClick()
         binding.tvAttendance.setOnClickListener {
-            val listAttendanceBody = mutableListOf<AttendanceBody>()
+            val listStudentId = mutableListOf<Int>()
+            var registrationId = 0
             for (item in shareViewModel.listStudentRecognized.value) {
                 if (item.isReco) {
-                    listAttendanceBody.add(
-                        AttendanceBody(
-                            item.studentId,
-                            item.registrationId,
-                            sheduleId!!
-                        )
-                    )
+                    listStudentId.add(item.studentId)
+                    registrationId = item.registrationId
                 }
             }
-            viewModel.attendance(listAttendanceBody)
+            val attendanceBody = AttendanceBody(
+                studentId = listStudentId,
+                registrationId = registrationId,
+                scheduleId = sheduleId!!
+            )
+            viewModel.attendance(attendanceBody)
         }
     }
 

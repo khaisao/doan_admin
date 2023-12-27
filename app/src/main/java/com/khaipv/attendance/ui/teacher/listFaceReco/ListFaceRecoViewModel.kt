@@ -1,11 +1,8 @@
 package com.khaipv.attendance.ui.teacher.listFaceReco
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
-import com.khaipv.attendance.model.ApiObjectResponse
 import com.khaipv.attendance.model.AttendanceBody
 import com.khaipv.attendance.network.ApiInterface
-import com.khaipv.attendance.ui.login.LoginEvent
 import com.example.core.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,17 +17,12 @@ class ListFaceRecoViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val attendanceActionStateChannel = Channel<AttendanceEvent>()
     val attendanceActionStateFlow = attendanceActionStateChannel.receiveAsFlow()
-    fun attendance(listAttendanceBody: List<AttendanceBody>) {
+    fun attendance(attendanceBody: AttendanceBody) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val listResponse = mutableListOf<ApiObjectResponse<Any>>()
-                for(item in listAttendanceBody){
-                    val response = apiInterface.attendance(item)
-                    listResponse.add(response)
-                }
-                val success = listResponse.all { it.errors.isEmpty() }
-                if(success){
+                val response = apiInterface.attendance(attendanceBody)
+                if(response.errors.isEmpty()){
                     attendanceActionStateChannel.send(AttendanceEvent.AttendanceSuccess)
                 } else {
                     attendanceActionStateChannel.send(AttendanceEvent.AttendanceError)

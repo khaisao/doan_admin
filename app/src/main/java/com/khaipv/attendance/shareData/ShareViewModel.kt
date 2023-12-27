@@ -30,4 +30,11 @@ class ShareViewModel @Inject constructor(
             positionBottomNavChannel.send(position)
         }
     }
+
+    fun clearData(){
+        viewModelScope.launch {
+            listStudentRecognized.value = emptyList()
+            listStudentRecognizedId.clear()
+        }
+    }
 }

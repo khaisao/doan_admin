@@ -5,10 +5,13 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
 import com.example.core.base.activity.BaseActivityNotRequireViewModel
-import com.example.core.pref.RxPreferences
 import com.example.core.network.connectivity.NetworkConnectionManager
+import com.example.core.pref.RxPreferences
 import com.example.core.utils.setLanguage
 import com.example.core.utils.toastMessage
+import com.google.android.gms.tasks.OnSuccessListener
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessagingService
 import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.R
 import com.khaipv.attendance.databinding.ActivityMainBinding
