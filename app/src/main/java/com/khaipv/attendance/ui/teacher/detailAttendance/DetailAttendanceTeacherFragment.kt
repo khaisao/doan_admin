@@ -59,18 +59,32 @@ class DetailAttendanceTeacherFragment :
         if (itemSchedule != null) {
             binding.tvClassroomName.text = "Class room: " + itemSchedule.classroomName
             binding.tvDateTime.text =
-                "Date: " + itemSchedule.startTime.toDateWithFormatInputAndOutPut(
-                    DateFormat.FORMAT_1,
-                    DateFormat.FORMAT_2
-                )
+                buildString {
+                    append("Date: ")
+                    append(
+                        itemSchedule.startTime.toDateWithFormatInputAndOutPut(
+                            DateFormat.FORMAT_1,
+                            DateFormat.FORMAT_2
+                        )
+                    )
+                }
             binding.tvStartEndTime.text =
-                "Start/end time: " + itemSchedule.startTime.toDateWithFormatInputAndOutPut(
-                    DateFormat.FORMAT_1,
-                    DateFormat.FORMAT_3
-                ) + " - " + itemSchedule.endTime.toDateWithFormatInputAndOutPut(
-                    DateFormat.FORMAT_1,
-                    DateFormat.FORMAT_3
-                )
+                buildString {
+                    append("Start/end time: ")
+                    append(
+                        itemSchedule.startTime.toDateWithFormatInputAndOutPut(
+                            DateFormat.FORMAT_1,
+                            DateFormat.FORMAT_3
+                        )
+                    )
+                    append(" - ")
+                    append(
+                        itemSchedule.endTime.toDateWithFormatInputAndOutPut(
+                            DateFormat.FORMAT_1,
+                            DateFormat.FORMAT_3
+                        )
+                    )
+                }
             viewModel.getAllAttendanceSpecificSchedule(
                 itemSchedule.coursePerCycleId,
                 itemSchedule.scheduleId
@@ -127,7 +141,12 @@ class DetailAttendanceTeacherFragment :
             viewModel.allDetailAttendanceStudent.collectFlowOnView(viewLifecycleOwner) {
                 adapter.submitList(it)
                 binding.tvHeadCount.text =
-                    "Head count: " + it.count { item -> item.timeAttendance != null } + "/" + it.count()
+                    buildString {
+                        append("Head count: ")
+                        append(it.count { item -> item.timeAttendance != null })
+                        append("/")
+                        append(it.count())
+                    }
             }
         }
     }

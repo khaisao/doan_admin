@@ -240,11 +240,4 @@ class FaceRecoFaceNetFragment :
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        shareViewModel.listStudentRecognized.value = emptyList()
-        shareViewModel.listStudentRecognizedId.clear()
-    }
-
-
 }
