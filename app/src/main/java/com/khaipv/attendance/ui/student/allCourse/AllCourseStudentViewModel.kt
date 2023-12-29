@@ -1,7 +1,6 @@
 package com.khaipv.attendance.ui.student.allCourse
 
 import androidx.lifecycle.viewModelScope
-import com.khaipv.attendance.model.DetailCourseStudentRegister
 import com.khaipv.attendance.model.OverviewCourseStudentRegister
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel

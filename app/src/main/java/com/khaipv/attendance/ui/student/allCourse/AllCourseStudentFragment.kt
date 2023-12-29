@@ -122,24 +122,16 @@ class AllCourseStudentFragment :
             allCycleStudentPopupWindow.showPopup(binding.tvAllCourse)
         }
         binding.tvTitle.setOnSafeClickListener {
-//            val intent = Intent()
-//            intent.setType("image/*")
-//            intent.setAction(Intent.ACTION_PICK)
-//            startActivityForResult(
-//                Intent.createChooser(intent, "Select Picture"),
-//                SELECT_PHOTO_REQUEST_CODE
-//            )
-            val screenshotDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath + "/Screenshots"
-            val file = File(screenshotDir)
-            for(item in file.listFiles()!!){
-                toastMessage(item.absolutePath)
-                getAllImagesFromFolder(item.absolutePath)
-            }
+//            val screenshotDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).absolutePath + "/Screenshots"
+//            val file = File(screenshotDir)
+//            for(item in file.listFiles()!!){
+//                toastMessage(item.absolutePath)
+//                getAllImagesFromFolder(item.absolutePath)
+//            }
         }
     }
 
     private val faceScanViewModel: FaceScanViewModel by viewModels()
-    private  val PICK_FOLDER_REQUEST_CODE = 123
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -8,10 +8,7 @@ import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.khaipv.attendance.databinding.PopUpWindownAllCyclesBinding
 import com.khaipv.attendance.model.OverViewCourseHaveShedule
-import com.khaipv.attendance.model.OverviewCourseStudentRegister
 import com.khaipv.attendance.ui.admin.allCourse.adapter.AllCyclesAdminAdapter
-import com.khaipv.attendance.ui.student.allCourse.adapter.AllCyclesStudentAdapter
-import com.khaipv.attendance.ui.teacher.allCourse.adapter.AllCyclesTeacherAdapter
 
 class AllCycleAdminPopupWindow(
     private val context: Context,

@@ -20,7 +20,7 @@ class DialogNoticeEmptyImageProfileFragment(
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentDialogNoticeEmptyImageProfileBinding.inflate(inflater)
-        isCancelable = false
+        isCancelable = true
         return binding.root
     }
 

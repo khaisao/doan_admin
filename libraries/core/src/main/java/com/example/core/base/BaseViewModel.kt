@@ -1,8 +1,6 @@
 package com.example.core.base
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.core.R
 import com.example.core.model.network.BaseResponse
 import com.example.core.utils.SingleLiveEvent
 import com.google.gson.Gson
@@ -21,8 +19,7 @@ abstract class BaseViewModel : ViewModel() {
     var messageError = SingleLiveEvent<Any>()
     var isLoading = SingleLiveEvent<Boolean>()
 
-    val handler = CoroutineExceptionHandler { asas, throwable ->
-        Log.d("asgagwgawagw", "$throwable: ")
+    val handler = CoroutineExceptionHandler { _, throwable ->
         onError(throwable)
     }
 
@@ -31,7 +28,7 @@ abstract class BaseViewModel : ViewModel() {
         cb: ((result: ErrorNetworkResponse) -> Unit?)? = null
     ) {
         if (throwable is ConnectException) {
-            messageError.postValue(R.string.not_connected_internet)
+            messageError.postValue("Not connect to internet")
         } else if (throwable is HttpException) {
             var errorBody: String? = null
             try {

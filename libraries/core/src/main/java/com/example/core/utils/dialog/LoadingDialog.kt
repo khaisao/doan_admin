@@ -63,8 +63,8 @@ class LoadingDialog private constructor(private var mActivity: Activity?) {
                 dialog.window!!
                     .setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             }
-            dialog.setCancelable(false)
-            dialog.setCanceledOnTouchOutside(false)
+            dialog.setCancelable(true)
+            dialog.setCanceledOnTouchOutside(true)
         }
     }
 }
