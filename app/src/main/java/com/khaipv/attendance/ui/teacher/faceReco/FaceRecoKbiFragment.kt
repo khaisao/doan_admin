@@ -199,12 +199,13 @@ class FaceRecoKbiFragment :
                             maxSimilarity = similarity
                             maximalityPerson = person
                         }
-                        if (maxSimilarity > 0.78) {
-                            val identifiedPerson = maximalityPerson
-                            if (identifiedPerson != null) {
-                                item.name = identifiedPerson.name
-                                listStudentDetect.add(identifiedPerson.name)
-                            }
+                    }
+
+                    if (maxSimilarity > 0.78) {
+                        val identifiedPerson = maximalityPerson
+                        if (identifiedPerson != null) {
+                            item.name = identifiedPerson.name
+                            listStudentDetect.add(identifiedPerson.name)
                         }
                     }
 
