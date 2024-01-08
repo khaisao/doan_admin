@@ -26,7 +26,6 @@ class LoginViewModel @Inject constructor(
             try {
                 isLoading.postValue(true)
                 val response = apiInterface.login(user, password, fcmDeviceToken)
-                Log.d("sagagwaggawagwga", "login: $response")
                 if (response.errors.isEmpty()) {
                     rxPreferences.saveUserName(response.dataResponse.userName)
                     rxPreferences.savePassword(response.dataResponse.password)

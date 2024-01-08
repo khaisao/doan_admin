@@ -55,6 +55,12 @@ class MainActivity : BaseActivityNotRequireViewModel<ActivityMainBinding>() {
 
         if (ret == FaceSDK.SDK_SUCCESS) {
             ret = FaceSDK.init(assets)
+        } else {
+            ret =
+                FaceSDK.setActivation("A9/DTjBqzv4yozfPbEfCDmtCTJirR3E2TrXLaetUzAeCozb3H7cIIR4KcNOQZdHdw08sxPLwQzMH\njkLpuu5SNne+rVaBZA8LeOq84ZEXl1av+T29m2DVW0tiqlMoaMdVcbg7Xf8bsNTcMvMabTNMN/2+\nbfAt5qTWYKFYQq77hXpZS9UDgw/YCJB8jIMzQu1zglG+xce5ZjsWSc7ZI7rGkNh32956MeVSFAd5\nn9v+SoVnjslBvIR9XRcUEVu4rvwFFKbQyxxBNTl2A6trT/wspZQLdfrIEiaCtbjmOQP8aYTmd8v9\na3yIO5zlY3u2MM4IP1SGGbZD/LAbHYTyveUDZw==")
+            if (ret == FaceSDK.SDK_SUCCESS) {
+                ret = FaceSDK.init(assets)
+            }
         }
         if (ret != FaceSDK.SDK_SUCCESS) {
             when (ret) {

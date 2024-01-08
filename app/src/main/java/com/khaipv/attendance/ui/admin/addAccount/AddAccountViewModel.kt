@@ -33,8 +33,8 @@ class AddAccountViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     addAccountActionStateChannel.send(AddAccountEvent.AddAccountSuccess)
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }

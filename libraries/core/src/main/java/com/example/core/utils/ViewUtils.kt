@@ -129,7 +129,7 @@ fun Activity.toastMessage(message: String) {
 }
 
 fun Fragment.toastMessage(message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
 }
 
 fun View.setOnSafeClickListener(duration: Long = DURATION_TIME_CLICKABLE, onClick: () -> Unit) {

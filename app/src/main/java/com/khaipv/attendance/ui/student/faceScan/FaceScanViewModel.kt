@@ -36,8 +36,8 @@ class FaceScanViewModel @Inject constructor(
                 } else {
                     messageError.postValue("Error, try again")
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }
@@ -62,8 +62,8 @@ class FaceScanViewModel @Inject constructor(
                 } else {
                     messageError.postValue("Error, try again")
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }

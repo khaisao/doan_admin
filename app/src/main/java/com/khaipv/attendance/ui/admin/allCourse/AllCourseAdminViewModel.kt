@@ -25,8 +25,8 @@ class AllCourseAdminViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     listCourseHaveShedule.value = response.dataResponse
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }

@@ -23,8 +23,8 @@ class ScheduleCourseAdminViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     allSchedule.value = response.dataResponse
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }

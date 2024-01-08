@@ -60,8 +60,8 @@ class SplashViewModel @Inject constructor(
                 } else {
                     loginActionStateChannel.send(LoginSplashEvent.LoginError)
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
                 loginActionStateChannel.send(LoginSplashEvent.LoginError)
             } finally {
                 isLoading.postValue(false)

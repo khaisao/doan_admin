@@ -32,11 +32,9 @@ class ChangePasswordViewModel @Inject constructor(
                     messageError.postValue("Have error")
                     changePasswordActionStateChannel.send(ChangePasswordEvent.ChangePasswordError)
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
-
+            } catch (throwable: Throwable) {
+                onError(throwable)
                 changePasswordActionStateChannel.send(ChangePasswordEvent.ChangePasswordError)
-
             } finally {
                 isLoading.postValue(false)
             }

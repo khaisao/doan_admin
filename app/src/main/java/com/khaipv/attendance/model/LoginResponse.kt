@@ -12,7 +12,7 @@ data class LoginResponse(
     @SerializedName("adminId")
     val adminId: Int = 0,
     @SerializedName("avatar")
-    val avatar: String = "",
+    val avatar: String? = "",
     @SerializedName("studentName")
     val studentName: String = "",
     @SerializedName("teacherName")

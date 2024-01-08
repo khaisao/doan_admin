@@ -29,8 +29,8 @@ class AllCourseStudentViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     allDetailCourseStudentRegister.value = response.dataResponse
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }
@@ -47,8 +47,8 @@ class AllCourseStudentViewModel @Inject constructor(
                     listDataImageProfile.value = response.dataResponse.listDataImageProfile
                 }
             }
-        } catch (e: Exception) {
-
+        } catch (throwable: Throwable) {
+            onError(throwable)
         } finally {
             isLoading.postValue(false)
         }

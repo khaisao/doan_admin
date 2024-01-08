@@ -28,8 +28,8 @@ class DetailAttendanceStudentViewModel @Inject constructor(
                 if (response.errors.isEmpty()) {
                     allDetailAttendanceStudent.value = response.dataResponse
                 }
-            } catch (e: Exception) {
-                messageError.postValue(e)
+            } catch (throwable: Throwable) {
+                onError(throwable)
             } finally {
                 isLoading.postValue(false)
             }
