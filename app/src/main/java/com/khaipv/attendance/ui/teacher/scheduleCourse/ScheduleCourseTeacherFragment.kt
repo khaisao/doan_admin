@@ -38,8 +38,19 @@ class ScheduleCourseTeacherFragment :
                 val bundle = Bundle()
                 bundle.putInt(BundleKey.COURSE_ID_ATTENDANCE, it.coursePerCycleId)
                 bundle.putInt(BundleKey.SCHEDULE_ID_ATTENDANCE, it.scheduleId)
-//                appNavigation.openScheduleCourseToFaceRecoFaceNet(bundle)
-                appNavigation.openScheduleCourseToFaceRecoKbi(bundle)
+                val dialogChooseModelFragment = DialogChooseModelFragment(
+                    onNavigateToFacenetScreen = {
+                        appNavigation.openScheduleCourseToFaceRecoFaceNet(
+                            bundle
+                        )
+                    },
+                    onNavigateToKbyScreen = {
+                        appNavigation.openScheduleCourseToFaceRecoKbi(bundle)
+                    })
+                dialogChooseModelFragment.show(
+                    childFragmentManager,
+                    DialogChooseModelFragment::class.simpleName
+                )
             },
             onSeeAttendance = {
                 val bundle = Bundle()

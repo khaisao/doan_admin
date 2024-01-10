@@ -7,19 +7,21 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.khaipv.attendance.databinding.FragmentDialogNoticeEmptyImageProfileBinding
 import com.example.core.utils.setOnSafeClickListener
+import com.khaipv.attendance.databinding.FragmentDialogChooseModelBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class DialogChooseModelFragment(
-    private val onNavigateToScanFace: () -> Unit
+    private val onNavigateToFacenetScreen: () -> Unit,
+    private val onNavigateToKbyScreen: () -> Unit
 ) : DialogFragment() {
-    private lateinit var binding:FragmentDialogNoticeEmptyImageProfileBinding
+    private lateinit var binding: FragmentDialogChooseModelBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentDialogNoticeEmptyImageProfileBinding.inflate(inflater)
+        binding = FragmentDialogChooseModelBinding.inflate(inflater)
         isCancelable = false
         return binding.root
     }
@@ -28,7 +30,12 @@ class DialogChooseModelFragment(
         super.onViewCreated(view, savedInstanceState)
         binding.tvStartScanFace.setOnSafeClickListener {
             dismiss()
-            onNavigateToScanFace.invoke()
+            if (binding.rbFacenet.isChecked) {
+                onNavigateToFacenetScreen.invoke()
+            }
+            if (binding.rbKby.isChecked) {
+                onNavigateToKbyScreen.invoke()
+            }
         }
     }
 }
