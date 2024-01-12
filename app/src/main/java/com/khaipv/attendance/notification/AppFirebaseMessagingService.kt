@@ -1,6 +1,5 @@
 package com.khaipv.attendance.notification
 
-import android.app.ActivityManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -8,10 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
-import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
-import androidx.lifecycle.*
 import com.example.core.pref.RxPreferences
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
@@ -37,10 +34,8 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun showNotification(context: Context, remoteMessage: RemoteMessage) {
-        // notify channel
         val channelId = getString(R.string.default_notification_channel_id)
 
-        // notify sound
         val defaultSoundUri = RingtoneManager.getDefaultUri(
             RingtoneManager.TYPE_NOTIFICATION
         )
@@ -51,7 +46,8 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         val intent = Intent(context, MainActivity::class.java)
         intent.putExtra(BundleKey.COURSE_PER_CYCLE_ID, coursePerCycleId)
 
-        val pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent =
+            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val notificationBuilder =
             NotificationCompat.Builder(context, channelId)
@@ -67,7 +63,6 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        // Since android Oreo notification channel is needed.
         val channel = NotificationChannel(
             channelId,
             resources.getString(R.string.app_name),
@@ -87,7 +82,6 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
             )
         }
     }
-
 
     companion object {
         private const val TAG = "AppFirebaseMessagingService"

@@ -53,7 +53,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
     override fun setOnClick() {
         super.setOnClick()
         binding.ivShowIcon.setOnSafeClickListener {
-            Log.d("asgawgawgagw", "setOnClick: ${binding.edtPassword.inputType}")
             if (binding.edtPassword.inputType == InputType.TYPE_TEXT_VARIATION_PASSWORD) {
                 binding.edtPassword.inputType = InputType.TYPE_CLASS_TEXT
                 binding.ivShowIcon.loadImage(R.drawable.ic_visible_password)

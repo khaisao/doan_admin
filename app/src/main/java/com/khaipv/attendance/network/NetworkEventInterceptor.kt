@@ -20,7 +20,6 @@ class NetworkEventInterceptor @Inject constructor(
     private val context: Context,
     private val gson: Gson
 ) : Interceptor {
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         if (!context.isNetworkAvailable()) {

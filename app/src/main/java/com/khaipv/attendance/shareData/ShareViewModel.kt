@@ -31,7 +31,7 @@ class ShareViewModel @Inject constructor(
         }
     }
 
-    fun clearData(){
+    fun clearData() {
         viewModelScope.launch {
             listStudentRecognized.value = emptyList()
             listStudentRecognizedId.clear()
