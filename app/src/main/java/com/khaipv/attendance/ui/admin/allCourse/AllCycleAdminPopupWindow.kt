@@ -14,6 +14,7 @@ class AllCycleAdminPopupWindow(
     private val context: Context,
     private val onCycleClick: (OverViewCourseHaveShedule) -> Unit
 ) {
+
     private var binding: PopUpWindownAllCyclesBinding
     private var listCycle: List<OverViewCourseHaveShedule> = emptyList()
 
@@ -27,7 +28,6 @@ class AllCycleAdminPopupWindow(
     }
 
     fun showPopup(anchorView: View) {
-        // Tạo PopupWindow với kích thước và các thuộc tính tùy chỉnh
         val popupWindow = PopupWindow(
             binding.root,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -45,5 +45,4 @@ class AllCycleAdminPopupWindow(
 
         popupWindow.showAsDropDown(anchorView)
     }
-
 }

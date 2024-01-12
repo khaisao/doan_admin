@@ -25,6 +25,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AllAccFragment :
     BaseFragment<FragmentAccTeacherBinding, AllAccViewModel>(R.layout.fragment_acc_teacher) {
+
     private val viewModel: AllAccViewModel by viewModels()
 
     override fun getVM(): AllAccViewModel = viewModel
@@ -37,6 +38,7 @@ class AllAccFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
+
         adapterAccTeacher = AccTeacherAdapter()
         binding.rvAccTeacher.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -49,11 +51,11 @@ class AllAccFragment :
 
         viewModel.getAllAccount()
 
-
     }
 
     override fun bindingStateView() {
         super.bindingStateView()
+
         lifecycleScope.launch {
             viewModel.listAccountTeacherResponse.collectFlowOnView(viewLifecycleOwner) {
                 adapterAccTeacher.submitList(it.toMutableList())
@@ -65,11 +67,11 @@ class AllAccFragment :
                 adapterAccStudent.submitList(it)
             }
         }
-
     }
 
     override fun setOnClick() {
         super.setOnClick()
+
         binding.tvTypeAccount.setOnSafeClickListener {
             showPopupChooseTypeAccount()
         }
@@ -91,7 +93,6 @@ class AllAccFragment :
                 })
             }
         }
-
     }
 
     private fun showPopupChooseTypeAccount() {
@@ -128,5 +129,4 @@ class AllAccFragment :
 
         popupWindow.showAsDropDown(binding.tvTypeAccount)
     }
-
 }

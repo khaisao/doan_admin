@@ -59,6 +59,5 @@ class AllAccViewModel @Inject constructor(
             return emptyList()
         }
     }
-
 }
 

@@ -26,7 +26,6 @@ import com.khaipv.attendance.shareData.ShareViewModel
 import com.permissionx.guolindev.PermissionX
 import kotlinx.coroutines.launch
 
-
 class StudentTopFragment :
     BaseFragment<FragmentStudentTopBinding, StudentTopViewModel>(R.layout.fragment_student_top) {
 
@@ -68,8 +67,6 @@ class StudentTopFragment :
             }
         askNotificationPermission()
     }
-
-
 
     override fun bindingStateView() {
         super.bindingStateView()

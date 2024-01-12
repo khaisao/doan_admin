@@ -23,7 +23,6 @@ class AdminTopFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         setupBottomNavigationBar()
-
     }
 
     private fun setupBottomNavigationBar() {
@@ -31,6 +30,5 @@ class AdminTopFragment :
         navController =
             Navigation.findNavController(activity as Activity, R.id.top_admin_nav_host_fragment)
         bottomNavigationView.setupWithNavController(navController)
-
     }
 }

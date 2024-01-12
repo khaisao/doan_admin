@@ -20,6 +20,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class DetailAttendanceStudentFragment :
     BaseFragment<FragmentDetailScheduleStudentBinding, DetailAttendanceStudentViewModel>(R.layout.fragment_detail_schedule_student) {
+
     private val viewModel: DetailAttendanceStudentViewModel by viewModels()
 
     override fun getVM(): DetailAttendanceStudentViewModel = viewModel
@@ -44,9 +45,7 @@ class DetailAttendanceStudentFragment :
         if (coursePerCyclesId != null) {
             viewModel.getDetailScheduleStudent(coursePerCyclesId)
         }
-
         binding.ivAvatar.loadImage(rxPreferences.getAvatar(), R.drawable.no_avatar)
-
     }
 
     override fun bindingStateView() {

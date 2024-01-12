@@ -58,9 +58,4 @@ class UserProfileFragment :
             }
         }
     }
-
-    override fun setOnClick() {
-        super.setOnClick()
-    }
-
 }

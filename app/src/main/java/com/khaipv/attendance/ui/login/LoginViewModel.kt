@@ -1,6 +1,5 @@
 package com.khaipv.attendance.ui.login
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
@@ -18,6 +17,7 @@ class LoginViewModel @Inject constructor(
     private val rxPreferences: RxPreferences,
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
+
     private val loginActionStateChannel = Channel<LoginEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
 
@@ -61,10 +61,9 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-
 }
 
-sealed class LoginEvent() {
+sealed class LoginEvent {
     object LoginSuccess : LoginEvent()
     object LoginError : LoginEvent()
 }

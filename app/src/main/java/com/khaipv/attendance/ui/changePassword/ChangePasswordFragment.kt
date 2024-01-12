@@ -73,7 +73,6 @@ class ChangePasswordFragment :
                 viewModel.changePassword(newPassword)
             }
         }
-
     }
 
     override fun bindingStateView() {
@@ -147,5 +146,4 @@ class ChangePasswordFragment :
 
         return isValid
     }
-
 }

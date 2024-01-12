@@ -69,7 +69,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
                 viewModel.login(user, password, fcmDeviceToken!!)
             }
         }
-
     }
 
     override fun bindingStateView() {
@@ -118,5 +117,4 @@ class LoginFragment : BaseFragment<FragmentLoginBinding, LoginViewModel>(R.layou
         }
         return isValid
     }
-
 }

@@ -66,10 +66,8 @@ class SplashViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
-
 }
 
 sealed class LoginSplashEvent {

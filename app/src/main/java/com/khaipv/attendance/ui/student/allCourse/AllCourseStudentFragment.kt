@@ -44,7 +44,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AllCourseStudentFragment :
-    BaseFragment<FragmentAllCourseStudentBinding, AllCourseStudentViewModel>(R.layout.fragment_all_course_student){
+    BaseFragment<FragmentAllCourseStudentBinding, AllCourseStudentViewModel>(R.layout.fragment_all_course_student) {
     private val viewModel: AllCourseStudentViewModel by viewModels()
 
     override fun getVM(): AllCourseStudentViewModel = viewModel
@@ -61,7 +61,6 @@ class AllCourseStudentFragment :
 
     private val dialog = DialogNoticeEmptyImageProfileFragment(onNavigateToScanFace = {
         appNavigation.openToFaceScan()
-
     })
 
     private lateinit var allCycleStudentPopupWindow: AllCycleStudentPopupWindow
@@ -107,7 +106,6 @@ class AllCourseStudentFragment :
         }
 
         binding.ivAvatar.loadImage(rxPreferences.getAvatar(), R.drawable.no_avatar)
-
     }
 
     private val SELECT_PHOTO_REQUEST_CODE = 1
@@ -174,7 +172,8 @@ class AllCourseStudentFragment :
 //                    var bitmap: Bitmap = Utils.getCorrectlyOrientedImage(requireContext(), Uri.fromFile(file))
 
                     val faceDetectionParam = FaceDetectionParam()
-                    var faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(bitmap, faceDetectionParam)
+                    var faceBoxes: List<FaceBox>? =
+                        FaceSDK.faceDetection(bitmap, faceDetectionParam)
 
                     if (faceBoxes.isNullOrEmpty()) {
                         toastMessage("No Face")
@@ -185,12 +184,11 @@ class AllCourseStudentFragment :
                         val byteHex = templates.toHex3()
                         faceScanViewModel.addImageProfileKbyModel(listOf(byteHex))
                     }
-                   listFile.add(file)
+                    listFile.add(file)
                 }
             }
             toastMessage(listFile.size.toString())
         }
-
     }
 
 
@@ -222,9 +220,7 @@ class AllCourseStudentFragment :
 //                            DialogNoticeEmptyImageProfileFragment::class.java.simpleName
 //                        )
                     } catch (_: Exception) {
-
                     }
-
                 }
             }
         }

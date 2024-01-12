@@ -30,6 +30,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class AllCourseAdminFragment :
     BaseFragment<FragmentScheduleAdminBinding, AllCourseAdminViewModel>(R.layout.fragment_schedule_admin) {
+
     private val viewModel: AllCourseAdminViewModel by viewModels()
 
     override fun getVM(): AllCourseAdminViewModel = viewModel
@@ -51,6 +52,7 @@ class AllCourseAdminFragment :
             bundle.putInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE, it.coursePerCycleId)
             appNavigation.openAdminTopToSchedule(bundle)
         })
+
         binding.rvCourse.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvCourse.adapter = adapter
@@ -58,6 +60,7 @@ class AllCourseAdminFragment :
         binding.tvTitle.text = "Hello, " + rxPreferences.getName()
 
         viewModel.getAllCourseHaveSchedule()
+
         allCycleAdminPopupWindow = AllCycleAdminPopupWindow(requireContext()) { cycleClicked ->
             binding.tvAllCourse.text = cycleClicked.cyclesDes
             val item = viewModel.listCourseHaveShedule.value.first { allCycle ->
@@ -106,5 +109,4 @@ class AllCourseAdminFragment :
             }
         }
     }
-
 }

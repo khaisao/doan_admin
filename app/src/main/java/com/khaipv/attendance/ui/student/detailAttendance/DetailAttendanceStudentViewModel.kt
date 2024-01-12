@@ -33,7 +33,6 @@ class DetailAttendanceStudentViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
 }

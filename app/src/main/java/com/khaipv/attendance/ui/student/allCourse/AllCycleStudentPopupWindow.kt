@@ -46,5 +46,4 @@ class AllCycleStudentPopupWindow(
 
         popupWindow.showAsDropDown(anchorView)
     }
-
 }

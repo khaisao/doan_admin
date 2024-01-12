@@ -15,6 +15,7 @@ import javax.inject.Inject
 class AdminProfileViewModel @Inject constructor(
     private val rxPreferences: RxPreferences
 ) : BaseViewModel() {
+
     private val loginActionStateChannel = Channel<LogoutEvent>()
     val loginActionStateFlow = loginActionStateChannel.receiveAsFlow()
 

@@ -15,6 +15,7 @@ import javax.inject.Inject
 class AllCourseAdminViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
+
     val listCourseHaveShedule = MutableStateFlow<List<OverViewCourseHaveShedule>>(emptyList())
 
     fun getAllCourseHaveSchedule() {
@@ -32,6 +33,5 @@ class AllCourseAdminViewModel @Inject constructor(
             }
         }
     }
-
 }
 

@@ -16,6 +16,7 @@ class ChangePasswordViewModel @Inject constructor(
     private val rxPreferences: RxPreferences,
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
+
     private val changePasswordActionStateChannel = Channel<ChangePasswordEvent>()
     val changePasswordActionStateFlow = changePasswordActionStateChannel.receiveAsFlow()
 
@@ -38,13 +39,11 @@ class ChangePasswordViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
-
 }
 
-sealed class ChangePasswordEvent() {
+sealed class ChangePasswordEvent {
     object ChangePasswordSuccess : ChangePasswordEvent()
     object ChangePasswordError : ChangePasswordEvent()
 }

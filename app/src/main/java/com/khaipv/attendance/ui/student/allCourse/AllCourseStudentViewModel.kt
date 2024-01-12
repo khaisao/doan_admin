@@ -34,7 +34,6 @@ class AllCourseStudentViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
 

@@ -14,6 +14,7 @@ import javax.inject.Inject
 class ScheduleCourseAdminViewModel @Inject constructor(
     private val apiInterface: ApiInterface
 ) : BaseViewModel() {
+
     val allSchedule = MutableStateFlow<List<DetailScheduleCourse>>(emptyList())
     fun getAllScheduleSpecificCourse(coursePerCycleId: Int) {
         viewModelScope.launch(Dispatchers.IO + handler) {
@@ -28,7 +29,6 @@ class ScheduleCourseAdminViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
 }

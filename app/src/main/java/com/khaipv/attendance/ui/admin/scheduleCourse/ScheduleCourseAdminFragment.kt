@@ -29,12 +29,11 @@ class ScheduleCourseAdminFragment :
 
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
-        adapter = ScheduleCourseAdminAdapter(onCourseClick = {}, onSeeAttendance = {}
-
-        )
+        adapter = ScheduleCourseAdminAdapter(onCourseClick = {}, onSeeAttendance = {})
         binding.rv.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rv.adapter = adapter
+
         val courseId = arguments?.getInt(BundleKey.COURSE_ID_TO_GET_SCHEDULE)
         if (courseId != null) {
             viewModel.getAllScheduleSpecificCourse(courseId)
@@ -42,12 +41,6 @@ class ScheduleCourseAdminFragment :
             toastMessage("Error, try again")
             appNavigation.navigateUp()
         }
-
-    }
-
-    override fun setOnClick() {
-        super.setOnClick()
-
     }
 
     override fun bindingStateView() {
@@ -56,5 +49,4 @@ class ScheduleCourseAdminFragment :
             adapter.submitList(it)
         }
     }
-
 }
