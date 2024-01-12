@@ -63,7 +63,7 @@ class AllCourseTeacherFragment :
 
         viewModel.getAllCourseAssign()
 
-        binding.edtSearch.doOnTextChanged { text, start, before, count ->
+        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
             if (text.isNullOrBlank()) {
                 adapter.submitList(currentOriginList)
             } else {
@@ -118,5 +118,4 @@ class AllCourseTeacherFragment :
             }
         }
     }
-
 }

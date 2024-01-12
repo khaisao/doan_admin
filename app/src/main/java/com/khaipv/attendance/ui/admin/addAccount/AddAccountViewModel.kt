@@ -41,7 +41,6 @@ class AddAccountViewModel @Inject constructor(
 
         }
     }
-
 }
 
 sealed class AddAccountEvent() {
