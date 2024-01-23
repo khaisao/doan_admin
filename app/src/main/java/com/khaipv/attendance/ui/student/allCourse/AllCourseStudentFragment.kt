@@ -3,9 +3,7 @@ package com.khaipv.attendance.ui.student.allCourse
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
@@ -138,7 +136,7 @@ class AllCourseStudentFragment :
                 var bitmap: Bitmap = Utils.getCorrectlyOrientedImage(requireContext(), data?.data!!)
 
                 val faceDetectionParam = FaceDetectionParam()
-                var faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(bitmap, faceDetectionParam)
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(bitmap, faceDetectionParam)
 
                 if (faceBoxes.isNullOrEmpty()) {
                     toastMessage("No Face")
@@ -196,29 +194,44 @@ class AllCourseStudentFragment :
         super.bindingStateView()
         lifecycleScope.launch {
             viewModel.allDetailCourseStudentRegister.collectFlowOnView(viewLifecycleOwner) {
-                allCycleStudentPopupWindow.setData(it)
-                for (item in it) {
-                    val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
-                    val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)
-                    val currentTime = Date()
-                    if (currentTime.after(cyclesStartDate) && currentTime.before(cyclesEndDate)) {
-                        adapter.submitList(item.listCourse)
-                        currentOriginList = item.listCourse
-                        binding.tvAllCourse.text = item.cyclesDes
-                        break
+                if(it.isNotEmpty()){
+                    allCycleStudentPopupWindow.setData(it)
+                    var isCurrentInCycle = false
+                    for (item in it) {
+                        val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
+                        val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)
+                        val currentTime = Date()
+                        if (currentTime.after(cyclesStartDate) && currentTime.before(cyclesEndDate)) {
+                            isCurrentInCycle = true
+                            if (item.listCourse.isNotEmpty()) {
+                                adapter.submitList(item.listCourse)
+                                currentOriginList = item.listCourse
+                            }
+                            binding.tvAllCourse.text = item.cyclesDes
+                            break
+                        }
                     }
+                    if (!isCurrentInCycle && it.last().listCourse.isNotEmpty()) {
+                        adapter.submitList(it.last().listCourse)
+                        currentOriginList = it.last().listCourse
+                        binding.tvAllCourse.text = it.last().cyclesDes
+                    }
+                } else {
+                    toastMessage("Student don't have any course")
                 }
             }
         }
 
         lifecycleScope.launch {
-            viewModel.listDataImageProfile.collectFlowOnView(viewLifecycleOwner) {
-                if (it.isEmpty()) {
+            viewModel.listDataImageProfileUiState.collectFlowOnView(viewLifecycleOwner) { uiState ->
+                if (uiState is GetDataImageProfileUiState.Success) {
                     try {
-//                        dialog.show(
-//                            childFragmentManager,
-//                            DialogNoticeEmptyImageProfileFragment::class.java.simpleName
-//                        )
+                        if (uiState.listDataImageProfile.isEmpty()) {
+                            dialog.show(
+                                childFragmentManager,
+                                DialogNoticeEmptyImageProfileFragment::class.java.simpleName
+                            )
+                        }
                     } catch (_: Exception) {
                     }
                 }

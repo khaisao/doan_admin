@@ -28,22 +28,23 @@ class AllCycleStudentPopupWindow(
     }
 
     fun showPopup(anchorView: View) {
-        // Tạo PopupWindow với kích thước và các thuộc tính tùy chỉnh
-        val popupWindow = PopupWindow(
-            binding.root,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true
-        )
-        val adapter = AllCyclesStudentAdapter {
-            onCycleClick.invoke(it)
-            popupWindow.dismiss()
+        if (listCycle.isNotEmpty()) {
+            val popupWindow = PopupWindow(
+                binding.root,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+            )
+            val adapter = AllCyclesStudentAdapter {
+                onCycleClick.invoke(it)
+                popupWindow.dismiss()
+            }
+
+            binding.rvAllCycles.layoutManager = LinearLayoutManager(context)
+            binding.rvAllCycles.adapter = adapter
+            adapter.submitList(listCycle)
+
+            popupWindow.showAsDropDown(anchorView)
         }
-
-        binding.rvAllCycles.layoutManager = LinearLayoutManager(context)
-        binding.rvAllCycles.adapter = adapter
-        adapter.submitList(listCycle)
-
-        popupWindow.showAsDropDown(anchorView)
     }
 }

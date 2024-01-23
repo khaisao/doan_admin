@@ -13,7 +13,11 @@ import com.khaipv.attendance.ui.student.faceScan.camerax.CameraManager
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
+import com.kbyai.facesdk.FaceBox
+import com.kbyai.facesdk.FaceDetectionParam
+import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.util.BundleKey
+import com.khaipv.attendance.util.toHex3
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -79,47 +83,52 @@ class FaceScanFragment :
 
     private lateinit var cameraManager: CameraManager
 
-    private val listBitmapImage: MutableList<String> = mutableListOf()
+    private val listFaceNetDataImage: MutableList<String> = mutableListOf()
+    private val listKbyDataImage: MutableList<String> = mutableListOf()
 
     private fun createCameraManager() {
         binding.ivArrowTop.isVisible = true
         binding.ivArrowRight.isVisible = false
         binding.ivArrowBottom.isVisible = false
         binding.ivArrowLeft.isVisible = false
-
+        val faceDetectionParam = FaceDetectionParam()
         cameraManager = CameraManager(
             requireContext(),
             binding.previewViewFinder,
             viewLifecycleOwner,
             binding.graphicOverlayFinder,
             onSuccessImageFront = {
-                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                val templates = FaceSDK.templateExtraction(bitmap, faceBoxes[0])
+                val byteHex = templates.toHex3()
+                listKbyDataImage.add()
                 saveImageScan(it, "front")
                 dialog.dismiss()
             },
             onSuccessImageRight = {
                 binding.ivArrowRight.isVisible = false
                 binding.ivArrowBottom.isVisible = true
-                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 saveImageScan(it, "right")
             },
             onSuccessImageTop = {
-                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 binding.ivArrowTop.isVisible = false
                 binding.ivArrowRight.isVisible = true
                 saveImageScan(it, "top")
 
             },
             onSuccessImageBottom = {
-                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 binding.ivArrowBottom.isVisible = false
                 binding.ivArrowLeft.isVisible = true
                 saveImageScan(it, "bottom")
 
             },
             onSuccessImageLeft = {
-                listBitmapImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
-                viewModel.addImageProfileFaceNetModel(listBitmapImage)
+                listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
+                viewModel.addImageProfileFaceNetModel(listFaceNetDataImage)
                 binding.ivArrowLeft.isVisible = false
                 saveImageScan(it, "left")
             },

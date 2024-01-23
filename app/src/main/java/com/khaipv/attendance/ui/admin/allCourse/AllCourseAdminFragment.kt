@@ -5,19 +5,15 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.khaipv.attendance.R
-import com.khaipv.attendance.databinding.FragmentScheduleAdminBinding
-import com.khaipv.attendance.ui.admin.allCourse.adapter.CourseAdapter
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
 import com.example.core.utils.setOnSafeClickListener
-import com.example.core.utils.toastMessage
+import com.khaipv.attendance.R
+import com.khaipv.attendance.databinding.FragmentScheduleAdminBinding
 import com.khaipv.attendance.model.CourseHaveShedule
-import com.khaipv.attendance.model.DetailCourseTeacherAssign
-import com.khaipv.attendance.model.OverViewCourseHaveShedule
 import com.khaipv.attendance.navigation.AppNavigation
-import com.khaipv.attendance.ui.teacher.allCourse.AllCycleTeacherPopupWindow
+import com.khaipv.attendance.ui.admin.allCourse.adapter.CourseAdapter
 import com.khaipv.attendance.util.BundleKey
 import com.khaipv.attendance.util.DateFormat
 import com.khaipv.attendance.util.toDate
@@ -71,7 +67,7 @@ class AllCourseAdminFragment :
             binding.edtSearch.text.clear()
         }
 
-        binding.edtSearch.doOnTextChanged { text, start, before, count ->
+        binding.edtSearch.doOnTextChanged { text, _, _, _ ->
             if (text.isNullOrBlank()) {
                 adapter.submitList(currentOriginList)
             } else {

@@ -1,10 +1,12 @@
 package com.khaipv.attendance.ui.student.allCourse
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.model.OverviewCourseStudentRegister
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
 import com.example.core.pref.RxPreferences
+import com.khaipv.attendance.ui.teacher.faceReco.GetImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,7 @@ class AllCourseStudentViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val allDetailCourseStudentRegister = MutableStateFlow<List<OverviewCourseStudentRegister>>(emptyList())
-    val listDataImageProfile = MutableStateFlow<List<String>>(emptyList())
+    val listDataImageProfileUiState = MutableStateFlow<GetDataImageProfileUiState>(GetDataImageProfileUiState.Standby)
 
     fun getAllCourseRegister() {
         viewModelScope.launch(Dispatchers.IO + handler) {
@@ -26,6 +28,7 @@ class AllCourseStudentViewModel @Inject constructor(
                 isLoading.postValue(true)
                 val studentId = rxPreferences.getStudentId()
                 val response = apiInterface.getAllCourseRegister(studentId)
+                Log.d("asgagwagagwwag", "getAllCourseRegister: $response")
                 if (response.errors.isEmpty()) {
                     allDetailCourseStudentRegister.value = response.dataResponse
                 }
@@ -41,9 +44,10 @@ class AllCourseStudentViewModel @Inject constructor(
         try {
             viewModelScope.launch(Dispatchers.IO + handler) {
                 isLoading.postValue(true)
+                listDataImageProfileUiState.value = GetDataImageProfileUiState.Standby
                 val response = apiInterface.getDataImageProfile(rxPreferences.getStudentId())
                 if(response.errors.isEmpty()){
-                    listDataImageProfile.value = response.dataResponse.listDataImageProfile
+                    listDataImageProfileUiState.value = GetDataImageProfileUiState.Success(response.dataResponse.listDataImageProfile)
                 }
             }
         } catch (throwable: Throwable) {
@@ -52,5 +56,11 @@ class AllCourseStudentViewModel @Inject constructor(
             isLoading.postValue(false)
         }
     }
+}
+
+sealed class GetDataImageProfileUiState {
+    object Standby : GetDataImageProfileUiState()
+    data class Success(val listDataImageProfile: List<String>) : GetDataImageProfileUiState()
+    object Error : GetDataImageProfileUiState()
 }
 

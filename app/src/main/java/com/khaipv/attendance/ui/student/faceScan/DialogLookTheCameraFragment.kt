@@ -9,8 +9,7 @@ import com.khaipv.attendance.databinding.FragmentDialogLookCameraBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DialogLookTheCameraFragment(
-) : DialogFragment() {
+class DialogLookTheCameraFragment : DialogFragment() {
     private lateinit var binding: FragmentDialogLookCameraBinding
     override fun onCreateView(
         inflater: LayoutInflater,
