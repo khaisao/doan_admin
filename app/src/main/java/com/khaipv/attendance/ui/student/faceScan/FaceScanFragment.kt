@@ -100,9 +100,9 @@ class FaceScanFragment :
             onSuccessImageFront = {
                 listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
-                val templates = FaceSDK.templateExtraction(bitmap, faceBoxes[0])
-                val byteHex = templates.toHex3()
-                listKbyDataImage.add()
+//                val templates = FaceSDK.templateExtraction(bitmap, faceBoxes[0])
+//                val byteHex = templates.toHex3()
+//                listKbyDataImage.add()
                 saveImageScan(it, "front")
                 dialog.dismiss()
             },
