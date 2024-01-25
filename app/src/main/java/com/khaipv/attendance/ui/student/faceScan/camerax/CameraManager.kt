@@ -13,6 +13,7 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.khaipv.attendance.ui.student.faceScan.face_detection.FaceContourDetectionProcessor
+import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -51,7 +52,7 @@ class CameraManager(
     fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
         cameraProviderFuture.addListener(
-            Runnable {
+            {
                 cameraProvider = cameraProviderFuture.get()
                 preview = Preview.Builder()
                     .build()
@@ -116,7 +117,7 @@ class CameraManager(
                 finderView.surfaceProvider
             )
         } catch (e: Exception) {
-            Log.e(TAG, "Use case binding failed", e)
+            Timber.tag(TAG).e(e, "Use case binding failed")
         }
     }
 

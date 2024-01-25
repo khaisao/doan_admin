@@ -17,7 +17,6 @@ import com.kbyai.facesdk.FaceBox
 import com.kbyai.facesdk.FaceDetectionParam
 import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.util.BundleKey
-import com.khaipv.attendance.util.toHex3
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -50,7 +49,7 @@ class FaceScanFragment :
         dialog.show(childFragmentManager,DialogLookTheCameraFragment::class.java.simpleName)
         createCameraManager()
         checkForPermission()
-        onClicks()
+        onClick()
     }
 
     override fun bindingStateView() {
@@ -70,7 +69,7 @@ class FaceScanFragment :
         }
     }
 
-    private fun onClicks() {
+    private fun onClick() {
         binding.ivFlipCamera.setOnClickListener {
             cameraManager.changeCameraSelector()
         }
