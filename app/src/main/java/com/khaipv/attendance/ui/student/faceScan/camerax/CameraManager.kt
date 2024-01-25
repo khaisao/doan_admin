@@ -38,7 +38,6 @@ class CameraManager(
 
     private var imageAnalyzer: ImageAnalysis? = null
 
-
     init {
         createNewExecutor()
     }
@@ -85,11 +84,9 @@ class CameraManager(
             },
             onSuccessImageTop = {
                 onSuccessImageTop.invoke(it)
-
             },
             onSuccessImageBottom = {
                 onSuccessImageBottom.invoke(it)
-
             },
             onSuccessImageLeft = {
                 onSuccessImageLeft.invoke(it)
