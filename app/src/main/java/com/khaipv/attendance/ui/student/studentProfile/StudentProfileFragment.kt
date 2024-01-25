@@ -66,7 +66,6 @@ class StudentProfileFragment :
 
     private var pickiT: PickiT? = null
 
-
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
 

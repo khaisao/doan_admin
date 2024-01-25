@@ -43,7 +43,7 @@ class StudentProfileViewModel @Inject constructor(
                 }
                 isLoading.postValue(false)
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
 
         } finally {
             isLoading.postValue(false)
@@ -63,7 +63,7 @@ class StudentProfileViewModel @Inject constructor(
                     getStudentInfoActionStateChannel.send(true)
                 }
             }
-        } catch (e: Exception) {
+        } catch (_: Exception) {
 
         } finally {
 

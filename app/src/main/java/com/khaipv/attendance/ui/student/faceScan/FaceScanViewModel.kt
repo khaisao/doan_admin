@@ -41,7 +41,6 @@ class FaceScanViewModel @Inject constructor(
             } finally {
                 isLoading.postValue(false)
             }
-
         }
     }
 

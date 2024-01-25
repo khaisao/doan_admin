@@ -44,26 +44,7 @@ class FaceContourDetectionProcessor(
         get() = view
 
     override fun detectInImage(bitmap: Bitmap): Task<List<Face>> {
-        saveImageScan(bitmap,"hello")
         return detector.process(bitmap, 0)
-    }
-    private fun saveImageScan(bitmap: Bitmap, fileName: String) {
-        val cacheDir = context.cacheDir
-        val file =
-            File(cacheDir, "$fileName.jpg") // Thay đổi tên và định dạng tệp ảnh tùy ý
-
-        try {
-            val stream = FileOutputStream(file)
-            bitmap.compress(
-                Bitmap.CompressFormat.JPEG,
-                100,
-                stream
-            )
-            stream.flush()
-            stream.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
     }
 
     override fun stop() {
@@ -127,8 +108,6 @@ class FaceContourDetectionProcessor(
             if (12 < y && y < 36) {
                 Log.d("yyyyyyyyyyyyyyyyy", "x Right")
                 yDirection = DirectionOfFace.Left
-
-
             }
 
             //For z
