@@ -69,7 +69,6 @@ class StudentProfileViewModel @Inject constructor(
 
         }
     }
-
 }
 
 sealed class UploadImageEvent() {

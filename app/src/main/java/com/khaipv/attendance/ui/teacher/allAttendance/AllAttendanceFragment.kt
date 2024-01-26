@@ -49,8 +49,6 @@ class AllAttendanceFragment :
             override fun onTableCellClicked(rowPosition: Int, columnPosition: Int) {
             }
         }
-
-
     }
 
     private fun getDummyData(

@@ -30,7 +30,7 @@ class FaceRecoViewModel @Inject constructor(
             isLoading.postValue(true)
             viewModelScope.launch(Dispatchers.IO + handler) {
                 val response =
-                    apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId, modelMode)
+                    apiInterface.getAllImageProfileStudentForCourse(coursePerCycleId)
                 if (response.errors.isEmpty()) {
                     val data = response.dataResponse
                     listStudentRecognized.value = data

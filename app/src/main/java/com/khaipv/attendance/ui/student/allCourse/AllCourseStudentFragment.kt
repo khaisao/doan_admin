@@ -216,8 +216,6 @@ class AllCourseStudentFragment :
                         currentOriginList = it.last().listCourse
                         binding.tvAllCourse.text = it.last().cyclesDes
                     }
-                } else {
-                    toastMessage("Student don't have any course")
                 }
             }
         }

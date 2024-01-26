@@ -13,10 +13,12 @@ import com.khaipv.attendance.ui.student.faceScan.camerax.CameraManager
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.pref.RxPreferences
 import com.example.core.utils.collectFlowOnView
+import com.example.core.utils.toastMessage
 import com.kbyai.facesdk.FaceBox
 import com.kbyai.facesdk.FaceDetectionParam
 import com.kbyai.facesdk.FaceSDK
 import com.khaipv.attendance.util.BundleKey
+import com.khaipv.attendance.util.toHex3
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -46,7 +48,7 @@ class FaceScanFragment :
         super.initView(savedInstanceState)
         dialog = DialogLookTheCameraFragment()
         dialog.isCancelable = false
-        dialog.show(childFragmentManager,DialogLookTheCameraFragment::class.java.simpleName)
+        dialog.show(childFragmentManager, DialogLookTheCameraFragment::class.java.simpleName)
         createCameraManager()
         checkForPermission()
         onClick()
@@ -98,24 +100,41 @@ class FaceScanFragment :
             binding.graphicOverlayFinder,
             onSuccessImageFront = {
                 listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
-                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
-//                val templates = FaceSDK.templateExtraction(bitmap, faceBoxes[0])
-//                val byteHex = templates.toHex3()
-//                listKbyDataImage.add()
                 saveImageScan(it, "front")
                 dialog.dismiss()
+
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                if (faceBoxes != null && faceBoxes.size == 1) {
+                    val templates = FaceSDK.templateExtraction(it, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+                    listKbyDataImage.add(byteHex)
+                }
             },
             onSuccessImageRight = {
                 binding.ivArrowRight.isVisible = false
                 binding.ivArrowBottom.isVisible = true
                 listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 saveImageScan(it, "right")
+
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                if (faceBoxes != null && faceBoxes.size == 1) {
+                    val templates = FaceSDK.templateExtraction(it, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+                    listKbyDataImage.add(byteHex)
+                }
             },
             onSuccessImageTop = {
                 listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 binding.ivArrowTop.isVisible = false
                 binding.ivArrowRight.isVisible = true
                 saveImageScan(it, "top")
+
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                if (faceBoxes != null && faceBoxes.size == 1) {
+                    val templates = FaceSDK.templateExtraction(it, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+                    listKbyDataImage.add(byteHex)
+                }
 
             },
             onSuccessImageBottom = {
@@ -124,12 +143,27 @@ class FaceScanFragment :
                 binding.ivArrowLeft.isVisible = true
                 saveImageScan(it, "bottom")
 
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                if (faceBoxes != null && faceBoxes.size == 1) {
+                    val templates = FaceSDK.templateExtraction(it, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+                    listKbyDataImage.add(byteHex)
+                }
+
             },
             onSuccessImageLeft = {
                 listFaceNetDataImage.add(getStringFromEmbed(faceNetModel.getFaceEmbedding(it)))
                 viewModel.addImageProfileFaceNetModel(listFaceNetDataImage)
                 binding.ivArrowLeft.isVisible = false
                 saveImageScan(it, "left")
+
+                val faceBoxes: List<FaceBox>? = FaceSDK.faceDetection(it, faceDetectionParam)
+                if (faceBoxes != null && faceBoxes.size == 1) {
+                    val templates = FaceSDK.templateExtraction(it, faceBoxes[0])
+                    val byteHex = templates.toHex3()
+                    listKbyDataImage.add(byteHex)
+                }
+                viewModel.addImageProfileKbyModel(listKbyDataImage)
             },
         )
     }

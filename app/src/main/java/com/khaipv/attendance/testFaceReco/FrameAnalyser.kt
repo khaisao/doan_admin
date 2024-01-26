@@ -174,7 +174,6 @@ class FrameAnalyser(
                             names[avgScores.indexOf(avgScores.minOrNull()!!)]
                         }
                     }
-                    Logger.log("Person identified as $bestScoreUserName")
                     predictions.add(
                         Prediction(
                             face.boundingBox,

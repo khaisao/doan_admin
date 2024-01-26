@@ -3,9 +3,7 @@ package com.khaipv.attendance.ui.teacher.faceReco
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.text.method.ScrollingMovementMethod
 import android.util.Size
-import android.widget.TextView
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -22,7 +20,6 @@ import com.khaipv.attendance.navigation.AppNavigation
 import com.khaipv.attendance.shareData.ShareViewModel
 import com.khaipv.attendance.testFaceReco.FileReader
 import com.khaipv.attendance.testFaceReco.FrameAnalyser
-import com.khaipv.attendance.testFaceReco.Logger
 import com.khaipv.attendance.util.BundleKey
 import com.example.core.base.fragment.BaseFragment
 import com.example.core.utils.collectFlowOnView
@@ -57,12 +54,6 @@ class FaceRecoFaceNetFragment :
 
     companion object {
 
-        lateinit var logTextView: TextView
-
-        fun setMessage(message: String) {
-            logTextView.text = message
-        }
-
     }
 
     private val viewModel: FaceRecoViewModel by viewModels()
@@ -76,8 +67,6 @@ class FaceRecoFaceNetFragment :
     override fun initView(savedInstanceState: Bundle?) {
         super.initView(savedInstanceState)
         viewModel.isLoading.postValue(true)
-        logTextView = binding.logTextview
-        logTextView.movementMethod = ScrollingMovementMethod()
         setUpBoundingBoxOverlay()
     }
 
@@ -236,7 +225,6 @@ class FaceRecoFaceNetFragment :
             numImagesWithNoFaces: Int
         ) {
             frameAnalyser.faceList = data
-            Logger.log("Images parsed. Found $numImagesWithNoFaces images with no faces.")
         }
     }
 

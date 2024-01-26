@@ -34,10 +34,9 @@ interface ApiInterface {
         @Field("fcmDeviceToken") fcmDeviceToken: String,
     ): ApiObjectResponse<LoginResponse>
 
-    @GET("api/teacher/getAllImageProfileStudentForCourse/{id}/{modelMode}")
+    @GET("api/teacher/getAllImageProfileStudentForCourse/{id}/0")
     suspend fun getAllImageProfileStudentForCourse(
         @Path("id") id: Int = 0,
-        @Part("modelMode") modelMode: Int = 0
     ): ApiObjectResponse<List<AllImageProfileStudentForCourse>>
 
     @GET("api/teacher/getAllImageProfileStudentForCourse/{id}/1")

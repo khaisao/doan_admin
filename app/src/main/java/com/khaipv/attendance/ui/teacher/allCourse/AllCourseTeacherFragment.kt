@@ -103,16 +103,27 @@ class AllCourseTeacherFragment :
         super.bindingStateView()
         lifecycleScope.launch {
             viewModel.allCourseTeacherAssign.collectFlowOnView(viewLifecycleOwner) {
-                allCycleTeacherPopupWindow.setData(it)
-                for (item in it) {
-                    val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
-                    val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)
-                    val currentTime = Date()
-                    if (currentTime.after(cyclesStartDate) && currentTime.before(cyclesEndDate)) {
-                        adapter.submitList(item.listCourse)
-                        currentOriginList = item.listCourse
-                        binding.tvAllCourse.text = item.cyclesDes
-                        break
+                if (it.isNotEmpty()) {
+                    allCycleTeacherPopupWindow.setData(it)
+                    var isCurrentInCycle = false
+                    for (item in it) {
+                        val cyclesStartDate = item.cycleStartDate.toDate(DateFormat.FORMAT_1)
+                        val cyclesEndDate = item.cycleEndDate.toDate(DateFormat.FORMAT_1)
+                        val currentTime = Date()
+                        if (currentTime.after(cyclesStartDate) && currentTime.before(cyclesEndDate)) {
+                            isCurrentInCycle = true
+                            if (item.listCourse.isNotEmpty()) {
+                                adapter.submitList(item.listCourse)
+                                currentOriginList = item.listCourse
+                            }
+                            binding.tvAllCourse.text = item.cyclesDes
+                            break
+                        }
+                    }
+                    if (!isCurrentInCycle && it.last().listCourse.isNotEmpty()) {
+                        adapter.submitList(it.last().listCourse)
+                        currentOriginList = it.last().listCourse
+                        binding.tvAllCourse.text = it.last().cyclesDes
                     }
                 }
             }
