@@ -4,11 +4,13 @@ import androidx.lifecycle.viewModelScope
 import com.khaipv.attendance.model.AttendanceBody
 import com.khaipv.attendance.network.ApiInterface
 import com.example.core.base.BaseViewModel
+import com.khaipv.attendance.model.ApiObjectResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,12 +19,20 @@ class ListFaceRecoViewModel @Inject constructor(
 ) : BaseViewModel() {
     private val attendanceActionStateChannel = Channel<AttendanceEvent>()
     val attendanceActionStateFlow = attendanceActionStateChannel.receiveAsFlow()
-    fun attendance(attendanceBody: AttendanceBody) {
+    fun attendance(listAttendanceBody: List<AttendanceBody>) {
         viewModelScope.launch(Dispatchers.IO + handler) {
             try {
                 isLoading.postValue(true)
-                val response = apiInterface.attendance(attendanceBody)
-                if(response.errors.isEmpty()){
+                val listResponse = mutableListOf<ApiObjectResponse<Any>>()
+                runBlocking {
+                    for (item in listAttendanceBody) {
+                        val response = apiInterface.attendance(item)
+                        listResponse.add(response)
+                    }
+                }
+
+
+                if (listResponse.all { it.errors.isEmpty() }) {
                     attendanceActionStateChannel.send(AttendanceEvent.AttendanceSuccess)
                 } else {
                     attendanceActionStateChannel.send(AttendanceEvent.AttendanceError)

@@ -1,6 +1,7 @@
 package com.khaipv.attendance.ui.teacher.listFaceReco
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -50,19 +51,24 @@ class ListFaceRecoFragment :
         super.setOnClick()
         binding.tvAttendance.setOnClickListener {
             val listStudentId = mutableListOf<Int>()
-            var registrationId = 0
+            val listAttendanceBody = mutableListOf<AttendanceBody>()
+            var registrationId: Int
             for (item in shareViewModel.listStudentRecognized.value) {
                 if (item.isReco) {
+                    Log.d("asgawgawgawgawg", "setOnClick: $item")
                     listStudentId.add(item.studentId)
                     registrationId = item.registrationId
+                    val attendanceBody = AttendanceBody(
+                        studentId = listStudentId,
+                        registrationId = registrationId,
+                        scheduleId = sheduleId!!
+                    )
+                    listAttendanceBody.add(attendanceBody)
                 }
             }
-            val attendanceBody = AttendanceBody(
-                studentId = listStudentId,
-                registrationId = registrationId,
-                scheduleId = sheduleId!!
-            )
-            viewModel.attendance(attendanceBody)
+            Log.d("asgawgawgawg", "setOnClick: $listAttendanceBody")
+            viewModel.attendance(listAttendanceBody)
+
         }
     }
 
